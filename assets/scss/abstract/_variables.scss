@@ -1,0 +1,70 @@
+$color-main-dark: var(--color-primary-dark);
+$color-main: var(--color-primary-base);
+$color-main-light: var(--color-primary-light);
+$color-main-lighter: var(--color-primary-lighter);
+$color-main-lightest: var(--color-primary-lightest);
+$color-main-hover: var(--color-primary-lightest);
+
+$color-green-dark: var(--color-green-dark);
+$color-green: var(--color-green-base);
+$color-green-light: var(--color-green-light);
+$color-green-lighter: var(--color-green-lighter);
+$color-green-lightest: var(--color-green-lightest);
+
+$color-yellow-dark: var(--color-yellow-dark);
+$color-yellow: var(--color-yellow-base);
+$color-yellow-light: var(--color-yellow-light);
+$color-yellow-lighter: var(--color-yellow-lighter);
+$color-yellow-lightest: var(--color-yellow-lightest);
+
+$color-red: var(--color-red-dark);
+
+$color-text-dark: var(--color-ink-base);
+$color-text: var(--color-ink-light);
+$color-text-light: var(--color-ink-lighter);
+$color-text-lighter: var(--color-sky-dark);
+
+$color-bg-black: var(--color-ink-base);
+$color-bg-grey-darker: var(--color-ink-lighter);
+$color-bg-grey-dark: var(--color-ink-lightest);
+$color-bg-grey: var(--color-sky-dark);
+$color-bg-grey-light: var(--color-sky-light);
+$color-bg-grey-white: var(--color-sky-lighter);
+
+$color-border-grey-darker: var(--color-ink-lighter);
+$color-border-grey-dark: var(--color-ink-lightest);
+$color-border-grey: var(--color-sky-dark);
+$color-border-grey-light: var(--color-sky-base);
+$color-border-grey-lighter: var(--color-sky-light);
+$color-border-grey-lightest: var(--color-sky-lightest);
+
+$color-black-transparent: transparentize(
+		$color: #000000,
+		$amount: 0.7,
+);
+
+
+$height-header: var(--height-header);
+
+$width-column-content: 1920px;
+$width-aside: var(--width-aside);
+
+$product-gallery-margin: Var(--row-gap, Var(--gap, 1%));
+
+
+$anim-big-time: 0.3s;
+$anim-time: 0.2s;
+$anim-small-time: 0.1s;
+
+
+
+
+$laptop-width: 1600px;
+$screen-sm-width: 1366px;
+$screen-sm-height: 768px;
+$screen-smallest-width: 1280px;
+
+$mobile-big-width: 960px;
+
+$mobile-width: 680px;
+$mobile-height: 600px;

@@ -1,0 +1,170 @@
+//POPUPS
+//POPUPS
+//POPUPS
+//исчезает и появляется
+.popup-block {
+	max-width: none;
+	max-height: none;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	padding: 24px;
+
+	transition: $anim-small-time, visibility 0s $anim-small-time;
+	visibility: hidden;
+	opacity: 0;
+	z-index: -1;
+
+	overflow-y: auto;
+	overscroll-behavior: contain;
+
+	@include scrollbarStyle(0);
+
+	@include bigMobile() {
+		padding: 16px;
+	}
+
+	//Фон
+	&::before {
+		content: "";
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+
+		backdrop-filter: blur(24px) opacity(0);
+		background-color: $color-black-transparent !important;
+		z-index: -1;
+		transition: backdrop-filter $anim-small-time ease-in-out;
+	}
+
+	& > .popup {
+		transform: translateY(32px);
+		@include anim;
+	}
+
+	&.active {
+		transition: visibility 0s $anim-small-time + 0.01s, $anim-small-time;
+		visibility: visible;
+		opacity: 1;
+		z-index: 9999999;
+
+		&::before {
+			backdrop-filter: blur(24px) opacity(1);
+			transition: backdrop-filter $anim-small-time $anim-small-time + 0.01s ease-in-out;
+		}
+
+		& > .popup {
+			transform: translateY(0px);
+		}
+	}
+}
+
+//само окно
+.popup {
+	--pad-horiz: 16px;
+	--pad-vert: 24px;
+	position: relative;
+
+	width: 400px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+
+	margin: auto;
+	padding-bottom: 16px;
+
+	background-color: #fff;
+	box-shadow: 0 3px 11px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+
+	@mixin localPad {
+		padding: 0 var(--pad-horiz);
+	}
+
+	&__title {
+		@include localPad;
+
+		align-self: auto;
+		margin: 0;
+		padding-top: 16px;
+
+		@include fontMid(500);
+
+		&.small {
+			@include fontBig();
+		}
+
+		&.big {
+			padding: var(--pad-vert) var(--pad-horiz);
+
+			@include fontMidTitle();
+			border-bottom: 1px solid $color-main;
+		}
+	}
+
+	&__close-btn {
+		position: absolute;
+		width: 16px;
+		top: var(--pad-vert);
+		right: var(--pad-horiz);
+
+		cursor: pointer;
+	}
+
+	&__body {
+		@extend %ui-vert-list;
+		@include localPad;
+	}
+
+	//#
+	&__body-row {
+		display: flex;
+		align-items: center;
+
+		gap: var(--pad-vert) var(--pad-horiz);
+
+		@include mobile() {
+			flex-wrap: wrap;
+		}
+	}
+
+	&__footer {
+		@include localPad;
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 8px;
+
+		margin-top: 8px;
+
+		> * {
+			width: 100%;
+		}
+	}
+
+	//#
+	&__agree-row {
+		width: 100%;
+
+		display: flex;
+		align-items: flex-start;
+
+		gap: 8px;
+
+		@include fontMid();
+
+		.ui-checkbox {
+			--margin: 10px !important;
+		}
+	}
+}

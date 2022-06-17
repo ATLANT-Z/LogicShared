@@ -1,0 +1,183 @@
+%content-column {
+	max-width: $width-column-content;
+	width: 100%;
+
+	padding: 0 16px;
+
+	@include smallestScreen() {
+		padding: 0 8px;
+	}
+}
+
+%flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+//ui
+%ui-vert-list {
+	@extend %flex-column;
+	gap: 16px;
+}
+
+%ui-vert-big-list {
+	@extend %flex-column;
+	gap: 24px;
+}
+
+%ui-shadow-block {
+	@include ui-shadow-block();
+}
+
+%ui-counter {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	padding: 1px 4px;
+
+	color: white;
+	@include tightFont() {
+		@include fontCaption();
+	}
+	border-radius: .5em;
+
+	background-color: $color-main;
+}
+
+%ui-big-counter {
+	@extend %ui-counter;
+	padding: 2px 5px;
+}
+
+
+//input
+%ui-input {
+	--vert-pad: 12px;
+	--horiz-pad: 16px;
+	--color-bg: white;
+	--color-holder: $color-text-lighter;
+	--border-r: 16px;
+
+	position: relative;
+	min-width: 268px;
+
+	display: flex;
+	align-items: center;
+	gap: var(--vert-pad) var(--horiz-pad);
+
+	padding: var(--vert-pad) var(--horiz-pad);
+
+	@include fontMid();
+
+	background-color: var(--color-bg);
+	border: 1px solid $color-border-grey-dark;
+	border-radius: var(--border-r);
+
+	@include anim();
+
+	> {
+		input,
+		.ui-i-input {
+			display: flex;
+			align-items: center;
+			width: 100%;
+			padding-right: 32px;
+			box-shadow: inset 0 0 0 500px var(--color-bg);
+		}
+
+		input {
+			&::placeholder {
+				color: var(--color-holder);
+			}
+		}
+	}
+
+	&.sharper-angle {
+		border-radius: 8px;
+	}
+
+	&.fill {
+		width: 100%;
+	}
+
+	&:focus,
+	&:hover,
+	&:active {
+		border: 1px solid $color-main;
+	}
+
+	@include mobile() {
+		min-width: 100%;
+	}
+}
+
+%ui-off-number-input {
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	/* Firefox */
+	input[type=number] {
+		-moz-appearance: textfield;
+	}
+}
+
+//btn
+%ui-btn {
+	cursor: pointer;
+	user-select: none;
+}
+
+%ui-big-btn {
+	@extend %ui-btn;
+
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 4px;
+
+	@include fontBig();
+	padding: 8px 16px;
+
+	border-radius: 16px;
+	z-index: 2;
+	@include anim();
+
+	&.small {
+		@include fontSmall();
+
+		* {
+			@include fontSmall();
+		}
+	}
+
+	&.wide {
+		min-width: 350px;
+		max-width: 350px;
+		width: 100%;
+
+		@include mobile() {
+			min-width: 100%;
+			width: 100%;
+			max-width: 100%;
+		}
+	}
+
+	.ui-ico {
+		position: absolute;
+		top: 50%;
+		left: 16px;
+
+		transform: translateY(-50%) scale(1.1);
+		object-fit: contain;
+
+		@include bigMobile {
+			left: 8px;
+			transform: translateY(-50%) scale(0.9);
+		}
+	}
+}
