@@ -51,7 +51,8 @@ class AuthService {
 	logOut() {
 		this.Token = undefined;
 		userService.CurrUser = undefined;
-		// vueTools.router.push({name: 'login'}).then(console.log);
+		localStorage.removeItem(this.tokenStoreKey);
+		vueTools.router.push({name: 'logIn'}).then(console.log);
 	}
 
 	setToken(data: object) {

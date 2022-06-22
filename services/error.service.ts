@@ -13,6 +13,7 @@ export class ErrorService {
 	secondsShow: number = 7;
 	errors: MyError[] = []
 
+	///TODO загнать все сообщения в переводчик.
 	addError(str: string) {
 		const newError = new MyError(str);
 		this.errors.push(newError);

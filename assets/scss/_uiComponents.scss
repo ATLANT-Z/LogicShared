@@ -56,10 +56,6 @@
 		animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 	}
 
-	&.to-up {
-		height: 64px;
-	}
-
 	&:after {
 		animation-delay: -0.5s;
 	}
@@ -73,6 +69,10 @@
 			transform: Var(--default-transform) scale(1);
 			opacity: 0;
 		}
+	}
+
+	&.to-up {
+		height: 64px;
 	}
 }
 
@@ -125,9 +125,7 @@
 	}
 
 	&.wrap {
-		@include mobile {
-			flex-wrap: wrap;
-		}
+		flex-wrap: wrap;
 	}
 }
 
@@ -170,22 +168,20 @@
 	}
 }
 
-.ui-ico {
+.ui-icon {
 	width: 20px;
 	height: 20px;
 	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	&.big {
+		width: 32px;
+		height: 32px;
+	}
 
 	overflow: hidden;
-
-	> img {
-		width: auto;
-		height: 100%;
-		object-fit: fill;
-
-		margin: auto;
-	}
 }
-
 
 //input
 //input
@@ -317,7 +313,6 @@
 .ui-input-date {
 	@extend %ui-input;
 }
-
 
 //btn
 //btn
@@ -503,7 +498,6 @@ input[type="radio"].ui-radio {
 }
 
 
-
 //components
 //components
 //components
@@ -680,7 +674,7 @@ input[type="radio"].ui-radio {
 		@include fontCaption();
 
 		background-color: $color-bg-grey-light;
-		border-radius: 8px;
+		border-radius: 4px;
 	}
 
 	&.active {

@@ -17,10 +17,11 @@ export enum projectIcons {
 	'heart' = 1,
 	'iLetter' = 1,
 	'infoColor' = 1,
+	'reload' = 1,
 	'search' = 1,
-	'toTop' = 1,
 	'user' = 1,
 	'wishDark' = 1,
+	'toTop' = 1,
 }
 
 export type Icons = typeof projectIcons;

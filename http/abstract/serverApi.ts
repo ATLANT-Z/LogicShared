@@ -27,7 +27,7 @@ class AxiosErrService {
 
 		httpErrorService.handle(status, data.code);
 		// console.warn('Error response', response);
-		console.warn('Error data', data);
+		console.warn('error', response.config.url, data);
 
 		return Promise.reject({status, code: data.code, data: data.data, response});
 	}

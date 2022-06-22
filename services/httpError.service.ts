@@ -1,5 +1,6 @@
 import {errorService} from "@/_shared/services/error.service";
 import {ExtractKeys} from "@/_shared/models/tools/type";
+import {authService} from "@shared/services/auth.service";
 
 type HandlerPrefix = 'handle_';
 const handlerPrefix: HandlerPrefix = 'handle_';
@@ -60,6 +61,7 @@ export class HttpErrorService implements IErrorHandler<typeof HTTP_ERROR_CODE> {
 	}
 
 	handle_Unauthorized(): any {
+		authService.logOut();
 		return errorService.addError('Вы не авторизированы');
 	}
 
@@ -126,7 +128,7 @@ class Http403service implements IErrorHandler<typeof FORBIDDEN_REASON> {
 	}
 
 	handle_ACCOUNT_REGION_CURRENT_UNKNOWN(args: any) {
-		console.warn('Пользователь находится за пределами Украины, получить область не возможно')
+		console.warn('Пользователь находится за пределами Украины, получить область невозможно')
 	}
 
 	handle_ACCOUNT_TOKEN_REMOVE_WITH_INVALID_ID(args: any) {

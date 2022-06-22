@@ -1,7 +1,7 @@
 import {ILocaleableValue, Jsonable} from "@/_shared/models/tools/tools";
 import {LocaleableValue} from "@/_shared/services/translate.service";
 import {Category} from "@/_shared/models/category";
-import {Attachment} from "@/_shared/models/product/attachment";
+import {Attachment, ImgFile} from "@/_shared/models/product/attachment";
 import {Type} from "class-transformer";
 
 type RichText = string;
@@ -10,9 +10,24 @@ enum PRODUCT_STATUS {
 	outOfStock = 'outOfStock'
 }
 
-export interface Price {
+
+/// TODO key rrp => recommendedRetail
+enum PRICE_TYPE {
+	PERSONAL = 'personal',
+	RRP = 'rrp'
+}
+
+export class Money {
+	/// TODO тут скорей всего надо будет пересчитывать валюту, как перевод языка. LocaleableValue
 	amount: number;
 	currency: string;
+}
+
+export class Price {
+	type: PRICE_TYPE;
+
+	@Type(() => Type)
+	money: Money;
 }
 
 export interface Manufacturer {
@@ -20,12 +35,17 @@ export interface Manufacturer {
 	name: string;
 }
 
+export class Option {
+	id: number;
+	@ILocaleableValue() value: LocaleableValue;
+}
+
 export class Specification {
 	id: number;
 	@ILocaleableValue() name: LocaleableValue;
 
-	/// TODO value => option && :=> Option
-	@ILocaleableValue() value: LocaleableValue;
+	@Type(() => Option)
+	option: Option;
 }
 
 export class Product extends Jsonable<Product>() {
@@ -37,7 +57,9 @@ export class Product extends Jsonable<Product>() {
 	@ILocaleableValue() description: LocaleableValue<RichText>;
 
 	status: PRODUCT_STATUS;
-	price: Price;
+
+	@Type(() => Price)
+	private prices: Price[];
 	manufacturer: Manufacturer;
 
 	@Type(() => Specification)
@@ -51,12 +73,23 @@ export class Product extends Jsonable<Product>() {
 	compared: boolean = false;
 	wished: boolean = false;
 
+	/// TODO добавляем в корзину только если есть цена.
+	get Price() {
+		return this.prices.find(el => el.type === PRICE_TYPE.PERSONAL)?.money;
+	}
 
-	get MainImg() {
-		return this.attachments.find(el => {
-			// debugger;
-			return el.group.name === 'Изображение'
-		})?.files[0];
+	get RRP() {
+		return this.prices.find(el => el.type === PRICE_TYPE.RRP)?.money;
+	}
+
+
+	get MainImg(): ImgFile | undefined {
+		const group = this.attachments.find(el => {
+			return el.group === 'images'
+		});
+
+		if (group && group.files.length) return group.files[0]
+		else return undefined;
 	}
 
 
@@ -80,3 +113,4 @@ export class Product extends Jsonable<Product>() {
 
 	}
 }
+

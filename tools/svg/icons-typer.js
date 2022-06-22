@@ -23,6 +23,4 @@ console.log(iconsNames);
 console.log(fileTypeContent);
 
 
-///TODO поправить иконки, чтоб всё работало ровно, две папки теперь смотрим.
-
-// fs.writeFileSync('src/_shared/type/icons.ts', fileTypeContent)
+fs.writeFileSync('src/_shared/type/icons.ts', fileTypeContent);
