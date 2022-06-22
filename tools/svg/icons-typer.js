@@ -1,6 +1,7 @@
 const fs = require('fs');
 
-let iconsNames = fs.readdirSync('src/assets/icons');
+let iconsNames = [...fs.readdirSync('src/assets/icons'), ...fs.readdirSync('src/_shared/assets/icons')];
+
 iconsNames = iconsNames.filter(el => /\.svg$/.test(el)).map(el => el.replace('.svg', ''));
 
 let beginIconsType = `export enum projectIcons {\n`
@@ -24,4 +25,4 @@ console.log(fileTypeContent);
 
 ///TODO поправить иконки, чтоб всё работало ровно, две папки теперь смотрим.
 
-fs.writeFileSync('src/_shared/type/icons.ts', fileTypeContent)
+// fs.writeFileSync('src/_shared/type/icons.ts', fileTypeContent)
