@@ -1,0 +1,16 @@
+%padding-wrp {
+    padding: 0 16px;
+    @include mobile {
+        padding: 0 8px;
+    }
+}
+
+%width-content {
+    width: 100%;
+    max-width: 994px;
+}
+
+%width-main {
+    width: 100%;
+    max-width: 1500px;
+}
