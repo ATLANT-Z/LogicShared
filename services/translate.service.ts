@@ -29,12 +29,16 @@ export class LocaleableValue<T = string> implements ILocaleableValue<T> {
 	@VueRef(true) ru: T;
 	@VueRef(true) uk?: T | undefined | null;
 
-	get Value () {
+	get Value() {
 		return this[translateService.CurrLang] ? this[translateService.CurrLang] : this[translateService.defaultLang];
 	}
 
 	toString() {
 		return typeof this.Value === 'string' ? this.Value : '[Object: Object]'
+	}
+
+	contains(val: T) {
+		return this.ru === val || this.uk === val;
 	}
 }
 

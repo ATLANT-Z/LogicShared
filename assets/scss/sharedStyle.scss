@@ -2,3 +2,15 @@
 @import "normalize";
 @import "uiComponents";
 @import "popups";
+
+body {
+	&.grabbing {
+		cursor: grabbing;
+	}
+
+	&.hide-scroll {
+		max-width: 100vw;
+		max-height: 100vh;
+		overflow: hidden;
+	}
+}

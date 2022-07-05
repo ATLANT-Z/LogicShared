@@ -10,6 +10,7 @@ export enum projectIcons {
 	'downArrow' = 1,
 	'eyeHide' = 1,
 	'eyeShow' = 1,
+	'facebook' = 1,
 	'filter' = 1,
 	'gallery-row-mode' = 1,
 	'gallery-row-pro-mode' = 1,
@@ -17,10 +18,14 @@ export enum projectIcons {
 	'heart' = 1,
 	'iLetter' = 1,
 	'infoColor' = 1,
+	'instagram' = 1,
+	'item-list' = 1,
 	'reload' = 1,
 	'search' = 1,
+	'telegram' = 1,
 	'user' = 1,
 	'wishDark' = 1,
+	'youTube' = 1,
 	'toTop' = 1,
 }
 

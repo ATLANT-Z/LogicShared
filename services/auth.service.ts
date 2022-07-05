@@ -3,18 +3,24 @@ import {Transform} from "class-transformer";
 import {userService} from "@/_shared/services/user.service";
 import {vueTools} from "@/_shared/services/vueToolsProvider.service";
 import {reactive} from "vue";
+import {routeHelper} from "@shared/helpers/route.helper";
+import API from "@/http/API";
+
+
+import {LogForm} from "@models/logReg";
+import {ApiResponse} from "@shared/http/abstract/serverApi";
 
 export class AuthToken extends Jsonable<AuthToken>() {
 	private token: string;
+
+	@Transform(({value}) => new Date(value * 1000), {toClassOnly: true})
+	private expiresAt: Date;
 
 	get Value() {
 		if (!this.token) return '';
 		if (this.expiresAt > new Date()) return this.token
 		return '';
 	}
-
-	@Transform(({value}) => new Date(value * 1000), {toClassOnly: true})
-	expiresAt: Date;
 
 	getHeader() {
 		const val = this.Value;
@@ -48,14 +54,27 @@ class AuthService {
 			this.Token = AuthToken.fromJson(data);
 	}
 
+	logInCredentials(form: LogForm) {
+		return API.Account.Sign.In.credentials(form).then((res: ApiResponse) => {
+			this.setToken(res.data);
+		});
+	}
+
+	logInToken(token: string) {
+		return API.Account.Sign.In.token(token).then((res: ApiResponse) => {
+			this.setToken(res.data);
+		});
+	}
+
 	logOut() {
 		this.Token = undefined;
 		userService.CurrUser = undefined;
 		localStorage.removeItem(this.tokenStoreKey);
-		vueTools.router.push({name: 'logIn'}).then(console.log);
+
+		vueTools.router.push({name: routeHelper.names['logIn']}).then(console.log);
 	}
 
-	setToken(data: object) {
+	private setToken(data: object) {
 		localStorage.setItem(this.tokenStoreKey, JSON.stringify(data));
 		this.Token = AuthToken.fromJson(data);
 	}

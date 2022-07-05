@@ -136,7 +136,7 @@
 ///Helpers
 @mixin scrollbarStyle($width: 5px) {
 	$scrollBarColor: $color-bg-grey-dark;
-	$scrollBarColorLight: $color-bg-grey-light;
+	$scrollBarColorLight: $color-bg-grey-lighter;
 
 	scrollbar-color: $scrollBarColor transparent;
 	scrollbar-width: thin;
@@ -186,13 +186,13 @@
 	@include setAbs($pad, $pad, $pad, $pad);
 }
 
-@mixin fixedWH($height, $width) {
-	min-width: $width;
+@mixin fixedHW($height, $width) {
 	min-height: $height;
-	max-width: $width;
+	min-width: $width;
 	max-height: $height;
-	width: $width;
+	max-width: $width;
 	height: $height;
+	width: $width;
 }
 
 //#
@@ -333,7 +333,7 @@
 
 	position: relative;
 	display: block;
-	@include fixedWH(0px, 0px);
+	@include fixedHW(0px, 0px);
 	margin: var(--margin);
 	background-color: transparent;
 	cursor: pointer;
@@ -348,7 +348,7 @@
 		top: 50%;
 		left: 50%;
 
-		@include fixedWH(Calc(var(--size)), Calc(var(--size)));
+		@include fixedHW(Calc(var(--size)), Calc(var(--size)));
 		display: flex;
 
 		background-image: none;
@@ -419,7 +419,13 @@
 
 @mixin ui-shadow-block() {
 	background: white;
-	box-shadow: 0 0 2px rgba(20, 20, 20, 0.08), 0 0 8px rgba(20, 20, 20, 0.08);
+	box-shadow: 0 0 2px rgba(20, 20, 20, 0.1), 0 0 8px rgba(20, 20, 20, 0.08);
+	border-radius: 16px;
+}
+
+@mixin ui-shadow-block-dark() {
+	background: white;
+	box-shadow: 0 0 2px rgba(20, 20, 20, 0.12), 0 0 8px rgba(20, 20, 20, 0.12);
 	border-radius: 16px;
 }
 

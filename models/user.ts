@@ -4,6 +4,7 @@ import {DictLanguage, LocaleableValue} from "@/_shared/services/translate.servic
 
 
 export class Region extends Jsonable<Region>() {
+	//TODO решили вернуть +=> id:string
 	iso: string;
 	@ILocaleableValue() name: LocaleableValue;
 }

@@ -1,7 +1,8 @@
 import {App} from "vue";
-import {DictionaryWord, translateService} from "@/_shared/services/translate.service";
-import {popupShowService} from "@/_shared/services/popup.service";
-import {Icon, projectIcons} from "@/_shared/type/icons";
+import {DictionaryWord, translateService} from "@shared/services/translate.service";
+import {popupShowService} from "@shared/services/popup.service";
+import {Icon, projectIcons} from "@shared/type/icons";
+import {routeHelper, RouteHelper} from "@shared/helpers/route.helper";
 
 type GlobalFunctionList = ReturnType<typeof globalFunctions>
 
@@ -10,6 +11,7 @@ declare module '@vue/runtime-core' {
 		$globalFunc: GlobalFunctionList;
 		_T: GlobalFunctionList['translate'];
 		icons: Record<Icon, Icon>;
+		routeHelper: RouteHelper
 	}
 }
 
@@ -60,6 +62,8 @@ export default {
 		app.config.globalProperties._T = func.translate;
 
 		app.config.globalProperties.icons = createIcons();
+
+		app.config.globalProperties.routeHelper = routeHelper;
 		// Object.entries(globalFunctions(app)).forEach(el => {
 		// 	const [key, func] = el;
 		// 	console.log(el);

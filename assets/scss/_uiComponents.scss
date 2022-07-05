@@ -305,7 +305,9 @@
 	}
 
 	&.number {
-		@extend %ui-off-number-input;
+		input {
+			@extend %ui-off-number-input;
+		}
 	}
 }
 
@@ -359,9 +361,10 @@
 	}
 }
 
-//#
 .ui-main-luxury-btn {
 	@extend %ui-big-btn;
+	--bg-color: #{$color-main-dark};
+	--bg-color-hover: #{$color-main-light};
 
 	color: white;
 	overflow: hidden;
@@ -375,7 +378,7 @@
 	&:after {
 		content: '';
 		@include absoluteGrow();
-		background-color: $color-main;
+		background-color: Var(--bg-color);
 		z-index: -2;
 	}
 
@@ -388,7 +391,7 @@
 		width: 0;
 		height: 100%;
 
-		background-color: $color-main-light;
+		background-color: Var(--bg-color-hover);
 		transition: $anim-time width;
 		z-index: -1;
 	}
@@ -396,6 +399,11 @@
 	&:hover:before {
 		width: 100%;
 		left: 0;
+	}
+
+	&.blue {
+		--bg-color: #{$color-blue-dark};
+		--bg-color-hover: #{$color-blue};
 	}
 }
 
@@ -434,7 +442,24 @@
 	}
 }
 
-.ui-link {
+.ui-simple-btn {
+	@extend %ui-btn;
+
+	display: flex;
+	align-items: center;
+	gap: 8px;
+
+	@include fontMid();
+	text-align: center;
+
+	@include anim();
+
+	&:hover {
+		color: $color-main;
+	}
+}
+
+.ui-link-btn {
 	@extend %ui-btn;
 
 	@include fontMid();
@@ -443,11 +468,20 @@
 	text-align: center;
 }
 
+.ui-link {
+	@include anim($anim-small-time);
+	&:hover {
+		color: $color-main;
+	}
+}
+
+.ui-counter {
+	height: 32px;
+	min-width: 80px;
+}
 
 //radio
 //radio
-
-///TODO сделать вуи компонент
 .ui-checkbox-w {
 	display: flex;
 
@@ -632,8 +666,12 @@ input[type="radio"].ui-radio {
 	--width: Calc(var(--info-width) + var(--corner-size));
 
 	position: relative;
+	@include fixedHW(16px, 16px);
 	display: flex;
-	@include fixedWH(16px, 16px);
+
+	&.wrap {
+		display: contents;
+	}
 
 	//ico-svg fill color
 	color: $color-bg-grey;
@@ -641,6 +679,7 @@ input[type="radio"].ui-radio {
 	border-radius: 50%;
 
 	@include anim();
+	z-index: 10;
 
 	&:before,
 	&:after {
@@ -673,7 +712,7 @@ input[type="radio"].ui-radio {
 		color: $color-text;
 		@include fontCaption();
 
-		background-color: $color-bg-grey-light;
+		background-color: $color-bg-grey-lighter;
 		border-radius: 4px;
 	}
 
@@ -690,7 +729,7 @@ input[type="radio"].ui-radio {
 	&.left {
 		&:before {
 			left: Calc(100%);
-			border-right-color: $color-bg-grey-light;
+			border-right-color: $color-bg-grey-lighter;
 		}
 
 		&:after {
@@ -701,7 +740,7 @@ input[type="radio"].ui-radio {
 	&.right {
 		&:before {
 			right: Calc(100%);
-			border-left-color: $color-bg-grey-light;
+			border-left-color: $color-bg-grey-lighter;
 		}
 
 		&:after {

@@ -57,7 +57,7 @@ export default class ToTopBtn extends Vue {
 .to-top-btn {
   position: fixed;
   right: 16px;
-  bottom: 64px;
+  bottom: 48px;
 
   height: 40px;
   width: 40px;

@@ -6,7 +6,7 @@ import {authService} from "@/_shared/services/auth.service";
 import {errorService} from "@/_shared/services/error.service";
 
 export type ApiResponse = { data: any, response: AxiosResponse }
-export type ApiResponseError = { status: any, code: number, data: any, response: AxiosResponse }
+export type ApiResponseError = { status: HTTP_ERROR_CODE, code: number, data: any, response: AxiosResponse }
 
 class AxiosErrService {
 	private static getResponse(error: any): AxiosResponse {
@@ -73,13 +73,13 @@ export default abstract class ServerApi extends AbstractApi {
 		return {data: response.data['data'], response};
 	}
 
-	get(url: string, config: AxiosRequestConfig = {}) {
+	protected get(url: string, config: AxiosRequestConfig = {}) {
 		return axios.get(this.FullUrl + '/' + url, this.handleConfig(config))
 			.then(this.handleResponse)
 			.catch(AxiosErrService.handleResponseError)
 	}
 
-	post(url: string, body: Record<string, any>, config: AxiosRequestConfig = {}) {
+	protected post(url: string, body: Record<string, any>, config: AxiosRequestConfig = {}) {
 		return axios.post(this.FullUrl + '/' + url, body, this.handleConfig(config))
 			.then(this.handleResponse)
 			.catch(AxiosErrService.handleResponseError)

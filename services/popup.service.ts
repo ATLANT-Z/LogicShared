@@ -1,6 +1,8 @@
 import {reactive} from "vue";
 
 class PopupShowService {
+	///TODO добавить имена для всех айдишек.
+
 	popupState: Record<string, boolean> = {};
 
 	isShow(id: string) {
