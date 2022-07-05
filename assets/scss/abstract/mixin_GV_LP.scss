@@ -1,0 +1,6 @@
+/// Fonts LP
+@mixin fontUnify($font-size: 16, $line-height: 22, $weight: 400){
+	font-size: $font-size * 1px;
+	line-height: $line-height * 1px;
+	font-weight: $weight;
+}
