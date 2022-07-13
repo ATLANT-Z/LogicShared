@@ -34,7 +34,7 @@ export class LocaleableValue<T = string> implements ILocaleableValue<T> {
 	}
 
 	toString() {
-		return typeof this.Value === 'string' ? this.Value : '[Object: Object]'
+		return '' + this.Value
 	}
 
 	contains(val: T) {
@@ -66,7 +66,7 @@ class TranslateService {
 	private readonly fullDictionary: FullDictionary;
 	private dictionary: Dictionary;
 
-	private readonly usedLanguages: AppUsedLanguages = {
+	private readonly usedLanguageMap: AppUsedLanguages = {
 		ru: 'РУС',
 		uk: 'УКР',
 	}
@@ -74,7 +74,7 @@ class TranslateService {
 
 	constructor() {
 		this.fullDictionary = lang;
-		this.usedLangList = Object.entries(this.usedLanguages).map(el => {
+		this.usedLangList = Object.entries(this.usedLanguageMap).map(el => {
 			return {key: el[0] as DictLanguage, value: el[1]};
 		});
 

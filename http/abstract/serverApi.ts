@@ -74,7 +74,7 @@ export default abstract class ServerApi extends AbstractApi {
 	}
 
 	protected get(url: string, config: AxiosRequestConfig = {}) {
-		return axios.get(this.FullUrl + '/' + url, this.handleConfig(config))
+		return axios.get(url ? this.FullUrl + '/' + url : this.FullUrl, this.handleConfig(config))
 			.then(this.handleResponse)
 			.catch(AxiosErrService.handleResponseError)
 	}

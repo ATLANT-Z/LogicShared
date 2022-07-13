@@ -63,10 +63,13 @@ export class Specification {
 	@ILocaleableValue() name: LocaleableValue;
 
 	@Type(() => Option) options: Option[];
+
+	///TODO Сделать два типа спецификации
+	@Type(() => Option) option: Option;
 }
 
 export class Option extends IFilterItem {
 	id: number;
-	@ILocaleableValue() value: LocaleableValue;
+	@ILocaleableValue() value: LocaleableValue<string | number>;
 }
 

@@ -8,6 +8,7 @@ export enum projectIcons {
 	'compareDark' = 1,
 	'cross' = 1,
 	'downArrow' = 1,
+	'download' = 1,
 	'eyeHide' = 1,
 	'eyeShow' = 1,
 	'facebook' = 1,

@@ -135,6 +135,7 @@
 	@extend %ui-btn;
 
 	position: relative;
+
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -146,14 +147,6 @@
 	border-radius: 16px;
 	z-index: 2;
 	@include anim();
-
-	&.small {
-		@include fontSmall();
-
-		* {
-			@include fontSmall();
-		}
-	}
 
 	&.wide {
 		min-width: 350px;
@@ -222,6 +215,22 @@
 		@include bigMobile {
 			left: 8px;
 			transform: translateY(-50%) scale(0.9);
+		}
+	}
+
+	&.small {
+		@include fontSmall();
+
+		* {
+			@include fontSmall();
+		}
+	}
+
+	@include bigMobile() {
+		@include fontSmall();
+
+		* {
+			@include fontSmall();
 		}
 	}
 }

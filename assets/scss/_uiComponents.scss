@@ -470,6 +470,7 @@
 
 .ui-link {
 	@include anim($anim-small-time);
+
 	&:hover {
 		color: $color-main;
 	}
@@ -716,7 +717,7 @@ input[type="radio"].ui-radio {
 		border-radius: 4px;
 	}
 
-	&.active {
+	&:hover {
 		z-index: 2;
 
 		&:after,
@@ -745,6 +746,159 @@ input[type="radio"].ui-radio {
 
 		&:after {
 			right: Calc(100% + var(--corner-size));
+		}
+	}
+}
+
+.ui-rich-text {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+
+	color: $color-text;
+
+	div {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	h1 {
+		font-weight: 700;
+		font-size: 42px;
+		line-height: 120%;
+		margin: 16px 0 8px;
+	}
+
+	h2 {
+		font-weight: 600;
+		font-size: 24px;
+		line-height: 120%;
+		margin: 16px 0 8px;
+
+		@include bigMobile() {
+			font-size: 22px;
+		}
+	}
+
+	h3 {
+		font-weight: 600;
+		font-size: 22px;
+		line-height: 120%;
+		margin: 16px 0 4px;
+
+		@include bigMobile() {
+			font-size: 20px;
+			line-height: 150%;
+		}
+	}
+
+	h4 {
+		font-weight: 600;
+		font-size: 20px;
+		line-height: 130%;
+		margin: 16px 0 0;
+
+		@include bigMobile() {
+			font-size: 18px;
+			line-height: 120%;
+		}
+	}
+
+	h5 {
+		font-weight: 600;
+		font-size: 28px;
+		line-height: 140%;
+		margin: 8px 0 4px;
+
+		@include bigMobile() {
+			font-size: 18px;
+			line-height: 120%;
+		}
+	}
+
+	h6 {
+		font-weight: 700;
+		font-size: 25px;
+		line-height: 140%;
+		margin: 8px 0 4px;
+
+		@include bigMobile() {
+			font-size: 16px;
+			line-height: 120%;
+		}
+	}
+
+	p {
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 140%;
+	}
+
+	span {
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 130%;
+	}
+
+	button {
+		display: inline-flex;
+		font-weight: 400;
+		font-size: 18px;
+		line-height: 24px;
+
+		padding: 0 2px;
+		color: $color-main;
+	}
+
+	ul, ol {
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 140%;
+
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	li {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+
+		&:before {
+			display: inline-flex;
+			align-self: flex-start;
+			color: $color-main;
+		}
+	}
+
+	ul li {
+		&:before {
+			content: '●';
+		}
+	}
+
+	ol {
+		counter-reset: list;
+	}
+
+	ol ol {
+		counter-reset: sublist;
+	}
+
+	ol ol li {
+		&:before {
+			counter-increment: sublist;
+			content: counter(list) "." counter(sublist) ".";
+		}
+	}
+
+
+	ol li {
+		&:before {
+			counter-increment: list;
+			content: counter(list) ".";
 		}
 	}
 }

@@ -1,4 +1,4 @@
-export const pageSizeList = [50, 40, 35, 25, 15, 10] as const;
+export const pageSizeList = [100, 50, 25] as const;
 
 export type PageSizes = typeof pageSizeList [number];
 

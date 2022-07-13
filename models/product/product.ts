@@ -4,6 +4,7 @@ import {Category} from "@/_shared/models/category";
 import {Attachment, IHasUrl, Img, MyFile} from "@/_shared/models/product/attachment";
 import {Type} from "class-transformer";
 import {Manufacturer, Specification} from "@shared/models/product/criteria";
+import {routeHelper} from "@shared/helpers/route.helper";
 
 type RichText = string;
 
@@ -31,6 +32,7 @@ export class Price {
 export class Product extends Jsonable<Product>() {
 	id: string;
 	code: string;
+	barcode: string;
 
 	@ILocaleableValue() slug: LocaleableValue;
 	@ILocaleableValue() name: LocaleableValue;
@@ -45,6 +47,7 @@ export class Product extends Jsonable<Product>() {
 	@Type(() => Specification)
 	specifications: Specification[];
 
+	@Type(() => Category)
 	categories: Pick<Category, 'id' | 'name' | 'slug'>[];
 
 	@Type(() => Attachment)
@@ -63,6 +66,15 @@ export class Product extends Jsonable<Product>() {
 
 	get RRP() {
 		return this.prices.find(el => el.type === PRICE_TYPE.RRP)?.money;
+	}
+
+	get VueLink() {
+		return {
+			name: routeHelper.names.product,
+			params: {
+				[routeHelper.params.slug]: this.slug
+			}
+		};
 	}
 
 	get MainImg(): Img | undefined {

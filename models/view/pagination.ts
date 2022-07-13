@@ -5,7 +5,7 @@ export type ViewPaginationParams = IHasTotalItems & PaginationParams;
 export class PaginationHelper<T = any> {
 	pageSizeList = pageSizeList;
 	static defaultViewPaginationParams: ViewPaginationParams = {
-		pageSize: 15,
+		pageSize: 25,
 		pageNum: 1,
 		totalItems: 1,
 	}

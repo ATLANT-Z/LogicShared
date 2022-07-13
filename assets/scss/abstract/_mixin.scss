@@ -126,6 +126,11 @@
 	font-weight: $weight;
 }
 
+@mixin font($font-size: 16, $line-height: 22, $weight: 400) {
+	font-size: $font-size * 1px;
+	line-height: $line-height * 1px;
+	font-weight: $weight;
+}
 
 @mixin tightFont() {
 	@content;
@@ -446,6 +451,15 @@
 	}
 }
 
+@mixin ui-default-padding() {
+	--padding: 16px;
+	padding: var(--padding);
+
+	@include bigMobile() {
+		--padding: 8px;
+	}
+}
+
 @mixin product-tool-btn() {
 	--scale: 0;
 
@@ -484,4 +498,21 @@
 			color: $color-main;
 		}
 	}
+}
+
+@mixin slideHeightDown($start-height: 0, $max-height: 100vh) {
+	max-height: none;
+	@keyframes slideDown {
+		from {
+			max-height: $start-height;
+		}
+		to {
+			max-height: $max-height;
+		}
+	}
+
+	animation-name: slideDown;
+	animation-duration: 1s;
+	animation-timing-function: ease-in-out;
+	animation-fill-mode: none;
 }

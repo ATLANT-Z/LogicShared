@@ -16,7 +16,7 @@ export class Thumbnail implements IHasUrl {
 	type: THUMBNAIL_TYPE
 }
 
-enum THUMBNAIL_TYPE {
+export enum THUMBNAIL_TYPE {
 	TILE = 'tile',
 }
 
