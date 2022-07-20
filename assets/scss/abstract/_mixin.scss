@@ -137,6 +137,10 @@
 	line-height: 1em;
 }
 
+@mixin width-from-letter-count($count) {
+	min-width: Calc(1em * #{$count} * 0.6);
+}
+
 
 ///Helpers
 @mixin scrollbarStyle($width: 5px) {
@@ -460,6 +464,62 @@
 	}
 }
 
+@mixin ui-inactive() {
+	opacity: 0.8;
+	filter: grayscale(1);
+}
+
+@mixin ui-loader() {
+	--loader-radius: 64px;
+	--default-transform: translate(-50%, -50%);
+
+	position: relative;
+
+	z-index: 2;
+
+	&.small {
+		--loader-radius: 32px;
+	}
+
+	&:before,
+	&:after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+
+		width: Var(--loader-radius);
+		height: Var(--loader-radius);
+
+		border: 7px solid $color-bg-grey-dark;
+		border-radius: 50%;
+
+		opacity: 1;
+		transform: Var(--default-transform);
+		animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+		z-index: -1;
+	}
+
+	&:after {
+		animation-delay: -0.5s;
+	}
+
+	@keyframes lds-ripple {
+		0% {
+			transform: Var(--default-transform) scale(0);
+			opacity: 1;
+		}
+		100% {
+			transform: Var(--default-transform) scale(1);
+			opacity: 0;
+		}
+	}
+
+	&.to-up {
+		height: 64px;
+	}
+}
+
 @mixin product-tool-btn() {
 	--scale: 0;
 
@@ -512,7 +572,7 @@
 	}
 
 	animation-name: slideDown;
-	animation-duration: 1s;
-	animation-timing-function: ease-in-out;
+	animation-duration: 0.8s;
+	animation-timing-function: cubic-bezier(0.6, 0.51, 0.19, 0.93);
 	animation-fill-mode: none;
 }

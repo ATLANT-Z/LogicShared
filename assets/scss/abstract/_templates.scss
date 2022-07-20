@@ -56,8 +56,8 @@
 	--vert-pad: 12px;
 	--horiz-pad: 16px;
 	--color-bg: white;
-	--color-holder: $color-text-lightest;
-	--border-r: 16px;
+	--color-holder: #{$color-text-lighter};
+	--border-r: 12px;
 
 	position: relative;
 	min-width: 268px;
@@ -84,17 +84,15 @@
 			width: 100%;
 			padding-right: 32px;
 			box-shadow: inset 0 0 0 500px var(--color-bg);
-		}
 
-		input {
 			&::placeholder {
 				color: var(--color-holder);
 			}
-		}
-	}
 
-	&.sharper-angle {
-		border-radius: 8px;
+			&[type=number] {
+				@extend %ui-off-number-input;
+			}
+		}
 	}
 
 	&.fill {
@@ -133,6 +131,9 @@
 
 %ui-big-btn {
 	@extend %ui-btn;
+	--border-width: 0px;
+	--vert-pad: 8px;
+	--horiz-pad: 16px;
 
 	position: relative;
 
@@ -141,10 +142,12 @@
 	align-items: center;
 	gap: 4px;
 
-	@include fontBig();
-	padding: 8px 16px;
+	padding: Calc(Var(--vert-pad) - Var(--border-width)) Calc(Var(--horiz-pad) - Var(--border-width));
+
+	@include font(18, 24);
 
 	border-radius: 16px;
+
 	z-index: 2;
 	@include anim();
 
@@ -161,6 +164,8 @@
 	}
 
 	&.loading {
+		pointer-events: none;
+
 		&:before {
 			content: '';
 			@include absoluteGrow();
@@ -204,33 +209,21 @@
 		}
 	}
 
-	.ui-icon {
-		position: absolute;
-		top: 50%;
-		left: 16px;
+	&.big {
+		@include font(20, 24);
+		--vert-pad: 16px;
+		--horiz-pad: 16px;
 
-		transform: translateY(-50%) scale(1.1);
-		object-fit: contain;
-
-		@include bigMobile {
-			left: 8px;
-			transform: translateY(-50%) scale(0.9);
+		@include bigMobile() {
+			@include font(18, 16);
 		}
 	}
 
 	&.small {
-		@include fontSmall();
+		@include font(14, 16);
 
 		* {
-			@include fontSmall();
-		}
-	}
-
-	@include bigMobile() {
-		@include fontSmall();
-
-		* {
-			@include fontSmall();
+			@include font(14, 16);
 		}
 	}
 }

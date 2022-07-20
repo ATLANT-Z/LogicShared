@@ -72,7 +72,7 @@ export default {
 
     color: black;
     background-color: #eeeeee;
-    border-right: 5px solid $color-red;
+    border-right: 5px solid $color-red-dark;
     border-radius: 6px;
 
     animation-name: showError;
@@ -95,7 +95,7 @@ export default {
       margin-left: auto;
       color: white;
 
-      background-color: $color-red;
+      background-color: $color-red-dark;
       border-radius: 50%;
     }
   }

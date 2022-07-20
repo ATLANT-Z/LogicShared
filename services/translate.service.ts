@@ -1,14 +1,15 @@
 // import lang from '@/lang/lang.json';
-import lang from '@/lang/lang';
+import jsonDictionary from '@/lang/lang';
 
 import {MessageProps} from "@vuelidate/validators";
 import {reactive} from "vue";
 import API from "@/http/API";
-import {authService} from "@/_shared/services/auth.service";
 import {userService} from "@/_shared/services/user.service";
 import {VueRef} from "@/_shared/models/tools/tools";
+import {isExist} from "@shared/models/view/tools";
+import {authService} from "@shared/services/auth.service";
 
-type FullDictionary = typeof lang;
+type FullDictionary = typeof jsonDictionary;
 export type DictionaryWord = keyof FullDictionary;
 
 export type DictLanguage = 'ru' | 'uk';
@@ -30,7 +31,9 @@ export class LocaleableValue<T = string> implements ILocaleableValue<T> {
 	@VueRef(true) uk?: T | undefined | null;
 
 	get Value() {
-		return this[translateService.CurrLang] ? this[translateService.CurrLang] : this[translateService.defaultLang];
+		return isExist(this[translateService.CurrLang]) ? this[translateService.CurrLang]
+			: isExist(this[translateService.defaultLang]) ? this[translateService.defaultLang]
+				: '';
 	}
 
 	toString() {
@@ -54,13 +57,11 @@ class TranslateService {
 
 	set CurrLang(val: DictLanguage) {
 		if (val === this._currLang) return;
+
 		this._currLang = val;
-		localStorage.setItem(this.storageKey, val);
 
-		if (userService.CurrUser && userService.CurrUser.locale !== val)
-			API.Account.setUserLocale(this.CurrLang);
-
-		this.setDictionary();
+		this.rememberLang(val);
+		this.setDictionary(val);
 	}
 
 	private readonly fullDictionary: FullDictionary;
@@ -73,12 +74,12 @@ class TranslateService {
 	usedLangList: AppUsedLanguageList;
 
 	constructor() {
-		this.fullDictionary = lang;
+		this.fullDictionary = jsonDictionary;
 		this.usedLangList = Object.entries(this.usedLanguageMap).map(el => {
 			return {key: el[0] as DictLanguage, value: el[1]};
 		});
 
-		this.CurrLang = this.getStoreLang() || this.getSystemLanguage() || this.defaultLang;
+		this.CurrLang = this.getStoreLang() || 'uk';
 	}
 
 	getWord(word: DictionaryWord, props?: Partial<MessageProps>): string {
@@ -106,13 +107,26 @@ class TranslateService {
 		return str;
 	}
 
-	private setDictionary() {
+	private setDictionary(currLang: DictLanguage) {
 		const dict = {};
-		Object.keys(lang).forEach(word => dict[word] = this.fullDictionary[word][this.CurrLang] || this.fullDictionary[word][this.defaultLang]);
+		Object.keys(jsonDictionary).forEach(word => dict[word] = this.fullDictionary[word][currLang] || this.fullDictionary[word][this.defaultLang]);
 		this.dictionary = dict as Dictionary;
 
 		console.log(`Словарь инициализирован, содержит ${Object.keys(this.dictionary).length} слов`)
 	}
+
+	private rememberLang(val: DictLanguage) {
+		localStorage.setItem(this.storageKey, val);
+		if (!authService.isAuth) return
+		userService.getUser()
+			.then(user => {
+				if (!user) return;
+				// TODO Проверить, вроде повтор проверки?
+				if (user.locale === val) return;
+				return API.Account.setUserLocale(val);
+			});
+	}
+
 
 	private getStoreLang(): DictLanguage | undefined {
 		const storageLang = localStorage.getItem(this.storageKey) as DictLanguage;

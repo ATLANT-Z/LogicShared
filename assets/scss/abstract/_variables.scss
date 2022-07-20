@@ -23,7 +23,8 @@ $color-blue-light: var(--color-blue-light);
 $color-blue-lighter: var(--color-blue-lighter);
 $color-blue-lightest: var(--color-blue-lightest);
 
-$color-red: var(--color-red-dark);
+$color-red-dark: var(--color-red-dark);
+$color-red-lightest: var(--color-red-lightest);
 
 $color-text-dark: var(--color-ink-base);
 $color-text: var(--color-ink-light);
@@ -69,7 +70,7 @@ $screen-sm-width: 1366px;
 $screen-sm-height: 768px;
 $screen-smallest-width: 1280px;
 
-$mobile-big-width: 960px;
+$mobile-big-width: 1024px;
 
 $mobile-width: 680px;
 $mobile-height: 600px;

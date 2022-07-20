@@ -1,4 +1,5 @@
-type Currency = 'USD' | 'UAH';
+import {Currency} from "@shared/models/money/currency";
+
 type AppUsedCurrencyList = Array<Currency>;
 
 class ExchangeRateService {

@@ -1,23 +1,24 @@
 import {reactive} from "vue";
 import {User} from "@/_shared/models/user";
 import {translateService} from "@/_shared/services/translate.service";
+import API from "@/http/API";
+import {PromiseWrapper} from "@shared/models/tools/promise";
+import {Category} from "@shared/models/category";
 
 export class UserService {
-	_currUser: User | undefined;
+	private promiseWrapper: PromiseWrapper<User> | undefined;
 
-	set CurrUser(user) {
-		this._currUser = user;
-		if (user) {
-			translateService.CurrLang = user.locale;
+	async getUser(): Promise<User | null> {
+		if (!this.promiseWrapper || this.promiseWrapper.IsRejected) {
+			this.promiseWrapper = new PromiseWrapper<User>(API.Account.getCurrenUser());
 		}
+
+		return this.promiseWrapper.value;
 	}
 
-	get CurrUser() {
-		return this._currUser;
-	}
-
-	logout() {
-		this.CurrUser = undefined;
+	setUser(user: User | null) {
+		if (user) translateService.CurrLang = user.locale;
+		return user;
 	}
 }
 

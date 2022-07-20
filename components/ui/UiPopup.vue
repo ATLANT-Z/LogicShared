@@ -1,17 +1,19 @@
 <template>
-  <div class="popup-block"
-       :class="{active: isActive}"
-       :id="id"
-       @click.self='close'
-       ref="popup"
-  >
-    <slot :parent="this">This should have been content</slot>
-    <ToTopBtn v-if="$refs.popup" :watchElement="$refs.popup"/>
-  </div>
+  <teleport :to="popupService.TeleportToId" :disabled="!isTeleport">
+    <div class="popup-block"
+         :class="{active: isActive}"
+         :id="id + '-pop'"
+         @click.self='close'
+         ref="popup"
+    >
+      <slot :parent="this">This should have been content</slot>
+      <ToTopBtn v-if="$refs.popup" :watchElement="$refs.popup"/>
+    </div>
+  </teleport>
 </template>
 
 <script lang="ts">
-import {popupShowService} from "@/_shared/services/popup.service";
+import {popupService} from "@/_shared/services/popup.service";
 import {Options, Vue} from "vue-class-component";
 import {Prop} from "vue-property-decorator";
 import ToTopBtn from "@/_shared/components/ui/ToTopBtn.vue";
@@ -25,18 +27,18 @@ import ToTopBtn from "@/_shared/components/ui/ToTopBtn.vue";
 })
 export default class UiPopup extends Vue {
   @Prop({required: true}) id: string;
+  @Prop({default: true}) isTeleport: boolean;
 
-  close(isClose = true) {
-    if (isClose)
-      this.isActive = false;
+  close() {
+    this.isActive = false;
   }
 
   get isActive() {
-    return popupShowService.isShow(this.id);
+    return popupService.isShow(this.id);
   }
 
   set isActive(value) {
-    popupShowService.setShow(this.id, value);
+    popupService.setShow(this.id, value);
   }
 }
 </script>

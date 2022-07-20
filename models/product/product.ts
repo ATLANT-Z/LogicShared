@@ -2,14 +2,20 @@ import {ILocaleableValue, Jsonable} from "@/_shared/models/tools/tools";
 import {LocaleableValue} from "@/_shared/services/translate.service";
 import {Category} from "@/_shared/models/category";
 import {Attachment, IHasUrl, Img, MyFile} from "@/_shared/models/product/attachment";
-import {Type} from "class-transformer";
+import {Expose, Transform, Type} from "class-transformer";
 import {Manufacturer, Specification} from "@shared/models/product/criteria";
 import {routeHelper} from "@shared/helpers/route.helper";
+import {ICanActive} from "@shared/models/view/product/types";
+import {reactive} from "vue";
 
 type RichText = string;
 
-enum PRODUCT_STATUS {
-	outOfStock = 'outOfStock'
+export enum PRODUCT_STATUS {
+	inStock = 'inStock',
+	outOfStock = 'outOfStock',
+	quickProduction = 'quickProduction',
+	preOrder = 'preOrder',
+	availableForOrder = 'availableForOrder'
 }
 
 enum PRICE_TYPE {
@@ -58,6 +64,10 @@ export class Product extends Jsonable<Product>() {
 
 	compared: boolean = false;
 	wished: boolean = false;
+
+	@Expose()
+	@Transform(({value}) => value ? value : 10)
+	count: number;
 
 	/// Добавляем в корзину только если есть цена.
 	get Price() {
@@ -109,6 +119,16 @@ export class Product extends Jsonable<Product>() {
 
 	removeFavorite() {
 
+	}
+}
+
+export class CartProduct implements ICanActive {
+	product: Product;
+
+	IsActive: boolean = true;
+
+	constructor(product: Product) {
+		this.product = reactive(product) as Product;
 	}
 }
 

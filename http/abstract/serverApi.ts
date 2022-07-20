@@ -36,12 +36,66 @@ class AxiosErrService {
 export default abstract class ServerApi extends AbstractApi {
 	protected baseUrl: string = '';
 
+	timeMap: any = {}
+
+	protected get FullBaseUrl() {
+		return this.parentApi ? this.parentApi.FullBaseUrl + '/' + this.baseUrl : this.baseUrl;
+	}
+
 	constructor(private parentApi?: ServerApi) {
 		super();
 	}
 
-	protected get FullUrl() {
-		return this.parentApi ? this.parentApi.FullUrl + '/' + this.baseUrl : this.baseUrl;
+	protected post(url: string, body: Record<string, any>, config: AxiosRequestConfig = {}) {
+		this.startTime(url);
+		return axios.post(this.getFullUrl(url), body, this.handleConfig(config))
+			.then(this.handleResponse.bind(this))
+			.catch(AxiosErrService.handleResponseError)
+	}
+
+	protected get(url: string, config: AxiosRequestConfig = {}) {
+		this.startTime(url);
+		return axios.get(this.getFullUrl(url), this.handleConfig(config))
+			.then(this.handleResponse.bind(this))
+			.catch(AxiosErrService.handleResponseError)
+	}
+
+	private getFullUrl(url) {
+		return url ? this.FullBaseUrl + '/' + url : this.FullBaseUrl;
+	}
+
+	private handleResponse(response: AxiosResponse): ApiResponse {
+		console.log('response', response.config.url, this.endTime(response.config.url), response);
+		return {data: response.data['data'], response};
+	}
+
+	private startTime(url) {
+		const fullUrl = this.getFullUrl(url);
+		if (this.timeMap[fullUrl])
+			return console.warn('Временная метка ' + this.getFullUrl(url) + ' уже существует');
+
+		this.timeMap[fullUrl] = window.performance.now();
+	}
+
+	private endTime(fullUrl) {
+		if (!this.timeMap[fullUrl])
+			return 'Временная метка ' + fullUrl + ' не существует';
+
+		const res = window.performance.now() - this.timeMap[fullUrl] + 'ms';
+		delete this.timeMap[fullUrl];
+		return res;
+	}
+
+
+	private handleConfig(config: AxiosRequestConfig): AxiosRequestConfig {
+		const _config: AxiosRequestConfig = {
+			requireAuth: true,
+			...config
+		}
+
+		this.addTokenIfRequired(_config);
+
+		return _config;
 	}
 
 	private addTokenIfRequired(config: AxiosRequestConfig) {
@@ -55,33 +109,5 @@ export default abstract class ServerApi extends AbstractApi {
 				authService.logOut();
 			}
 		}
-	}
-
-	private handleConfig(config: AxiosRequestConfig): AxiosRequestConfig {
-		const _config: AxiosRequestConfig = {
-			requireAuth: true,
-			...config
-		}
-
-		this.addTokenIfRequired(_config);
-
-		return _config;
-	}
-
-	private handleResponse(response: AxiosResponse): ApiResponse {
-		console.log('response', response.config.url, response);
-		return {data: response.data['data'], response};
-	}
-
-	protected get(url: string, config: AxiosRequestConfig = {}) {
-		return axios.get(url ? this.FullUrl + '/' + url : this.FullUrl, this.handleConfig(config))
-			.then(this.handleResponse)
-			.catch(AxiosErrService.handleResponseError)
-	}
-
-	protected post(url: string, body: Record<string, any>, config: AxiosRequestConfig = {}) {
-		return axios.post(this.FullUrl + '/' + url, body, this.handleConfig(config))
-			.then(this.handleResponse)
-			.catch(AxiosErrService.handleResponseError)
 	}
 }

@@ -30,7 +30,7 @@ export class AuthToken extends Jsonable<AuthToken>() {
 
 class AuthService {
 	private tokenStoreKey = 'authToken';
-	private token: AuthToken | undefined;
+	private token: AuthToken | null = null;
 
 	get Token() {
 		return this.token;
@@ -67,8 +67,8 @@ class AuthService {
 	}
 
 	logOut() {
-		this.Token = undefined;
-		userService.CurrUser = undefined;
+		this.Token = null;
+		userService.setUser(null);
 		localStorage.removeItem(this.tokenStoreKey);
 
 		vueTools.router.push({name: routeHelper.names['logIn']}).then(console.log);

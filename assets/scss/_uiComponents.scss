@@ -28,52 +28,18 @@
 }
 
 ///Helpers
-.ui-loader {
-	$loaderRadius: 80px;
-	--default-transform: translate(-50%, -50%);
+.ui-i-can-loader {
+	@include ui-loader();
+}
 
-	position: relative;
+.ui-loader {
+	@include ui-loader();
+	--loader-radius: 80px;
+
+	min-height: Var(--loader-radius);
+	min-width: Var(--loader-radius);
 	width: 100%;
 	height: 100%;
-
-	padding: Calc(#{$loaderRadius} / 2);
-
-	&:before,
-	&:after {
-		content: '';
-		position: absolute;
-		top: 50%;
-		left: 50%;
-
-		width: $loaderRadius;
-		height: $loaderRadius;
-
-		border: 7px solid $color-bg-grey-dark;
-		border-radius: 50%;
-
-		opacity: 1;
-		transform: Var(--default-transform);
-		animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-	}
-
-	&:after {
-		animation-delay: -0.5s;
-	}
-
-	@keyframes lds-ripple {
-		0% {
-			transform: Var(--default-transform) scale(0);
-			opacity: 1;
-		}
-		100% {
-			transform: Var(--default-transform) scale(1);
-			opacity: 0;
-		}
-	}
-
-	&.to-up {
-		height: 64px;
-	}
 }
 
 ///simple elements
@@ -83,7 +49,7 @@
 }
 
 .ui-title {
-	@include fontMidTitle();
+	@include font(20, 24, 700);
 }
 
 .ui-text {
@@ -171,6 +137,7 @@
 .ui-icon {
 	width: 20px;
 	height: 20px;
+
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -223,7 +190,7 @@
 	&.required {
 		&::after {
 			content: "*";
-			color: $color-red;
+			color: $color-red-dark;
 			margin-left: 4px;
 		}
 	}
@@ -233,7 +200,7 @@
 	display: inline-flex;
 	flex-shrink: 20;
 
-	color: $color-red;
+	color: $color-red-dark;
 	@include fontCaption();
 }
 
@@ -241,6 +208,7 @@
 	@extend %flex-column;
 	gap: 4px;
 }
+
 
 .ui-input {
 	@extend %ui-input;
@@ -409,24 +377,40 @@
 
 .ui-second-btn {
 	@extend %ui-big-btn;
-
-	margin: -4px 0;
-
-	&:first-child {
-		margin: 0 0 -4px;
-	}
-
-	&:last-child {
-		margin: -4px 0 0;
-	}
+	--border-width: 1px;
 
 	color: $color-main;
 	background-color: #ffffff;
-	border: 1px solid transparent;
+	border: Var(--border-width) solid $color-main;
+
+	&:hover {
+		box-shadow: 0 0 12px $color-main-lighter;
+	}
+}
+
+.ui-third-btn {
+	@extend %ui-big-btn;
+	--border-width: 1px;
+
+	color: $color-main;
+	background-color: #ffffff;
+	border: Var(--border-width) solid transparent;
 
 	&:hover {
 		border-color: $color-main;
 		box-shadow: 0 0 12px $color-main-lighter;
+	}
+}
+
+.ui-config-btn {
+	@extend %ui-big-btn;
+
+	color: $color-main;
+	background-color: $color-main-lightest;
+
+	&:hover {
+		transform: translateY(-4px);
+		box-shadow: 2px 4px 8px $color-bg-grey-light;
 	}
 }
 
@@ -478,7 +462,92 @@
 
 .ui-counter {
 	height: 32px;
-	min-width: 80px;
+	min-width: 96px;
+	width: max-content;
+
+	display: flex;
+	align-items: center;
+	gap: 8px;
+
+	padding: 0 8px;
+
+	@include font(16, 16, 700);
+
+	border: 1px solid $color-bg-grey-lighter;
+	border-radius: 16px;
+
+	@include laptop() {
+		padding: 0 4px;
+	}
+
+	@include bigMobile() {
+		height: 24px;
+		@include font(14, 14, 700);
+
+		border-radius: 12px;
+	}
+
+	&__input {
+		@include width-from-letter-count(4);
+		max-width: 44px;
+		text-align: center;
+
+		@extend %ui-off-number-input;
+	}
+
+	%local-btn {
+		@extend %ui-btn;
+		position: relative;
+
+		min-width: 12px;
+		max-width: 12px;
+		min-height: 14px;
+		max-height: 14px;
+	}
+
+	&__minus-btn {
+		@extend %local-btn;
+
+		&:before {
+			content: '';
+			position: absolute;
+
+			top: 50%;
+			left: 50%;
+
+			width: 100%;
+			height: 2px;
+
+			background-color: $color-bg-grey-light;
+			transform: translate(-50%, -50%);
+		}
+	}
+
+	&__plus-btn {
+		@extend %local-btn;
+
+		&:before,
+		&:after {
+			content: '';
+			position: absolute;
+
+			top: 50%;
+			left: 50%;
+
+			width: 100%;
+			height: 2px;
+
+			background-color: $color-main;
+		}
+
+		&:before {
+			transform: translate(-50%, -50%);
+		}
+
+		&:after {
+			transform: translate(-50%, -50%) rotate(90deg);
+		}
+	}
 }
 
 //radio
@@ -866,9 +935,12 @@ input[type="radio"].ui-radio {
 		align-items: center;
 		gap: 8px;
 
+		* {
+			margin: 0;
+		}
+
 		&:before {
 			display: inline-flex;
-			align-self: flex-start;
 			color: $color-main;
 		}
 	}

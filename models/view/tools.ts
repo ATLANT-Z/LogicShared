@@ -42,6 +42,14 @@ export function isMouse(e: MouseEvent | TouchEvent): e is MouseEvent {
 	return e.type.includes('mouse')
 }
 
+export function isEmpty(val) {
+	return (val === undefined || val == null || val.length <= 0);
+}
+
+export function isExist(val) {
+	return !isEmpty(val)
+}
+
 const funcIdList = {}
 
 export function doAfterDelay(id: string, delay: number, cb: (...any) => any) {

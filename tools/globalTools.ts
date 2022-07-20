@@ -1,6 +1,6 @@
 import {App} from "vue";
 import {DictionaryWord, translateService} from "@shared/services/translate.service";
-import {popupShowService} from "@shared/services/popup.service";
+import {PopupService, popupService} from "@shared/services/popup.service";
 import {Icon, projectIcons} from "@shared/type/icons";
 import {routeHelper, RouteHelper} from "@shared/helpers/route.helper";
 
@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
 		_T: GlobalFunctionList['translate'];
 		icons: Record<Icon, Icon>;
 		routeHelper: RouteHelper
+		popupService: PopupService
 	}
 }
 
@@ -38,12 +39,8 @@ function globalFunctions(app: App) {
 		toggleActive(el: HTMLElement) {
 			el.classList.toggle('active');
 		},
-		showId(id: string, hasListener = true) {
-			if (hasListener) {
-				popupShowService.setShow(id, true);
-			} else {
-				document.getElementById(id)!.classList.add("show");
-			}
+		showId(id: string) {
+			// document.getElementById(id)!.classList.add("show");
 		}
 	}
 }
@@ -64,6 +61,7 @@ export default {
 		app.config.globalProperties.icons = createIcons();
 
 		app.config.globalProperties.routeHelper = routeHelper;
+		app.config.globalProperties.popupService = popupService;
 		// Object.entries(globalFunctions(app)).forEach(el => {
 		// 	const [key, func] = el;
 		// 	console.log(el);
