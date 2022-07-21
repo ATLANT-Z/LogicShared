@@ -1,5 +1,6 @@
 export enum projectIcons {
 	'accept' = 1,
+	'add' = 1,
 	'arrowDown' = 1,
 	'arrowLeft' = 1,
 	'arrowRight' = 1,
@@ -9,8 +10,10 @@ export enum projectIcons {
 	'compare' = 1,
 	'compareDark' = 1,
 	'cross' = 1,
+	'delete' = 1,
 	'downArrow' = 1,
 	'download' = 1,
+	'edit' = 1,
 	'eyeHide' = 1,
 	'eyeShow' = 1,
 	'facebook' = 1,

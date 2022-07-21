@@ -117,7 +117,6 @@ class TranslateService {
 
 	private rememberLang(val: DictLanguage) {
 		localStorage.setItem(this.storageKey, val);
-		if (!authService.isAuth) return
 		userService.getUser()
 			.then(user => {
 				if (!user) return;

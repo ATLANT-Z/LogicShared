@@ -1,15 +1,13 @@
 <template>
-  <teleport :to="popupService.TeleportToId" :disabled="!isTeleport">
-    <div class="popup-block"
-         :class="{active: isActive}"
-         :id="id + '-pop'"
-         @click.self='close'
-         ref="popup"
-    >
-      <slot :parent="this">This should have been content</slot>
-      <ToTopBtn v-if="$refs.popup" :watchElement="$refs.popup"/>
-    </div>
-  </teleport>
+  <div class="popup-block"
+       :class="{active: isActive}"
+       :id="id + '-pop'"
+       @click.self='close'
+       ref="popup"
+  >
+    <slot :parent="this">This should have been content</slot>
+    <ToTopBtn v-if="$refs.popup" :watchElement="$refs.popup"/>
+  </div>
 </template>
 
 <script lang="ts">
@@ -27,7 +25,6 @@ import ToTopBtn from "@/_shared/components/ui/ToTopBtn.vue";
 })
 export default class UiPopup extends Vue {
   @Prop({required: true}) id: string;
-  @Prop({default: true}) isTeleport: boolean;
 
   close() {
     this.isActive = false;

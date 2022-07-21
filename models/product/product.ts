@@ -66,7 +66,7 @@ export class Product extends Jsonable<Product>() {
 	wished: boolean = false;
 
 	@Expose()
-	@Transform(({value}) => value ? value : 10)
+	@Transform(({value}) => value ? value : 1)
 	count: number;
 
 	/// Добавляем в корзину только если есть цена.
@@ -101,8 +101,8 @@ export class Product extends Jsonable<Product>() {
 		} else return undefined;
 	}
 
-	addToCart() {
-		console.log('добавили в корзину');
+	async addToCart() {
+		return console.log('добавили в корзину');
 	}
 
 	addCompare() {

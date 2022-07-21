@@ -57,7 +57,7 @@
 	--horiz-pad: 16px;
 	--color-bg: white;
 	--color-holder: #{$color-text-lighter};
-	--border-r: 12px;
+	--border-r: 16px;
 
 	position: relative;
 	min-width: 268px;
@@ -140,7 +140,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	gap: 4px;
+	gap: 8px;
 
 	padding: Calc(Var(--vert-pad) - Var(--border-width)) Calc(Var(--horiz-pad) - Var(--border-width));
 
