@@ -428,6 +428,10 @@
 	&:hover {
 		transform: translateY(-3px);
 	}
+
+	@include bigMobile() {
+		@include font(14, 16);
+	}
 }
 
 .ui-drop-down-btn {
@@ -441,12 +445,28 @@
 
 	@include animAll();
 
+	&.no-text &__text {
+		display: none;
+	}
+
 	&:hover > .ui-icon {
 		transform: translateY(-3px);
 	}
 
-	&.active {
+	&.active > .ui-icon {
 		transform: translateY(1px) rotate(180deg);
+	}
+
+	& > .ui-icon {
+		@include fixedHW(20px, 20px);
+	}
+
+	@include bigMobile() {
+		& > .ui-icon {
+			@include fixedHW(14px, 14px);
+		}
+
+		@include font(14, 16, 500);
 	}
 }
 

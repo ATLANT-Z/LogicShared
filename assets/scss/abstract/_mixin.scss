@@ -560,7 +560,7 @@
 	}
 }
 
-@mixin slideHeightDown($start-height: 0, $max-height: 100vh) {
+@mixin slideHeightDown($start-height: 0, $max-height: 100vh, $time: 0.8s) {
 	max-height: none;
 	@keyframes slideDown {
 		from {
@@ -572,7 +572,7 @@
 	}
 
 	animation-name: slideDown;
-	animation-duration: 0.8s;
+	animation-duration: $time;
 	animation-timing-function: cubic-bezier(0.6, 0.51, 0.19, 0.93);
 	animation-fill-mode: none;
 }

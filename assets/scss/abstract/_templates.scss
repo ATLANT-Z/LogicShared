@@ -226,4 +226,9 @@
 			@include font(14, 16);
 		}
 	}
+
+	@include bigMobile() {
+		--horiz-pad: 12px;
+		@include font(16, 20);
+	}
 }
