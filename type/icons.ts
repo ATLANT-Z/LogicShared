@@ -11,7 +11,7 @@ export enum projectIcons {
 	'compare' = 1,
 	'compareDark' = 1,
 	'cross' = 1,
-	'delete' = 1,
+	'remove' = 1,
 	'downArrow' = 1,
 	'download' = 1,
 	'edit' = 1,

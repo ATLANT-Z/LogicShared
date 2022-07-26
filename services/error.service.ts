@@ -10,7 +10,7 @@ export class MyError {
 }
 
 export class ErrorService {
-	secondsShow: number = 7;
+	private secondsShow: number = 7;
 	errors: MyError[] = []
 
 	///TODO загнать все сообщения в переводчик.
@@ -21,7 +21,7 @@ export class ErrorService {
 		return str;
 	}
 
-	setRemoveTimer(id: string) {
+	private setRemoveTimer(id: string) {
 		setTimeout(() => {
 			const index = this.errors.findIndex(el => el.id === id);
 			this.errors.splice(index, 1);

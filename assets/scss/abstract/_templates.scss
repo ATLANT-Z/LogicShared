@@ -57,7 +57,7 @@
 	--horiz-pad: 16px;
 	--color-bg: white;
 	--color-holder: #{$color-text-lighter};
-	--border-r: 16px;
+	--border-r: 8px;
 
 	position: relative;
 	min-width: 268px;
@@ -71,7 +71,7 @@
 	@include fontMid();
 
 	background-color: var(--color-bg);
-	border: 1px solid $color-border-grey-dark;
+	border: 1px solid $color-border-grey-lighter;
 	border-radius: var(--border-r);
 
 	@include anim();

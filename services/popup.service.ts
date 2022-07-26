@@ -13,7 +13,6 @@ export class PopupService {
 		return '#' + this.globalListId
 	}
 
-
 	isShow(id: string) {
 		return this.popupState[id];
 	}

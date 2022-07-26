@@ -15,6 +15,7 @@ import {popupService} from "@/_shared/services/popup.service";
 import {Options, Vue} from "vue-class-component";
 import {Prop} from "vue-property-decorator";
 import ToTopBtn from "@/_shared/components/ui/ToTopBtn.vue";
+import {PopupName} from "@shared/helpers/popup.helper";
 
 @Options({
   components: {ToTopBtn},
@@ -24,7 +25,7 @@ import ToTopBtn from "@/_shared/components/ui/ToTopBtn.vue";
   // }
 })
 export default class UiPopup extends Vue {
-  @Prop({required: true}) id: string;
+  @Prop({required: true}) id: PopupName;
 
   close() {
     this.isActive = false;
