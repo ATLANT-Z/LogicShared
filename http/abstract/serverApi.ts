@@ -104,8 +104,6 @@ export default abstract class ServerApi extends AbstractApi {
 				config.headers = {};
 				config.headers['Authorization'] = authService.Token!.getHeader();
 			} else {
-				console.warn('Пользователь не залогинен');
-				errorService.addError('Пожалуйста, залогинтесь');
 				authService.logOut();
 			}
 		}

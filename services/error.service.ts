@@ -13,6 +13,15 @@ export class ErrorService {
 	private secondsShow: number = 7;
 	errors: MyError[] = []
 
+	isAuthErrorExist: boolean = false;
+
+	authError() {
+		if (this.isAuthErrorExist) return;
+
+		this.isAuthErrorExist = true;
+		return this.addError('Ваша сессия истекла');
+	}
+
 	///TODO загнать все сообщения в переводчик.
 	addError(str: string) {
 		const newError = new MyError(str);

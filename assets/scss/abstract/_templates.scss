@@ -169,6 +169,8 @@
 		&:before {
 			content: '';
 			@include absoluteGrow();
+			width: 100%;
+			height: 100%;
 
 			border-radius: inherit;
 			background-color: inherit;
@@ -187,6 +189,7 @@
 
 			color: inherit;
 
+			background-color: transparent;
 			border-radius: 50%;
 			border: 1px solid currentColor;
 			border-top-color: transparent;
@@ -231,4 +234,13 @@
 		--horiz-pad: 12px;
 		@include font(16, 20);
 	}
+
+	&.small-mob {
+		@include bigMobile() {
+			--horiz-pad: 8px;
+			--vert-pad: 4px;
+			@include font(16, 16);
+		}
+	}
 }
+

@@ -62,7 +62,7 @@ export class HttpErrorService implements IErrorHandler<typeof HTTP_ERROR_CODE> {
 
 	handle_Unauthorized(): any {
 		authService.logOut();
-		return errorService.addError('Вы не авторизированы');
+		return errorService.authError();
 	}
 
 	handle_NotFound(args: any): any {

@@ -342,22 +342,13 @@
 	--bg-color-hover: #{$color-main-light};
 
 	color: white;
+	background-color: Var(--bg-color);
 	overflow: hidden;
 
-	&:before,
-	&:after {
-		content: '';
-	}
-
-
-	&:after {
-		content: '';
-		@include absoluteGrow();
-		background-color: Var(--bg-color);
-		z-index: -2;
-	}
+	@include anim();
 
 	&:before {
+		content: '';
 		position: absolute;
 		top: 0;
 		left: auto;
@@ -379,6 +370,10 @@
 	&.blue {
 		--bg-color: #{$color-blue-dark};
 		--bg-color-hover: #{$color-blue};
+	}
+
+	&.loading{
+		background-color: Var(--bg-color-hover);
 	}
 }
 

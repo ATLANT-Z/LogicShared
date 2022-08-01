@@ -39,8 +39,8 @@ export class Criteria extends Jsonable<Criteria>() {
 	@Type(() => Manufacturer)
 	manufacturers: Manufacturer[];
 
-	@Type(() => Specification)
-	specifications: Specification[];
+	@Type(() => SpecificationFilter)
+	specifications: SpecificationFilter[];
 
 	getFilterParams(): FilterParams {
 		return CriteriaTransformer.transform(this);
@@ -57,14 +57,19 @@ export class Manufacturer extends IFilterItem {
 	slug: string;
 }
 
-export class Specification {
+export class SpecificationFilter {
 	id: number;
 
 	@ILocaleableValue() name: LocaleableValue;
 
 	@Type(() => Option) options: Option[];
+}
 
-	///TODO Сделать два типа спецификации
+export class SpecificationProduct {
+	id: number;
+
+	@ILocaleableValue() name: LocaleableValue;
+
 	@Type(() => Option) option: Option;
 }
 

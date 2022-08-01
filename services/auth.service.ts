@@ -9,6 +9,7 @@ import API from "@/http/API";
 
 import {LogForm} from "@models/logReg";
 import {ApiResponse} from "@shared/http/abstract/serverApi";
+import {errorService} from "@shared/services/error.service";
 
 export class AuthToken extends Jsonable<AuthToken>() {
 	private token: string;
@@ -44,8 +45,16 @@ class AuthService {
 		return !!this.Token?.Value;
 	}
 
+	get isToken(): boolean {
+		return !!this.Token;
+	}
+
 	constructor() {
 		this.setTokenFromLocalStorage();
+		if (!this.isAuth && this.isToken) {
+			errorService.authError();
+			this.logOut();
+		}
 	}
 
 	private setTokenFromLocalStorage() {

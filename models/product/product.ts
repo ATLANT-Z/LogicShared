@@ -1,41 +1,18 @@
-import {ILocaleableValue, Jsonable} from "@/_shared/models/tools/tools";
+import {ILocaleableValue, Jsonable, VueRef} from "@/_shared/models/tools/tools";
 import {LocaleableValue} from "@/_shared/services/translate.service";
-import {Category} from "@/_shared/models/category";
-import {Attachment, IHasUrl, Img, MyFile} from "@/_shared/models/product/attachment";
-import {Expose, Transform, Type} from "class-transformer";
-import {Manufacturer, Specification} from "@shared/models/product/criteria";
+import {ProductCategory} from "@/_shared/models/category";
+import {Attachment, IHasUrl, Img} from "@/_shared/models/product/attachment";
+import {Expose, Type} from "class-transformer";
+import {Manufacturer, SpecificationProduct} from "@shared/models/product/criteria";
 import {routeHelper} from "@shared/helpers/route.helper";
-import {ICanActive} from "@shared/models/view/product/types";
-import {reactive} from "vue";
+import {
+	ProductSeenHttpResource,
+	ProductHttpResource, ProductCartHttpResource,
+} from "@shared/models/http/product/product";
+import {IHasQuantity, OrderCart, Price, PriceType, ProductStatus, RichText} from "@shared/models/product/types";
+import {isArray} from "lodash";
 
-type RichText = string;
-
-export enum PRODUCT_STATUS {
-	inStock = 'inStock',
-	outOfStock = 'outOfStock',
-	quickProduction = 'quickProduction',
-	preOrder = 'preOrder',
-	availableForOrder = 'availableForOrder'
-}
-
-enum PRICE_TYPE {
-	PERSONAL = 'personal',
-	RRP = 'recommendedRetail'
-}
-
-export class Money {
-	amount: number;
-	currency: string;
-}
-
-export class Price {
-	type: PRICE_TYPE;
-
-	@Type(() => Type)
-	money: Money;
-}
-
-export class Product extends Jsonable<Product>() {
+export class Product extends Jsonable<Product>() implements ProductHttpResource {
 	id: string;
 	code: string;
 	barcode: string;
@@ -44,17 +21,16 @@ export class Product extends Jsonable<Product>() {
 	@ILocaleableValue() name: LocaleableValue;
 	@ILocaleableValue() description: LocaleableValue<RichText>;
 
-	status: PRODUCT_STATUS;
+	status: ProductStatus;
 
-	@Type(() => Price)
-	private prices: Price[];
+	@Type(() => Manufacturer)
 	manufacturer: Manufacturer;
 
-	@Type(() => Specification)
-	specifications: Specification[];
+	@Type(() => SpecificationProduct)
+	specifications: SpecificationProduct[];
 
-	@Type(() => Category)
-	categories: Pick<Category, 'id' | 'name' | 'slug'>[];
+	@Type(() => ProductCategory)
+	categories: ProductCategory[];
 
 	@Type(() => Attachment)
 	attachments: Attachment[];
@@ -62,20 +38,28 @@ export class Product extends Jsonable<Product>() {
 	@Type(() => Img)
 	images: Img[]
 
-	compared: boolean = false;
-	wished: boolean = false;
+	@Type(() => OrderCart)
+	orderCart: OrderCart;
+
+	@Type(() => Price)
+	prices: Price[];
+
+
+	compared: boolean;
+	wished: boolean;
+	isActive: boolean;
 
 	@Expose()
-	@Transform(({value}) => value ? value : 1)
-	count: number;
+	quantity: number;
+
 
 	/// Добавляем в корзину только если есть цена.
 	get Price() {
-		return this.prices.find(el => el.type === PRICE_TYPE.PERSONAL)?.money;
+		return this.prices.find(el => el.type === PriceType.Personal)?.money;
 	}
 
 	get RRP() {
-		return this.prices.find(el => el.type === PRICE_TYPE.RRP)?.money;
+		return this.prices.find(el => el.type === PriceType.RRP)?.money;
 	}
 
 	get VueLink() {
@@ -101,34 +85,119 @@ export class Product extends Jsonable<Product>() {
 		} else return undefined;
 	}
 
-	async addToCart() {
-		return console.log('добавили в корзину');
+}
+
+export class CartProduct extends Jsonable<CartProduct>() implements ProductCartHttpResource {
+	@Type(() => Product)
+	@VueRef()
+	product: Product;
+
+	quantity: number;
+	isActive: boolean;
+}
+
+export interface IProductQuantity extends IHasQuantity {
+	product: Product;
+}
+
+type PlainProduct = ProductHttpResource | ProductHttpResource[];
+
+export class ProductFactory {
+
+	private static initOne(raw: ProductHttpResource) {
+		return Product.fromJson(raw);
 	}
 
-	addCompare() {
-		console.log('добавили в сравнение');
+	private static initMany(rawList: ProductHttpResource[]) {
+		return rawList.map(el => ProductFactory.initOne(el));
 	}
 
-	removeCompare() {
-		console.log('удалили из сравнения');
+	private static isArray(p: PlainProduct): p is ProductHttpResource[] {
+		return isArray(p);
 	}
 
-	addFavorite() {
-
+	private static isObj(p: PlainProduct): p is ProductHttpResource {
+		return !isArray(p);
 	}
 
-	removeFavorite() {
+	static build<Plain extends PlainProduct>(productResource: Plain): Plain extends Array<any> ? Product[] : Product
+	static build(productResource): any {
+		if (ProductFactory.isArray(productResource)) {
+			return ProductFactory.initMany(productResource);
+		}
 
+		if (ProductFactory.isObj(productResource)) {
+			return ProductFactory.initOne(productResource);
+		}
+	}
+
+}
+
+
+
+type PlainSeenProduct = ProductSeenHttpResource | ProductSeenHttpResource[];
+
+export class SeenProductFactory {
+
+	private static initOne(raw: ProductSeenHttpResource) {
+		return Product.fromJson(raw.product);
+	}
+
+	private static initMany(rawList: ProductSeenHttpResource[]) {
+		return rawList.map(el => SeenProductFactory.initOne(el));
+	}
+
+	private static isArray(p: PlainSeenProduct): p is ProductSeenHttpResource[] {
+		return isArray(p);
+	}
+
+	private static isObj(p: PlainSeenProduct): p is ProductSeenHttpResource {
+		return !isArray(p);
+	}
+
+
+	static build<Plain extends PlainSeenProduct>(productResource: Plain): Plain extends Array<any> ? Product[] : Product
+	static build<Plain extends PlainSeenProduct>(productResource: Plain): any {
+		if (SeenProductFactory.isArray(productResource)) {
+			return SeenProductFactory.initMany(productResource);
+		}
+
+		if (SeenProductFactory.isObj(productResource)) {
+			return SeenProductFactory.initOne(productResource);
+		}
 	}
 }
 
-export class CartProduct implements ICanActive {
-	product: Product;
 
-	IsActive: boolean = true;
 
-	constructor(product: Product) {
-		this.product = reactive(product) as Product;
+type PlainCartProduct = ProductCartHttpResource | ProductCartHttpResource[];
+
+export class CartProductFactory {
+	private static initOne(raw: ProductCartHttpResource) {
+		return CartProduct.fromJson(raw);
+	}
+
+	private static initMany(rawList: ProductCartHttpResource[]) {
+		return rawList.map(el => CartProductFactory.initOne(el));
+	}
+
+	private static isArray(p: PlainCartProduct): p is ProductCartHttpResource[] {
+		return isArray(p);
+	}
+
+	private static isObj(p: PlainCartProduct): p is ProductCartHttpResource {
+		return !isArray(p);
+	}
+
+	static build<Plain extends PlainCartProduct>(productResource: Plain): Plain extends Array<any> ? CartProduct[] : CartProduct
+	static build<Plain extends PlainCartProduct>(productResource: Plain): any {
+		if (CartProductFactory.isArray(productResource)) {
+			return CartProductFactory.initMany(productResource);
+		}
+
+		if (CartProductFactory.isObj(productResource)) {
+			return CartProductFactory.initOne(productResource);
+		}
 	}
 }
 
