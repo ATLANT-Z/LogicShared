@@ -1,5 +1,6 @@
-export type HttpProductQuery = {
-	categoryId?: string
+export type ProductQuery = {
+	categorySlug?: string,
+	categoryId?: string,
 	searchQuery?: string,
 
 	minPrice?: number,
@@ -9,4 +10,3 @@ export type HttpProductQuery = {
 
 	referenceId?: string,
 }
-

@@ -15,7 +15,7 @@ export enum PriceType {
 	RRP = 'recommendedRetail'
 }
 
-export enum OrderCartType {
+export enum CartOrderType {
 	Order = 'order',
 	PreOrder = 'preOrder'
 }
@@ -33,7 +33,7 @@ export class Price {
 }
 
 export class OrderCart {
-	type: OrderCartType;
+	type: CartOrderType;
 	currency: Currency;
 }
 

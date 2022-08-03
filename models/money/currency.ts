@@ -1,4 +1,7 @@
-export type Currency = 'USD' | 'UAH';
+export enum Currency {
+	USD = 'USD',
+	UAH = 'UAH'
+}
 
 export enum PAYMENT_TYPE {
 	cash = 'cash',

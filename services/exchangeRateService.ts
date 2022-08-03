@@ -3,7 +3,7 @@ import {Currency} from "@shared/models/money/currency";
 type AppUsedCurrencyList = Array<Currency>;
 
 class ExchangeRateService {
-	_sourceTarget: Currency = "USD";
+	_sourceTarget: Currency = Currency.UAH;
 
 	get SourceTarget() {
 		return this._sourceTarget;
@@ -13,7 +13,7 @@ class ExchangeRateService {
 		this._sourceTarget = val;
 	}
 
-	usedCurrencyList: AppUsedCurrencyList = ["UAH", 'USD'];
+	usedCurrencyList: AppUsedCurrencyList = [Currency.UAH, Currency.USD];
 }
 
 export const exchangeRateService = new ExchangeRateService();

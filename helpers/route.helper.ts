@@ -8,7 +8,7 @@ export type RouteName = keyof typeof ROUTE_NAMES;
 type RouteNames = Record<RouteName, string>
 
 type RouteQParam = keyof typeof ROUTE_QUERY_PARAMS;
-type RouteQParams = Record<RouteQParam, string>
+export type RouteQParams = Record<RouteQParam, string>
 
 type RouteParam = keyof typeof ROUTE_PARAMS;
 type RouteParams = Record<RouteParam, string>

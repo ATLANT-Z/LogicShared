@@ -2,12 +2,20 @@ import {LocaleableValue} from "@shared/services/translate.service";
 import {ILocaleableValue, Jsonable} from "@shared/models/tools/tools";
 import {Type} from "class-transformer";
 import {IFilterItem} from "@shared/models/view/product/types";
-import {FilterParams} from "@shared/models/http/product/filter";
+import {ProductQuery} from "@shared/models/product/filter";
+import {RouteQParams} from "@shared/helpers/route.helper";
 
+type ProductRouteQuery = Partial<Pick<RouteQParams,
+	'q' |
+	'ref' |
+	'maxPrice' |
+	'minPrice' |
+	'manufacturers' |
+	'specifications'>>
 
-class CriteriaTransformer {
-	static transform(criteria: Criteria): FilterParams {
-		const params: FilterParams = {};
+export class CriteriaTransformer {
+	private static toProductQuery(criteria: Criteria): ProductQuery {
+		const params: ProductQuery = {};
 
 		params.maxPrice = criteria.priceRange.max;
 		params.minPrice = criteria.priceRange.min;
@@ -27,9 +35,29 @@ class CriteriaTransformer {
 				return `${spec.id}:${opts}`;
 			}).join(';');
 
-		// debugger
 		return params;
 	}
+
+	static toProductQueryParams(criteria: Criteria): ProductRouteQuery {
+		const query = CriteriaTransformer.toProductQuery(criteria);
+
+		const queryParams: ProductRouteQuery = {
+			q: query.searchQuery,
+			ref: query.referenceId,
+			maxPrice: query.maxPrice?.toString(),
+			minPrice: query.minPrice?.toString(),
+			specifications: query.specifications,
+			manufacturers: query.manufacturers,
+		}
+
+		Object.keys(queryParams).forEach(key => {
+			if (!queryParams[key]) delete queryParams[key]
+		});
+
+		return queryParams;
+	}
+
+
 }
 
 export class Criteria extends Jsonable<Criteria>() {
@@ -41,10 +69,6 @@ export class Criteria extends Jsonable<Criteria>() {
 
 	@Type(() => SpecificationFilter)
 	specifications: SpecificationFilter[];
-
-	getFilterParams(): FilterParams {
-		return CriteriaTransformer.transform(this);
-	}
 }
 
 export class PriceRange {
