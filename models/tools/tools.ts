@@ -1,4 +1,12 @@
-import {Exclude, Expose, instanceToPlain, plainToInstance, Transform, Type} from "class-transformer";
+import {
+	ClassTransformOptions,
+	Exclude,
+	Expose,
+	instanceToPlain,
+	plainToInstance,
+	Transform,
+	Type
+} from "class-transformer";
 import {reactive} from "vue";
 import {MyObject} from "@/_shared/models/tools/type";
 import {LocaleableValue, translateService} from "@/_shared/services/translate.service";
@@ -38,22 +46,22 @@ export function Jsonable<T>() {
 			}
 		}
 
-		static toJson(instance: T): Partial<T> {
-			const obj = instanceToPlain(instance);
+		static toJson(instance: T, options?: ClassTransformOptions): Partial<T> {
+			const obj = instanceToPlain(instance, options);
 			Object.entries(obj).map(this.formatProp.bind(obj, instance))
 			return obj as Partial<T>;
 		}
 
-		static toJsonString(instance: T): string {
+		private static toJsonString(instance: T): string {
 			return JSON.stringify(this.toJson(instance));
 		}
 
-		static fromStringJson(str): T | T[] {
+		private static fromStringJson(str): T | T[] {
 			return plainToInstance(this, JSON.parse(str)) as T | T[];
 		}
 
-		static fromJson<Plain>(dataObj: Plain): Plain extends Array<any> ? T[] : T {
-			return plainToInstance(this as any, dataObj);
+		static fromJson<Plain>(dataObj: Plain, options?: ClassTransformOptions): Plain extends Array<any> ? T[] : T {
+			return plainToInstance(this as any, dataObj, options);
 		}
 	}
 

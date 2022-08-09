@@ -36,7 +36,7 @@ export default {
 
   padding: 96px 4px 16px;
 
-  z-index: 9999;
+  z-index: 99999;
   pointer-events: none;
 
 

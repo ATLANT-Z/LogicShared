@@ -10,6 +10,7 @@ import API from "@/http/API";
 import {LogForm} from "@models/logReg";
 import {ApiResponse} from "@shared/http/abstract/serverApi";
 import {errorService} from "@shared/services/error.service";
+import {BehaviorSubject} from "rxjs";
 
 export class AuthToken extends Jsonable<AuthToken>() {
 	private token: string;
@@ -31,14 +32,11 @@ export class AuthToken extends Jsonable<AuthToken>() {
 
 class AuthService {
 	private tokenStoreKey = 'authToken';
-	private token: AuthToken | null = null;
+
+	currentToken: BehaviorSubject<AuthToken | null> = new BehaviorSubject<AuthToken | null>(null);
 
 	get Token() {
-		return this.token;
-	}
-
-	set Token(token) {
-		this.token = token;
+		return this.currentToken.getValue();
 	}
 
 	get isAuth(): boolean {
@@ -52,15 +50,14 @@ class AuthService {
 	constructor() {
 		this.setTokenFromLocalStorage();
 		if (!this.isAuth && this.isToken) {
-			errorService.authError();
+			errorService.sessionExpiredError();
 			this.logOut();
 		}
 	}
 
 	private setTokenFromLocalStorage() {
 		const data: object = JSON.parse(localStorage.getItem(this.tokenStoreKey) as string);
-		if (data)
-			this.Token = AuthToken.fromJson(data);
+		if (data) this.currentToken.next(AuthToken.fromJson(data));
 	}
 
 	logInCredentials(form: LogForm) {
@@ -76,16 +73,18 @@ class AuthService {
 	}
 
 	logOut() {
-		this.Token = null;
-		userService.setUser(null);
-		localStorage.removeItem(this.tokenStoreKey);
-
+		this.clearToken();
 		vueTools.router.push({name: routeHelper.names['logIn']}).then(console.log);
 	}
 
+	private clearToken() {
+		localStorage.removeItem(this.tokenStoreKey);
+		this.currentToken.next(null);
+	}
+
 	private setToken(data: object) {
+		this.currentToken.next(AuthToken.fromJson(data))
 		localStorage.setItem(this.tokenStoreKey, JSON.stringify(data));
-		this.Token = AuthToken.fromJson(data);
 	}
 }
 

@@ -8,12 +8,14 @@ import {userService} from "@/_shared/services/user.service";
 import {VueRef} from "@/_shared/models/tools/tools";
 import {isExist} from "@shared/models/view/tools";
 import {authService} from "@shared/services/auth.service";
+import {User} from "@shared/models/user/user";
 
 type FullDictionary = typeof jsonDictionary;
 export type DictionaryWord = keyof FullDictionary;
 
 export type DictLanguage = 'ru' | 'uk';
-export type DefaultLanguage = Extract<DictLanguage, 'ru'>;
+type DefaultLanguage = Extract<DictLanguage, 'ru'>;
+type DefaultSecondLanguage = Extract<DictLanguage, 'uk'>;
 type Dictionary = Record<DictionaryWord, string>;
 
 type UserUnderstandableLanguage = string;
@@ -33,7 +35,8 @@ export class LocaleableValue<T = string> implements ILocaleableValue<T> {
 	get Value() {
 		return isExist(this[translateService.CurrLang]) ? this[translateService.CurrLang]
 			: isExist(this[translateService.defaultLang]) ? this[translateService.defaultLang]
-				: '';
+				: isExist(this[translateService.defaultSecondLang]) ? this[translateService.defaultSecondLang]
+					: '';
 	}
 
 	toString() {
@@ -48,6 +51,7 @@ export class LocaleableValue<T = string> implements ILocaleableValue<T> {
 class TranslateService {
 	private storageKey = 'currentLanguage';
 	defaultLang: DefaultLanguage = 'ru';
+	defaultSecondLang: DefaultSecondLanguage = 'uk';
 
 	private _currLang: DictLanguage;
 
@@ -73,6 +77,8 @@ class TranslateService {
 	}
 	usedLangList: AppUsedLanguageList;
 
+	user: User | null = null;
+
 	constructor() {
 		this.fullDictionary = jsonDictionary;
 		this.usedLangList = Object.entries(this.usedLanguageMap).map(el => {
@@ -80,13 +86,17 @@ class TranslateService {
 		});
 
 		this.CurrLang = this.getStoreLang() || 'uk';
+
+		userService.currentUser.subscribe((user) => {
+			this.user = user;
+		})
 	}
 
 	getWord(word: DictionaryWord, props?: Partial<MessageProps>): string {
 		if (!word) return '';
 
 		if (!this.dictionary[word]) {
-			console.warn('Translate: There is no translation for this word', word);
+			// console.warn('Translate: There is no translation for this word', word);
 			return 'Key - ' + word;
 		}
 
@@ -117,13 +127,11 @@ class TranslateService {
 
 	private rememberLang(val: DictLanguage) {
 		localStorage.setItem(this.storageKey, val);
-		userService.getUser()
-			.then(user => {
-				if (!user) return;
-				// TODO Проверить, вроде повтор проверки?
-				if (user.locale === val) return;
-				return API.Account.setUserLocale(val);
-			});
+
+		// TODO Проверить, вроде повтор проверки?
+		if (this.user && this.user.locale !== val) {
+			return API.Account.setUserLocale(val);
+		}
 	}
 
 

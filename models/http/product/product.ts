@@ -1,8 +1,9 @@
 import {LocaleableValue} from "@shared/services/translate.service";
-import {Manufacturer, SpecificationProduct} from "@shared/models/product/criteria";
+import {Manufacturer} from "@shared/models/product/filter/criteria";
 import {Category} from "@shared/models/category";
 import {Attachment, Img} from "@shared/models/product/attachment";
 import {IHasQuantity, OrderCart, Price, ProductStatus, RichText} from "@shared/models/product/types";
+import {ProductSpecification} from "@shared/models/product/specification";
 
 export interface ProductHttpResource {
 	id: string;
@@ -16,14 +17,15 @@ export interface ProductHttpResource {
 	status: ProductStatus;
 
 	manufacturer: Manufacturer;
-	specifications: SpecificationProduct[];
+	specifications: ProductSpecification[];
 
 	categories: Pick<Category, 'id' | 'name' | 'slug'>[];
 
 	attachments: Attachment[];
 	images: Img[];
 
-	orderCart: OrderCart;
+	orderCart: OrderCart | null;
+
 	prices: Price[];
 }
 

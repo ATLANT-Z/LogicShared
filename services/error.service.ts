@@ -15,7 +15,7 @@ export class ErrorService {
 
 	isAuthErrorExist: boolean = false;
 
-	authError() {
+	sessionExpiredError() {
 		if (this.isAuthErrorExist) return;
 
 		this.isAuthErrorExist = true;

@@ -1,5 +1,6 @@
 import {Currency} from "@shared/models/money/currency";
 import {Type} from "class-transformer";
+import {Money} from "@shared/models/money/money";
 
 export type RichText = string;
 
@@ -15,25 +16,18 @@ export enum PriceType {
 	RRP = 'recommendedRetail'
 }
 
-export enum CartOrderType {
+export enum OrderCartType {
 	Order = 'order',
 	PreOrder = 'preOrder'
 }
 
-export class Money {
-	amount: number;
-	currency: string;
-}
-
 export class Price {
 	type: PriceType;
-
-	@Type(() => Type)
 	money: Money;
 }
 
 export class OrderCart {
-	type: CartOrderType;
+	types: OrderCartType[];
 	currency: Currency;
 }
 

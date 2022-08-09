@@ -1,26 +1,28 @@
 import {reactive} from "vue";
-import {User} from "@/_shared/models/user";
-import {translateService} from "@/_shared/services/translate.service";
+import {User} from "@shared/models/user/user";
 import API from "@/http/API";
-import {PromiseWrapper} from "@shared/models/tools/promise";
+import {BehaviorSubject} from "rxjs";
 import {authService} from "@shared/services/auth.service";
 
 export class UserService {
-	private promiseWrapper: PromiseWrapper<User> | undefined;
+	currentUser: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
 
-	async getUser(): Promise<User | null> {
-		if (!authService.isAuth) return null;
-
-		if (!this.promiseWrapper || this.promiseWrapper.IsRejected) {
-			this.promiseWrapper = new PromiseWrapper<User>(API.Account.getCurrenUser());
-		}
-
-		return this.promiseWrapper.value;
+	constructor() {
+		authService.currentToken
+			.subscribe((token) => {
+				if (token) this.fetchUser();
+				else if (!token) this.clearUser();
+			})
 	}
 
-	setUser(user: User | null) {
-		if (user) translateService.CurrLang = user.locale;
-		return user;
+	private fetchUser() {
+		API.Account.getCurrenUser().then(user => {
+			this.currentUser.next(user);
+		})
+	}
+
+	private clearUser() {
+		this.currentUser.next(null);
 	}
 }
 

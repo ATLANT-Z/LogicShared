@@ -36,7 +36,7 @@ class AxiosErrService {
 export default abstract class ServerApi extends AbstractApi {
 	protected baseUrl: string = '';
 
-	timeMap: any = {}
+	private timeMap: any = {}
 
 	protected get FullBaseUrl() {
 		return this.parentApi ? this.parentApi.FullBaseUrl + '/' + this.baseUrl : this.baseUrl;

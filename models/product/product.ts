@@ -3,14 +3,23 @@ import {LocaleableValue} from "@/_shared/services/translate.service";
 import {ProductCategory} from "@/_shared/models/category";
 import {Attachment, IHasUrl, Img} from "@/_shared/models/product/attachment";
 import {Expose, Type} from "class-transformer";
-import {Manufacturer, SpecificationProduct} from "@shared/models/product/criteria";
+import {Manufacturer} from "@shared/models/product/filter/criteria";
 import {routeHelper} from "@shared/helpers/route.helper";
 import {
 	ProductSeenHttpResource,
 	ProductHttpResource, ProductCartHttpResource,
 } from "@shared/models/http/product/product";
-import {IHasQuantity, OrderCart, Price, PriceType, ProductStatus, RichText} from "@shared/models/product/types";
+import {
+	IHasQuantity,
+	OrderCart,
+	OrderCartType,
+	Price,
+	PriceType,
+	ProductStatus,
+	RichText
+} from "@shared/models/product/types";
 import {isArray} from "lodash";
+import {ProductSpecification} from "@shared/models/product/specification";
 
 export class Product extends Jsonable<Product>() implements ProductHttpResource {
 	id: string;
@@ -26,8 +35,8 @@ export class Product extends Jsonable<Product>() implements ProductHttpResource 
 	@Type(() => Manufacturer)
 	manufacturer: Manufacturer;
 
-	@Type(() => SpecificationProduct)
-	specifications: SpecificationProduct[];
+	@Type(() => ProductSpecification)
+	specifications: ProductSpecification[];
 
 	@Type(() => ProductCategory)
 	categories: ProductCategory[];
@@ -38,12 +47,12 @@ export class Product extends Jsonable<Product>() implements ProductHttpResource 
 	@Type(() => Img)
 	images: Img[]
 
+
 	@Type(() => OrderCart)
-	orderCart: OrderCart;
+	orderCart: OrderCart | null;
 
 	@Type(() => Price)
 	prices: Price[];
-
 
 	compared: boolean;
 	wished: boolean;
@@ -91,7 +100,7 @@ export class CartProduct extends Jsonable<CartProduct>() implements ProductCartH
 	@Type(() => Product)
 	@VueRef()
 	product: Product;
-
+	orderType: OrderCartType;
 	quantity: number;
 	isActive: boolean;
 }
@@ -134,7 +143,6 @@ export class ProductFactory {
 }
 
 
-
 type PlainSeenProduct = ProductSeenHttpResource | ProductSeenHttpResource[];
 
 export class SeenProductFactory {
@@ -167,7 +175,6 @@ export class SeenProductFactory {
 		}
 	}
 }
-
 
 
 type PlainCartProduct = ProductCartHttpResource | ProductCartHttpResource[];

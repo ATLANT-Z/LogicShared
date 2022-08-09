@@ -55,7 +55,7 @@
 		transition: visibility 0s $anim-small-time + 0.01s, $anim-small-time;
 		visibility: visible;
 		opacity: 1;
-		z-index: 9999999;
+		z-index: 9999;
 
 		&::before {
 			backdrop-filter: blur(24px) opacity(1);

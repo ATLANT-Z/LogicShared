@@ -13,19 +13,22 @@
 <script lang="ts">
 import {popupService} from "@/_shared/services/popup.service";
 import {Options, Vue} from "vue-class-component";
-import {Prop} from "vue-property-decorator";
+import {Prop, Watch} from "vue-property-decorator";
 import ToTopBtn from "@/_shared/components/ui/ToTopBtn.vue";
 import {PopupName} from "@shared/helpers/popup.helper";
 
 @Options({
   components: {ToTopBtn},
-  // emits: ['mounted'],
-  // mounted() {
-  //   this.$emit('mounted', this);
-  // }
+  emits: ['onShow', 'onClose'],
 })
 export default class UiPopup extends Vue {
   @Prop({required: true}) id: PopupName;
+
+  @Watch('isActive')
+  activeUpdate(currVal: boolean) {
+    if (currVal) this.$emit('onShow');
+    else this.$emit('onClose');
+  }
 
   close() {
     this.isActive = false;
