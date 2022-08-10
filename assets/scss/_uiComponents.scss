@@ -580,6 +580,51 @@ input[type="radio"].ui-radio {
 	cursor: pointer;
 	//overflow: hidden;
 
+	&__btn {
+		position: absolute;
+		right: var(--pad-horiz);
+		top: 50%;
+		transform: translateY(-50%);
+
+		color: $color-main;
+		user-select: none;
+		pointer-events: none;
+	}
+
+	&__list {
+		position: absolute;
+		top: Calc(100% - 1px);
+		left: 0;
+		right: 0;
+		max-height: var(--list-height-per);
+		z-index: 4;
+
+		background-color: #ffffff;
+		border: 1px solid #7A7E80;
+
+		border-radius: 0 0 Var(--border-r) Var(--border-r);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
+
+		transition: 0s;
+
+		opacity: 0;
+		visibility: hidden;
+		overflow: hidden;
+	}
+
+	&__item {
+		padding: var(--pad-vert) var(--pad-horiz);
+		cursor: pointer;
+
+		&:hover,
+		&.active {
+			background-color: $color-main-hover;
+		}
+
+		&:active {
+		}
+	}
+
 	&.drop-down {
 		--pad-vert: 8px;
 
@@ -612,6 +657,8 @@ input[type="radio"].ui-radio {
 	&.active & {
 		&__list {
 			@include scrollbarStyle();
+
+			@include anim();
 
 			opacity: 1;
 			visibility: visible;
@@ -646,49 +693,6 @@ input[type="radio"].ui-radio {
 
 			border-radius: Var(--border-r) Var(--border-r) 0 0;
 			box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.16);
-		}
-	}
-
-	&__btn {
-		position: absolute;
-		right: var(--pad-horiz);
-		top: 50%;
-		transform: translateY(-50%);
-
-		color: $color-main;
-		user-select: none;
-		pointer-events: none;
-	}
-
-	&__list {
-		position: absolute;
-		top: Calc(100% - 1px);
-		left: 0;
-		right: 0;
-		max-height: var(--list-height-per);
-		z-index: 4;
-
-		background-color: #ffffff;
-		border: 1px solid #7A7E80;
-
-		border-radius: 0 0 Var(--border-r) Var(--border-r);
-		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
-
-		opacity: 0;
-		visibility: hidden;
-		overflow: hidden;
-	}
-
-	&__item {
-		padding: var(--pad-vert) var(--pad-horiz);
-		cursor: pointer;
-
-		&:hover,
-		&.active {
-			background-color: $color-main-hover;
-		}
-
-		&:active {
 		}
 	}
 }

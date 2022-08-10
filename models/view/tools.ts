@@ -2,32 +2,33 @@ import {IUiSelectValue} from "@/_shared/models/tools/type";
 
 declare global {
 	interface Array<T> {
-		toUiSelectValues(model?: keyof T, show?: keyof T): IUiSelectValue[];
+		toUiSelectValues(model?: keyof T, show?: keyof T, show2?: keyof T): IUiSelectValue[];
 	}
 }
 
-Array.prototype.toUiSelectValues = function (model, show) {
+Array.prototype.toUiSelectValues = function (model, show, show2) {
 	//Если примитивное значение, его же и отдаем
 	let mapAlg = el => ({
 		model: el,
-		show: el
+		show: el,
+		show2: el,
 	});
 
 	//Объекты к строке
 	if (typeof this[0] === 'object') {
 		mapAlg = el => ({
 			model: el.toString(),
-			show: el.toString()
+			show: el.toString(),
+			show2: el.toString(),
 		})
 	}
 
 	//Если значения переданы, обрабатываем
 	if (model) {
-		if (!show) show = model;
-
 		mapAlg = el => ({
 			model: el[model],
-			show: el[show!]
+			show: show ? el[show].toString() : el[model].toString(),
+			show2: show2 ? el[show2].toString() : undefined
 		})
 	}
 
