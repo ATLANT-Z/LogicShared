@@ -1,6 +1,5 @@
 import {Jsonable} from "@/_shared/models/tools/tools";
 import {Transform} from "class-transformer";
-import {userService} from "@/_shared/services/user.service";
 import {vueTools} from "@/_shared/services/vueToolsProvider.service";
 import {reactive} from "vue";
 import {routeHelper} from "@shared/helpers/route.helper";

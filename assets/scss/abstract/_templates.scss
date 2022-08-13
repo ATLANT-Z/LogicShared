@@ -222,12 +222,22 @@
 		}
 	}
 
+	@mixin local-small-mob() {
+		@include bigMobile() {
+			--horiz-pad: 8px;
+			--vert-pad: 4px;
+			@include font(16, 16);
+		}
+	}
+
 	&.small {
 		@include font(14, 16);
 
 		* {
 			@include font(14, 16);
 		}
+
+		@include local-small-mob();
 	}
 
 	@include bigMobile() {
@@ -236,11 +246,7 @@
 	}
 
 	&.small-mob {
-		@include bigMobile() {
-			--horiz-pad: 8px;
-			--vert-pad: 4px;
-			@include font(16, 16);
-		}
+		@include local-small-mob();
 	}
 }
 
