@@ -72,7 +72,8 @@ class AuthService {
 	}
 
 	logOut(is401: boolean = false) {
-		vueTools.router.push({name: routeHelper.names['logIn']}).then(console.log);
+		if (vueTools.router)
+			vueTools.router.push({name: routeHelper.names['logIn']}).then(console.log);
 		if (this.isAuth && !is401) API.Account.Sign.out().then(console.log);
 		this.clearToken();
 	}

@@ -2,7 +2,6 @@ import {reactive} from "vue";
 import {popupHelper, PopupName} from "@shared/helpers/popup.helper";
 
 export class PopupService {
-	///TODO добавить имена для всех айдишек.
 	private popupState: Record<string, boolean> = {};
 	private popupProps: Record<string, any> = {};
 

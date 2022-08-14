@@ -11,7 +11,7 @@ import {
 } from "@shared/models/http/product/product";
 import {
 	IHasQuantity,
-	OrderCart,
+	OrderBag,
 	OrderCartType,
 	Price,
 	PriceType,
@@ -49,8 +49,8 @@ export class Product extends Jsonable<Product>() implements ProductHttpResource 
 	images: Img[]
 
 
-	@Type(() => OrderCart)
-	orderCart: OrderCart | null;
+	@Type(() => OrderBag)
+	orderBags: OrderBag[];
 
 	@Type(() => Price)
 	prices: Price[];
@@ -90,14 +90,13 @@ export class Product extends Jsonable<Product>() implements ProductHttpResource 
 				return this.images[0];
 		} else return undefined;
 	}
-
 }
 
 export class CartProduct extends Jsonable<CartProduct>() implements ProductCartHttpResource {
-	@Type(() => Product)
 	@VueRef()
+	@Type(() => Product)
 	product: Product;
-	orderType: OrderCartType;
+	orderBag: OrderBag;
 	quantity: number;
 	isActive: boolean;
 }

@@ -39,7 +39,7 @@ export interface Curator {
 
 export interface Company {
 	region?: Region;
-	name: string;
+	name?: string;
 	taxStatus: TAX_STATUS;
 	usreou?: string;
 	itn?: string;

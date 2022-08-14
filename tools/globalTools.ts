@@ -62,6 +62,7 @@ export default {
 
 		app.config.globalProperties.routeHelper = routeHelper;
 		app.config.globalProperties.popupService = popupService;
+
 		// Object.entries(globalFunctions(app)).forEach(el => {
 		// 	const [key, func] = el;
 		// 	console.log(el);

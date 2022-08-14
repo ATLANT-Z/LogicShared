@@ -26,8 +26,8 @@ export class Price {
 	money: Money;
 }
 
-export class OrderCart {
-	types: OrderCartType[];
+export class OrderBag {
+	type: OrderCartType;
 	currency: Currency;
 }
 

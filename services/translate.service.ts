@@ -128,7 +128,6 @@ class TranslateService {
 	private rememberLang(val: DictLanguage) {
 		localStorage.setItem(this.storageKey, val);
 
-		// TODO Проверить, вроде повтор проверки?
 		if (this.user && this.user.locale !== val) {
 			return API.Account.setUserLocale(val);
 		}
