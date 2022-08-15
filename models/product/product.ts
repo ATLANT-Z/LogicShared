@@ -25,7 +25,7 @@ import {reactive} from "vue";
 export class Product extends Jsonable<Product>() implements ProductHttpResource {
 	id: string;
 	code: string;
-	barcode: string;
+	barcode?: string;
 
 	@ILocaleableValue() slug: LocaleableValue;
 	@ILocaleableValue() name: LocaleableValue;
@@ -96,6 +96,7 @@ export class CartProduct extends Jsonable<CartProduct>() implements ProductCartH
 	@VueRef()
 	@Type(() => Product)
 	product: Product;
+	@Type(() => OrderBag)
 	orderBag: OrderBag;
 	quantity: number;
 	isActive: boolean;

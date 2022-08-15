@@ -8,7 +8,7 @@ import {ProductSpecification} from "@shared/models/product/specification";
 export interface ProductHttpResource {
 	id: string;
 	code: string;
-	barcode: string;
+	barcode?: string;
 
 	slug: LocaleableValue;
 	name: LocaleableValue;

@@ -26,9 +26,15 @@ export class Price {
 	money: Money;
 }
 
+export type OrderBagPlain = `${OrderCartType}${Currency}`
+
 export class OrderBag {
 	type: OrderCartType;
 	currency: Currency;
+
+	get Plain(): OrderBagPlain {
+		return `${this.type}${this.currency}` as OrderBagPlain;
+	}
 }
 
 export interface IHasQuantity {
