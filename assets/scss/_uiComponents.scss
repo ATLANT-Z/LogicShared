@@ -710,6 +710,7 @@ input[type="radio"].ui-radio {
 
 	@include font(16, 16, 700);
 
+	background-color: white;
 	border: 1px solid $color-bg-grey-lighter;
 	border-radius: 16px;
 

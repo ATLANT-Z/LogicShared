@@ -218,12 +218,14 @@
 	}
 
 	&.big {
-		@include font(20, 24);
-		--vert-pad: 16px;
-		--horiz-pad: 16px;
+		--vert-pad: 12px;
+		--horiz-pad: 24px;
+
+		border-radius: 24px;
 
 		@include bigMobile() {
-			@include font(18, 16);
+			--vert-pad: 8px;
+			--horiz-pad: 16px;
 		}
 	}
 

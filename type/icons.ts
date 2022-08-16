@@ -1,6 +1,7 @@
 export enum projectIcons {
 	'accept' = 1,
 	'add' = 1,
+	'alert-triangle' = 1,
 	'arrowDown' = 1,
 	'arrowLeft' = 1,
 	'arrowRight' = 1,
