@@ -16,10 +16,12 @@ export class ErrorService {
 	isAuthErrorExist: boolean = false;
 
 	sessionExpiredError() {
-		if (this.isAuthErrorExist) return;
-
 		this.isAuthErrorExist = true;
+		setTimeout(() => {
+			this.isAuthErrorExist = false;
+		}, this.secondsShow * 1000);
 		return this.addError('Ваша сессия истекла');
+
 	}
 
 	///TODO загнать все сообщения в переводчик.

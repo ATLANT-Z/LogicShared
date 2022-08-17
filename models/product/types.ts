@@ -1,6 +1,7 @@
 import {Currency} from "@shared/models/money/currency";
 import {Type} from "class-transformer";
 import {Money} from "@shared/models/money/money";
+import {Jsonable} from "@shared/models/tools/tools";
 
 export type RichText = string;
 
@@ -28,7 +29,7 @@ export class Price {
 
 export type OrderBagPlain = `${OrderCartType}${Currency}`
 
-export class OrderBag {
+export class OrderBag extends Jsonable<OrderBag>() {
 	type: OrderCartType;
 	currency: Currency;
 

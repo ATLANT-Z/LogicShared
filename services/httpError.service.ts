@@ -68,6 +68,7 @@ export class HttpErrorService implements IErrorHandler<typeof HTTP_ERROR_CODE> {
 	}
 
 	handle_Unauthorized(): any {
+		if (errorService.isAuthErrorExist) return '';
 		authService.logOut(true);
 		return errorService.sessionExpiredError();
 	}
