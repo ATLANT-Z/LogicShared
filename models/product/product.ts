@@ -21,7 +21,7 @@ import {
 import {isArray} from "lodash";
 import {ProductSpecification} from "@shared/models/product/specification";
 import {reactive} from "vue";
-import {ProductViewService} from "@services/product/product.service";
+import {ProductViewService} from "@services/product/product.view.service";
 
 export class Product extends Jsonable<Product>() implements ProductHttpResource {
 	id: string;
