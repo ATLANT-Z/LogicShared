@@ -47,7 +47,7 @@ export function isEmpty(val) {
 	return (val === undefined || val == null || val.length <= 0);
 }
 
-export function isExist(val) {
+export function isExist<T>(val: T): val is NonNullable<T> {
 	return !isEmpty(val)
 }
 

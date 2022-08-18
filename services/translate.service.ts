@@ -37,7 +37,7 @@ export class LocaleableValue<T = string> implements ILocaleableValue<T> {
 			: isExist(this[translateService.defaultLang]) ? this[translateService.defaultLang]
 				: isExist(this[translateService.defaultSecondLang]) ? this[translateService.defaultSecondLang] : undefined;
 
-		return word ? word : '';
+		return isExist(word) ? word : '';
 	}
 
 	toString() {

@@ -12,7 +12,7 @@ import {
 import {
 	IHasQuantity,
 	OrderBag,
-	OrderCartType,
+	OrderBagType,
 	Price,
 	PriceType,
 	ProductStatus,

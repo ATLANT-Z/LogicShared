@@ -17,7 +17,7 @@ export enum PriceType {
 	RRP = 'recommendedRetail'
 }
 
-export enum OrderCartType {
+export enum OrderBagType {
 	Order = 'order',
 	PreOrder = 'preOrder'
 }
@@ -27,11 +27,15 @@ export class Price {
 	money: Money;
 }
 
-export type OrderBagPlain = `${OrderCartType}${Currency}`
+export type OrderBagPlain = `${OrderBagType}${Currency}`
 
 export class OrderBag extends Jsonable<OrderBag>() {
-	type: OrderCartType;
+	type: OrderBagType;
 	currency: Currency;
+
+	isEqual(bag: OrderBag) {
+		return this.type === bag.type && this.currency === bag.currency;
+	}
 
 	get Plain(): OrderBagPlain {
 		return `${this.type}${this.currency}` as OrderBagPlain;
