@@ -33,10 +33,11 @@ export class LocaleableValue<T = string> implements ILocaleableValue<T> {
 	@VueRef(true) uk?: T | undefined | null;
 
 	get Value() {
-		return isExist(this[translateService.CurrLang]) ? this[translateService.CurrLang]
+		const word: T | undefined | null = isExist(this[translateService.CurrLang]) ? this[translateService.CurrLang]
 			: isExist(this[translateService.defaultLang]) ? this[translateService.defaultLang]
-				: isExist(this[translateService.defaultSecondLang]) ? this[translateService.defaultSecondLang]
-					: '';
+				: isExist(this[translateService.defaultSecondLang]) ? this[translateService.defaultSecondLang] : undefined;
+
+		return word ? word : '';
 	}
 
 	toString() {

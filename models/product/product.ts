@@ -21,6 +21,7 @@ import {
 import {isArray} from "lodash";
 import {ProductSpecification} from "@shared/models/product/specification";
 import {reactive} from "vue";
+import {ProductViewService} from "@services/product/product.service";
 
 export class Product extends Jsonable<Product>() implements ProductHttpResource {
 	id: string;
@@ -70,7 +71,7 @@ export class Product extends Jsonable<Product>() implements ProductHttpResource 
 
 	get VueLink() {
 		return {
-			name: routeHelper.names.product,
+			name: routeHelper.names['product'],
 			params: {
 				[routeHelper.params.slug]: this.slug
 			}
@@ -100,6 +101,10 @@ export class CartProduct extends Jsonable<CartProduct>() implements ProductCartH
 	orderBag: OrderBag;
 	quantity: number;
 	isActive: boolean;
+
+	get TotalSum() {
+		return ProductViewService.getTotalSum(this);
+	}
 }
 
 export class CartableProduct extends Jsonable<CartProduct>() implements IProductQuantity {
