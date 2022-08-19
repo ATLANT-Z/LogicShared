@@ -195,7 +195,10 @@
 	@include setAbs($pad, $pad, $pad, $pad);
 }
 
-@mixin fixedHW($height, $width) {
+@mixin fixedHW($height, $width: null) {
+	@if ($width == null) {
+		$width: $height;
+	}
 	min-height: $height;
 	min-width: $width;
 	max-height: $height;
