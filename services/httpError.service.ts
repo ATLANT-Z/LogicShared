@@ -29,6 +29,7 @@ export enum HTTP_ERROR_CODE {
 export enum FORBIDDEN_REASON {
 	ACCOUNT_SIGN_IN_WITH_INVALID_CREDENTIALS = 1,
 	ACCOUNT_SIGN_IN_WHEN_DISABLED = 2,
+	ACCOUNT_SIGN_IN_WHEN_CUSTOMER_AGREEMENT_BAN = 24,
 	ACCOUNT_SIGN_IN_WHEN_CUSTOMER_OVERDUE_BAN = 3,
 	ACCOUNT_PASSWORD_RESET_COMPLETE_WITH_INVALID_TOKEN = 4,
 	ACCOUNT_PASSWORD_UPDATE_WITH_INVALID_CURRENT_PASSWORD = 5,
@@ -49,6 +50,7 @@ export enum FORBIDDEN_REASON {
 	ACCOUNT_RECIPIENT_DELIVERY_ADD_WITH_INVALID_METHOD_PARAMETERS = 20,
 	ACCOUNT_RECIPIENT_DELIVERY_INVALID_ID = 21,
 	ORDER_CHECKOUT_WITH_OUT_OF_REACH_ORDER_PRODUCT_QUANTITY = 22,
+	ORDER_CHECKOUT_WITHOUT_ACTIVE_PRODUCTS = 23,
 }
 
 export class HttpErrorService implements IErrorHandler<typeof HTTP_ERROR_CODE> {
@@ -113,11 +115,15 @@ class Http403service implements IErrorHandler<typeof FORBIDDEN_REASON> {
 	}
 
 	handle_ACCOUNT_SIGN_IN_WHEN_DISABLED(): any {
-		return errorService.addError('Менеджер пока не утвердил вашу заявку на регистрацию - пожалуйста, ожидайте');
+		return errorService.addError('Менеджер пока не утвердил вашу заявку на регистрацию - пожалуйста, ожидайте или свяжитесь с менеджером.');
+	}
+
+	handle_ACCOUNT_SIGN_IN_WHEN_CUSTOMER_AGREEMENT_BAN(args: any): any {
+		return errorService.addError('В следствие нарушения договора, ваш аккаунт был забанен. Свяжитесь с менеджером.');
 	}
 
 	handle_ACCOUNT_SIGN_IN_WHEN_CUSTOMER_OVERDUE_BAN() {
-		return errorService.addError('Вследствие бездействия, ваш аккаунт ограничен');
+		return errorService.addError('Вследствие бездействия, ваш аккаунт был отключён. Свяжитесь с менеджером.');
 	}
 
 	handle_ACCOUNT_MANAGER_ADD_WITH_EXISTS_EMAIL(args: any) {
@@ -182,6 +188,10 @@ class Http403service implements IErrorHandler<typeof FORBIDDEN_REASON> {
 	}
 
 	handle_ORDER_CHECKOUT_WITH_OUT_OF_REACH_ORDER_PRODUCT_QUANTITY(args: any): any {
+	}
+
+
+	handle_ORDER_CHECKOUT_WITHOUT_ACTIVE_PRODUCTS(args: any): any {
 	}
 }
 
