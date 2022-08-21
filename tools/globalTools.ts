@@ -26,6 +26,7 @@ function globalFunctions(app: App) {
 			return {
 				top: box.top + pageYOffset,
 				left: box.left + pageXOffset,
+				right: box.right + pageXOffset,
 			};
 		},
 		getIco(name: string) {
