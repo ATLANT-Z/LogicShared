@@ -65,16 +65,17 @@ export default abstract class ServerApi extends AbstractApi {
 	}
 
 	private handleResponse(response: AxiosResponse): ApiResponse {
-		console.log('response', response.config.url, this.endTime(response.config.url), response);
+		// console.log('response', response.config.url, this.endTime(response.config.url), response);
+		console.log('response', response.config.url, response);
 		return {data: response.data['data'], response};
 	}
 
 	private startTime(url) {
-		const fullUrl = this.getFullUrl(url);
-		if (this.timeMap[fullUrl])
-			return console.warn('Временная метка ' + this.getFullUrl(url) + ' уже существует');
-
-		this.timeMap[fullUrl] = window.performance.now();
+		// const fullUrl = this.getFullUrl(url);
+		// if (this.timeMap[fullUrl])
+		// 	return console.warn('Временная метка ' + this.getFullUrl(url) + ' уже существует');
+		//
+		// this.timeMap[fullUrl] = window.performance.now();
 	}
 
 	private endTime(fullUrl) {
@@ -85,7 +86,6 @@ export default abstract class ServerApi extends AbstractApi {
 		delete this.timeMap[fullUrl];
 		return res;
 	}
-
 
 	private handleConfig(config: AxiosRequestConfig): AxiosRequestConfig {
 		const _config: AxiosRequestConfig = {

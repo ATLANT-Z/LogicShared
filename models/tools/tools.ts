@@ -60,8 +60,8 @@ export function Jsonable<T>() {
 			return plainToInstance(this, JSON.parse(str)) as T | T[];
 		}
 
-		static fromJson<Plain>(dataObj: Plain, options?: ClassTransformOptions): Plain extends Array<any> ? T[] : T {
-			return plainToInstance(this as any, dataObj, options);
+		static fromJson<Plain extends Partial<T> | Partial<T[] | any>>(dataObj: Plain, options?: ClassTransformOptions): Plain extends Array<any> ? T[] : T {
+			return reactive(plainToInstance(this as any, dataObj, options)) as any;
 		}
 	}
 

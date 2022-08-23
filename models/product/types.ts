@@ -1,6 +1,7 @@
 import {Currency} from "@shared/models/money/currency";
 import {Type} from "class-transformer";
 import {Money} from "@shared/models/money/money";
+import {Jsonable} from "@shared/models/tools/tools";
 
 export type RichText = string;
 
@@ -16,7 +17,7 @@ export enum PriceType {
 	RRP = 'recommendedRetail'
 }
 
-export enum OrderCartType {
+export enum OrderBagType {
 	Order = 'order',
 	PreOrder = 'preOrder'
 }
@@ -26,9 +27,19 @@ export class Price {
 	money: Money;
 }
 
-export class OrderCart {
-	types: OrderCartType[];
+export type OrderBagPlain = `${OrderBagType}${Currency}`
+
+export class OrderBag extends Jsonable<OrderBag>() {
+	type: OrderBagType;
 	currency: Currency;
+
+	isEqual(bag: OrderBag) {
+		return this.type === bag.type && this.currency === bag.currency;
+	}
+
+	get Plain(): OrderBagPlain {
+		return `${this.type}${this.currency}` as OrderBagPlain;
+	}
 }
 
 export interface IHasQuantity {

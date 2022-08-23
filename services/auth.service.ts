@@ -1,6 +1,5 @@
 import {Jsonable} from "@/_shared/models/tools/tools";
 import {Transform} from "class-transformer";
-import {userService} from "@/_shared/services/user.service";
 import {vueTools} from "@/_shared/services/vueToolsProvider.service";
 import {reactive} from "vue";
 import {routeHelper} from "@shared/helpers/route.helper";
@@ -73,8 +72,9 @@ class AuthService {
 	}
 
 	logOut(is401: boolean = false) {
-		vueTools.router.push({name: routeHelper.names['logIn']}).then(console.log);
-		if (this.isAuth && !is401) API.Account.Sign.out().then(console.log);
+		if (vueTools.router)
+			vueTools.router.push({name: routeHelper.names['logIn']}).catch(console.log);
+		if (this.isAuth && !is401) API.Account.Sign.out().catch(console.log);
 		this.clearToken();
 	}
 

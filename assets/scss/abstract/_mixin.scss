@@ -195,7 +195,10 @@
 	@include setAbs($pad, $pad, $pad, $pad);
 }
 
-@mixin fixedHW($height, $width) {
+@mixin fixedHW($height, $width: null) {
+	@if ($width == null) {
+		$width: $height;
+	}
 	min-height: $height;
 	min-width: $width;
 	max-height: $height;
@@ -426,16 +429,16 @@
 	@extend %ui-counter;
 }
 
-@mixin ui-shadow-block() {
+@mixin ui-shadow-block($border-radius: 16px) {
 	background: white;
 	box-shadow: 0 0 2px rgba(20, 20, 20, 0.1), 0 0 8px rgba(20, 20, 20, 0.08);
-	border-radius: 16px;
+	border-radius: $border-radius;
 }
 
-@mixin ui-shadow-block-dark() {
+@mixin ui-shadow-block-dark($border-radius: 16px) {
 	background: white;
 	box-shadow: 0 0 2px rgba(20, 20, 20, 0.12), 0 0 8px rgba(20, 20, 20, 0.12);
-	border-radius: 16px;
+	border-radius: $border-radius;
 }
 
 @mixin ui-pseudo-bg() {
@@ -465,7 +468,7 @@
 }
 
 @mixin ui-inactive() {
-	opacity: 0.4;
+	opacity: 0.45;
 	filter: grayscale(1);
 }
 

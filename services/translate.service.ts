@@ -33,10 +33,11 @@ export class LocaleableValue<T = string> implements ILocaleableValue<T> {
 	@VueRef(true) uk?: T | undefined | null;
 
 	get Value() {
-		return isExist(this[translateService.CurrLang]) ? this[translateService.CurrLang]
+		const word: T | undefined | null = isExist(this[translateService.CurrLang]) ? this[translateService.CurrLang]
 			: isExist(this[translateService.defaultLang]) ? this[translateService.defaultLang]
-				: isExist(this[translateService.defaultSecondLang]) ? this[translateService.defaultSecondLang]
-					: '';
+				: isExist(this[translateService.defaultSecondLang]) ? this[translateService.defaultSecondLang] : undefined;
+
+		return isExist(word) ? word : '';
 	}
 
 	toString() {
@@ -128,7 +129,6 @@ class TranslateService {
 	private rememberLang(val: DictLanguage) {
 		localStorage.setItem(this.storageKey, val);
 
-		// TODO Проверить, вроде повтор проверки?
 		if (this.user && this.user.locale !== val) {
 			return API.Account.setUserLocale(val);
 		}

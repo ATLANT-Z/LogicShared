@@ -20,7 +20,6 @@ export enum THUMBNAIL_TYPE {
 	TILE = 'tile',
 }
 
-
 export class Attachment {
 	group: string;
 	@Type(() => MyFile) files: MyFile[];

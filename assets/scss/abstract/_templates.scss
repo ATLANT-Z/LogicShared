@@ -151,6 +151,11 @@
 	z-index: 2;
 	@include anim();
 
+	&.disabled {
+		pointer-events: none;
+		@include ui-inactive();
+	}
+
 	&.wide {
 		min-width: 350px;
 		max-width: 350px;
@@ -213,12 +218,22 @@
 	}
 
 	&.big {
-		@include font(20, 24);
-		--vert-pad: 16px;
-		--horiz-pad: 16px;
+		--vert-pad: 12px;
+		--horiz-pad: 24px;
+
+		border-radius: 24px;
 
 		@include bigMobile() {
-			@include font(18, 16);
+			--vert-pad: 8px;
+			--horiz-pad: 16px;
+		}
+	}
+
+	@mixin local-small-mob() {
+		@include bigMobile() {
+			--horiz-pad: 8px;
+			--vert-pad: 4px;
+			@include font(16, 16);
 		}
 	}
 
@@ -228,6 +243,8 @@
 		* {
 			@include font(14, 16);
 		}
+
+		@include local-small-mob();
 	}
 
 	@include bigMobile() {
@@ -236,11 +253,7 @@
 	}
 
 	&.small-mob {
-		@include bigMobile() {
-			--horiz-pad: 8px;
-			--vert-pad: 4px;
-			@include font(16, 16);
-		}
+		@include local-small-mob();
 	}
 }
 

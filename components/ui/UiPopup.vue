@@ -1,8 +1,8 @@
 <template>
+  <!--       @click.self='close'-->
   <div class="popup-block"
        :class="{active: isActive}"
        :id="id + '-pop'"
-       @click.self='close'
        ref="popup"
   >
     <slot :parent="this">This should have been content</slot>
@@ -27,10 +27,13 @@ export default class UiPopup extends Vue {
   @Watch('isActive')
   activeUpdate(currVal: boolean) {
     if (currVal) this.$emit('onShow');
-    else this.$emit('onClose');
+    else {
+      this.$emit('onClose');
+    }
   }
 
-  close() {
+  close(value: boolean = false) {
+    popupService.getCallbacks(this.id).resolve(value);
     this.isActive = false;
   }
 

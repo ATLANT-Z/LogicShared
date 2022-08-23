@@ -11,7 +11,7 @@ Array.prototype.toUiSelectValues = function (model, show, show2) {
 	let mapAlg = el => ({
 		model: el,
 		show: el,
-		show2: el,
+		show2: undefined,
 	});
 
 	//Объекты к строке
@@ -19,7 +19,7 @@ Array.prototype.toUiSelectValues = function (model, show, show2) {
 		mapAlg = el => ({
 			model: el.toString(),
 			show: el.toString(),
-			show2: el.toString(),
+			show2: undefined,
 		})
 	}
 
@@ -47,7 +47,7 @@ export function isEmpty(val) {
 	return (val === undefined || val == null || val.length <= 0);
 }
 
-export function isExist(val) {
+export function isExist<T>(val: T): val is NonNullable<T> {
 	return !isEmpty(val)
 }
 

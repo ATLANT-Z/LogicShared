@@ -2,13 +2,13 @@ import {LocaleableValue} from "@shared/services/translate.service";
 import {Manufacturer} from "@shared/models/product/filter/criteria";
 import {Category} from "@shared/models/category";
 import {Attachment, Img} from "@shared/models/product/attachment";
-import {IHasQuantity, OrderCart, Price, ProductStatus, RichText} from "@shared/models/product/types";
+import {IHasQuantity, OrderBag, Price, ProductStatus, RichText} from "@shared/models/product/types";
 import {ProductSpecification} from "@shared/models/product/specification";
 
 export interface ProductHttpResource {
 	id: string;
 	code: string;
-	barcode: string;
+	barcode?: string;
 
 	slug: LocaleableValue;
 	name: LocaleableValue;
@@ -24,7 +24,7 @@ export interface ProductHttpResource {
 	attachments: Attachment[];
 	images: Img[];
 
-	orderCart: OrderCart | null;
+	orderBags: OrderBag[];
 
 	prices: Price[];
 }
@@ -36,6 +36,7 @@ export type ProductSeenHttpResource = {
 
 export interface ProductCartHttpResource extends IHasQuantity {
 	product: ProductHttpResource;
+	orderBag: OrderBag;
 	isActive: boolean;
 }
 

@@ -11,8 +11,8 @@ import {
 } from "@shared/models/http/product/product";
 import {
 	IHasQuantity,
-	OrderCart,
-	OrderCartType,
+	OrderBag,
+	OrderBagType,
 	Price,
 	PriceType,
 	ProductStatus,
@@ -20,11 +20,13 @@ import {
 } from "@shared/models/product/types";
 import {isArray} from "lodash";
 import {ProductSpecification} from "@shared/models/product/specification";
+import {reactive} from "vue";
+import {ProductViewService} from "@services/product/product.view.service";
 
 export class Product extends Jsonable<Product>() implements ProductHttpResource {
 	id: string;
 	code: string;
-	barcode: string;
+	barcode?: string;
 
 	@ILocaleableValue() slug: LocaleableValue;
 	@ILocaleableValue() name: LocaleableValue;
@@ -48,8 +50,8 @@ export class Product extends Jsonable<Product>() implements ProductHttpResource 
 	images: Img[]
 
 
-	@Type(() => OrderCart)
-	orderCart: OrderCart | null;
+	@Type(() => OrderBag)
+	orderBags: OrderBag[];
 
 	@Type(() => Price)
 	prices: Price[];
@@ -57,10 +59,6 @@ export class Product extends Jsonable<Product>() implements ProductHttpResource 
 	compared: boolean;
 	wished: boolean;
 	isActive: boolean;
-
-	@Expose()
-	quantity: number;
-
 
 	/// Добавляем в корзину только если есть цена.
 	get Price() {
@@ -73,7 +71,7 @@ export class Product extends Jsonable<Product>() implements ProductHttpResource 
 
 	get VueLink() {
 		return {
-			name: routeHelper.names.product,
+			name: routeHelper.names['product'],
 			params: {
 				[routeHelper.params.slug]: this.slug
 			}
@@ -93,16 +91,25 @@ export class Product extends Jsonable<Product>() implements ProductHttpResource 
 				return this.images[0];
 		} else return undefined;
 	}
-
 }
 
 export class CartProduct extends Jsonable<CartProduct>() implements ProductCartHttpResource {
-	@Type(() => Product)
 	@VueRef()
+	@Type(() => Product)
 	product: Product;
-	orderType: OrderCartType;
+	@Type(() => OrderBag)
+	orderBag: OrderBag;
 	quantity: number;
 	isActive: boolean;
+
+	get TotalSum() {
+		return ProductViewService.getTotalSum(this);
+	}
+}
+
+export class CartableProduct extends Jsonable<CartProduct>() implements IProductQuantity {
+	product: Product;
+	quantity: number;
 }
 
 export interface IProductQuantity extends IHasQuantity {
@@ -112,7 +119,6 @@ export interface IProductQuantity extends IHasQuantity {
 type PlainProduct = ProductHttpResource | ProductHttpResource[];
 
 export class ProductFactory {
-
 	private static initOne(raw: ProductHttpResource) {
 		return Product.fromJson(raw);
 	}
@@ -139,9 +145,38 @@ export class ProductFactory {
 			return ProductFactory.initOne(productResource);
 		}
 	}
-
 }
 
+type PlainCartableProduct = IProductQuantity | IProductQuantity[];
+
+export class CartableProductFactory {
+	private static initOne(raw: IProductQuantity): CartableProduct {
+		return CartableProduct.fromJson(raw);
+	}
+
+	private static initMany(rawList: IProductQuantity[]) {
+		return rawList.map(el => CartableProductFactory.initOne(el));
+	}
+
+	private static isArray(p: PlainCartableProduct): p is IProductQuantity[] {
+		return isArray(p);
+	}
+
+	private static isObj(p: PlainCartableProduct): p is IProductQuantity {
+		return !isArray(p);
+	}
+
+	static build<Plain extends PlainCartableProduct>(productResource: Plain): Plain extends Array<any> ? CartableProduct[] : CartableProduct
+	static build(productResource): any {
+		if (CartableProductFactory.isArray(productResource)) {
+			return CartableProductFactory.initMany(productResource);
+		}
+
+		if (CartableProductFactory.isObj(productResource)) {
+			return CartableProductFactory.initOne(productResource);
+		}
+	}
+}
 
 type PlainSeenProduct = ProductSeenHttpResource | ProductSeenHttpResource[];
 
@@ -176,7 +211,6 @@ export class SeenProductFactory {
 	}
 }
 
-
 type PlainCartProduct = ProductCartHttpResource | ProductCartHttpResource[];
 
 export class CartProductFactory {
@@ -207,4 +241,5 @@ export class CartProductFactory {
 		}
 	}
 }
+
 
