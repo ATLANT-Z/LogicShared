@@ -793,13 +793,15 @@ input[type="radio"].ui-radio {
 }
 
 .ui-info {
-	$info-width: 180px;
-	$corner-size: 16px;
+	$info-width: 196px;
+	$corner-size: 20px;
+	$ico-size: 16px;
+
 	--info-width: #{$info-width};
 	--corner-size: #{$corner-size};
 
 	position: relative;
-	@include fixedHW(16px, 16px);
+	@include fixedHW(20px, 20px);
 	display: flex;
 
 	//ico-svg fill color
@@ -809,18 +811,55 @@ input[type="radio"].ui-radio {
 
 	z-index: 10;
 
+	@keyframes pulse {
+		from {
+			transform: scale(1);
+		}
+
+		10% {
+			transform: scale(0.9);
+		}
+
+		30% {
+			transform: scale(1.2);
+		}
+
+		50% {
+			transform: scale(0.9);
+		}
+
+		70% {
+			transform: scale(1.2);
+		}
+
+		90% {
+			transform: scale(0.9);
+		}
+
+		to {
+			transform: scale(1);
+		}
+	}
+
+	&.alert {
+		color: $color-red;
+
+		animation-name: pulse;
+		animation-duration: 2s;
+		animation-iteration-count: infinite;
+	}
+
 	// Не находится в родителе, из-за бага разделил на два компонента
 	&__tip {
 		--pos-y: 0px;
 		--pos-x: 0px;
-		--transform-default: translateY(-50%);
 
 		--info-width: #{$info-width};
 		--corner-size: #{$corner-size};
+		--ico-size: #{$ico-size};
 		--width: Calc(var(--info-width) + var(--corner-size));
 
 		position: fixed;
-		top: var(--pos-y);
 
 		min-width: var(--info-width);
 		max-width: var(--info-width);
@@ -834,9 +873,11 @@ input[type="radio"].ui-radio {
 		border-radius: 4px;
 		z-index: 99;
 
-		transform: var(--transform-default);
+		//transform: var(--transform-Y);
 
-		transition: 0.1s, opacity 0.3s 0.1s, visibility 0.2s 0.1s, margin-top 0.2s 0.1s;
+
+
+		transition: 0.1s, opacity 0.2s 0.1s, visibility 0.1s 0.1s, margin-top 0.1s 0.1s;
 
 		margin-top: -8px;
 		opacity: 0;
@@ -845,35 +886,48 @@ input[type="radio"].ui-radio {
 		&:before {
 			content: '';
 			position: absolute;
-			top: 50%;
 
 			border-width: Calc(var(--corner-size) / 2);
 			border-style: solid;
 			border-color: transparent;
 			z-index: -1;
-
-			transform: translateY(-50%);
 		}
 
-		&.right {
-			left: var(--pos-x);
-			transform: var(--transform-default) translateX(Calc(var(--width) * -1));
+		&.top {
+			top: var(--pos-y);
+			--transform-Y: translateY(Calc(-100% + var(--ico-size)));
 
-
-			&::before {
-				left: 100%;
-				border-left-color: $color-bg-grey-lighter;
+			&:before {
+				bottom: 0;
 			}
 		}
 
 		&.left {
 			left: var(--pos-x);
-			transform: var(--transform-default) translateX(var(--corner-size));
-
+			transform: var(--transform-Y) translateX(var(--corner-size));
 
 			&:before {
 				right: 100%;
 				border-right-color: $color-bg-grey-lighter;
+			}
+		}
+
+		&.bottom {
+			top: var(--pos-y);
+			--transform-Y: translateY(Calc(var(--ico-size) * -1));
+
+			&:before {
+				top: 0;
+			}
+		}
+
+		&.right {
+			left: var(--pos-x);
+			transform: var(--transform-Y) translateX(Calc(var(--width) * -1));
+
+			&::before {
+				left: 100%;
+				border-left-color: $color-bg-grey-lighter;
 			}
 		}
 
