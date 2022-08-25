@@ -92,7 +92,7 @@ export function PlainIgnore() {
 export function PlainLang() {
 	return (target: MyObject, propertyKey: string | symbol, ...args) => {
 		Expose()(target, propertyKey);
-		Transform(() => translateService.CurrLang, {toPlainOnly: true})(target, propertyKey);
+		Transform(() => translateService.getCurrLang(), {toPlainOnly: true})(target, propertyKey);
 	}
 }
 

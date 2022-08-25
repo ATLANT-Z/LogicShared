@@ -6,10 +6,11 @@ import {Region} from "@shared/models/region";
 import {PersonNames} from "@shared/models/user/types";
 import {Type} from "class-transformer";
 
-enum BAN_REASON {
+export enum BAN_REASON {
 	debt = 'debt',
 	price = 'price',
-	agreement = 'agreement'
+	agreement = 'agreement',
+	overdue = 'overdue'
 }
 
 
@@ -42,6 +43,10 @@ export class User extends Jsonable<User>() {
 		return this.IsManager ? this.name.FullName : this.company.name;
 	}
 
+	get Bans() {
+		return this.customer.bans;
+	}
+
 	// get DefaultBalance() {
 	// 	return this.customer.balances.find(el => el.money.currency === 'USD')?.money || this.customer.balances[0].money;
 	// }
@@ -49,16 +54,22 @@ export class User extends Jsonable<User>() {
 
 export class Customer {
 	externalId: string;
+
+	@Type(() => Curator)
 	curator: Curator;
 	bans: BAN_REASON[];
 	balances: Balance[];
 }
 
-export interface Curator {
+export class Curator {
 	name: string;
 	photoUrl?: string;
 	phones: string[];
 	emails: string[];
+
+	// get IsPhoto() {
+	// 	return this.photoUrl?.includes('.')
+	// }
 }
 
 export class Company {
