@@ -16,7 +16,8 @@ export enum BAN_REASON {
 
 export enum UserRole {
 	ROLE_COUNTERPARTY = 'ROLE_COUNTERPARTY',
-	ROLE_MANAGER = 'ROLE_MANAGER'
+	ROLE_MANAGER = 'ROLE_MANAGER',
+	ROLE_AUDITOR = 'ROLE_AUDITOR',
 }
 
 export class User extends Jsonable<User>() {
@@ -36,7 +37,11 @@ export class User extends Jsonable<User>() {
 	roles: UserRole[];
 
 	get IsManager() {
-		return this.roles.some(el => el === UserRole.ROLE_MANAGER)
+		return this.roles.some(el => el === UserRole.ROLE_MANAGER);
+	}
+
+	get IsAuditor() {
+		return this.roles.some(el => el === UserRole.ROLE_AUDITOR);
 	}
 
 	get DisplayName() {
@@ -56,14 +61,14 @@ export class Customer {
 	externalId: string;
 
 	@Type(() => Curator)
-	curator: Curator;
+	curator: Curator | null;
 	bans: BAN_REASON[];
 	balances: Balance[];
 }
 
 export class Curator {
 	name: string;
-	photoUrl?: string;
+	photoUrl: string | null;
 	phones: string[];
 	emails: string[];
 

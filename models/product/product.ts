@@ -2,25 +2,17 @@ import {ILocaleableValue, Jsonable, VueRef} from "@/_shared/models/tools/tools";
 import {LocaleableValue} from "@/_shared/services/translate.service";
 import {ProductCategory} from "@/_shared/models/category";
 import {Attachment, IHasUrl, Img} from "@/_shared/models/product/attachment";
-import {Expose, Type} from "class-transformer";
+import {Type} from "class-transformer";
 import {Manufacturer} from "@shared/models/product/filter/criteria";
 import {routeHelper} from "@shared/helpers/route.helper";
 import {
+	ProductCartHttpResource,
+	ProductHttpResource,
 	ProductSeenHttpResource,
-	ProductHttpResource, ProductCartHttpResource,
 } from "@shared/models/http/product/product";
-import {
-	IHasQuantity,
-	OrderBag,
-	OrderBagType,
-	Price,
-	PriceType,
-	ProductStatus,
-	RichText
-} from "@shared/models/product/types";
+import {IHasQuantity, OrderBag, Price, PriceType, ProductStatus, RichText} from "@shared/models/product/types";
 import {isArray} from "lodash";
 import {ProductSpecification} from "@shared/models/product/specification";
-import {reactive} from "vue";
 import {ProductViewService} from "@services/product/product.view.service";
 
 export class Product extends Jsonable<Product>() implements ProductHttpResource {
@@ -67,6 +59,14 @@ export class Product extends Jsonable<Product>() implements ProductHttpResource 
 
 	get RRP() {
 		return this.prices.find(el => el.type === PriceType.RRP)?.money;
+	}
+
+	get Prices() {
+		return this.prices
+			.filter(el => el.type !== PriceType.Personal && el.type !== PriceType.RRP)
+			.sort((a, b) => {
+				return a.money.amount - b.money.amount;
+			});
 	}
 
 	get VueLink() {
