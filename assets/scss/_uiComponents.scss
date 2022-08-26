@@ -191,6 +191,12 @@
 	flex-shrink: 20;
 	@include font(12, 12);
 
+	&.title {
+		height: auto;
+		@include font(18, 20, 700);
+		padding: 6px 0;
+	}
+
 	&.required {
 		&::after {
 			content: "*";
@@ -198,6 +204,20 @@
 			margin-left: 4px;
 		}
 	}
+}
+
+.ui-error-row {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+
+	padding: 16px;
+
+	color: $color-red-dark;
+	@include font(14, 16, 500);
+
+	background-color: $color-red-lightest;
+	border-radius: 8px;
 }
 
 .ui-error {
@@ -795,7 +815,7 @@ input[type="radio"].ui-radio {
 .ui-info {
 	$info-width: 196px;
 	$corner-size: 20px;
-	$ico-size: 16px;
+	$ico-size: 20px;
 
 	--info-width: #{$info-width};
 	--corner-size: #{$corner-size};
@@ -858,6 +878,7 @@ input[type="radio"].ui-radio {
 		--corner-size: #{$corner-size};
 		--ico-size: #{$ico-size};
 		--width: Calc(var(--info-width) + var(--corner-size));
+		--border-radius: 4px;
 
 		position: fixed;
 
@@ -865,16 +886,14 @@ input[type="radio"].ui-radio {
 		max-width: var(--info-width);
 		height: fit-content;
 
-		padding: 4px 8px;
+		padding: 3px 8px;
 		color: $color-text;
 		@include font(12, 14);
 
 		background-color: $color-bg-grey-lighter;
-		border-radius: 4px;
 		z-index: 99;
 
 		//transform: var(--transform-Y);
-
 
 
 		transition: 0.1s, opacity 0.2s 0.1s, visibility 0.1s 0.1s, margin-top 0.1s 0.1s;
@@ -905,6 +924,9 @@ input[type="radio"].ui-radio {
 		&.left {
 			left: var(--pos-x);
 			transform: var(--transform-Y) translateX(var(--corner-size));
+			border-top-right-radius: var(--border-radius);
+			border-bottom-right-radius: var(--border-radius);
+
 
 			&:before {
 				right: 100%;
@@ -924,6 +946,8 @@ input[type="radio"].ui-radio {
 		&.right {
 			left: var(--pos-x);
 			transform: var(--transform-Y) translateX(Calc(var(--width) * -1));
+			border-top-left-radius: var(--border-radius);
+			border-bottom-left-radius: var(--border-radius);
 
 			&::before {
 				left: 100%;
