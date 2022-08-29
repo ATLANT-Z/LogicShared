@@ -88,7 +88,7 @@ export class HttpErrorService implements IErrorHandler<typeof HTTP_ERROR_CODE> {
 	}
 
 	handle_ImTeapot(): any {
-		return errorService.addError('CORS не включены');
+		return errorService.addError('Не смог получить ответ от сервера, CORS');
 	}
 
 	handle_Forbidden(reason: any, subHandler?: Http403service): any {
@@ -138,7 +138,6 @@ class Http403service implements IErrorHandler<typeof FORBIDDEN_REASON> {
 	}
 
 	handle_ACCOUNT_REGION_CURRENT_UNKNOWN(args: any) {
-		console.warn('Пользователь находится за пределами Украины, получить область невозможно')
 	}
 
 	handle_ACCOUNT_TOKEN_REMOVE_WITH_INVALID_ID(args: any) {

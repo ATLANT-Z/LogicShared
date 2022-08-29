@@ -50,6 +50,11 @@
 	}
 }
 
+@mixin without-animation() {
+	@media (prefers-reduced-motion: reduce) {
+		@content;
+	}
+}
 
 ///Font
 ///Font

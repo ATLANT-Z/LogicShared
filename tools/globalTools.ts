@@ -29,20 +29,20 @@ function globalFunctions(app: App) {
 				right: box.right + pageXOffset,
 			};
 		},
-		getIco(name: string) {
-			// let src = require(`@/assets/icons/${name}`);
-			// if (src?.default) src = src.default;
-			return import(`@/assets/icons/${name}`);
-		},
-		getBgIco(name: string) {
-			return "url(" + app.config.globalProperties.$getIco(name) + ")";
-		},
+		// getIco(name: string) {
+		// 	// let src = require(`@/assets/icons/${name}`);
+		// 	// if (src?.default) src = src.default;
+		// 	return import(`@/assets/icons/${name}`);
+		// },
+		// getBgIco(name: string) {
+		// 	return "url(" + app.config.globalProperties.$getIco(name) + ")";
+		// },
 		toggleActive(el: HTMLElement) {
 			el.classList.toggle('active');
 		},
-		showId(id: string) {
-			// document.getElementById(id)!.classList.add("show");
-		}
+		// showId(id: string) {
+		// 	// document.getElementById(id)!.classList.add("show");
+		// }
 	}
 }
 

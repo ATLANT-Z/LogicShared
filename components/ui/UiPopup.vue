@@ -33,7 +33,8 @@ export default class UiPopup extends Vue {
   }
 
   close(value: boolean = false) {
-    popupService.getCallbacks(this.id).resolve(value);
+    const callbacks = popupService.getCallbacks(this.id);
+    callbacks && callbacks.resolve(value);
     this.isActive = false;
   }
 

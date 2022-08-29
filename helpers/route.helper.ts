@@ -5,7 +5,7 @@ import {ROUTE_PARAMS} from "@/router/enum/params.enum";
 import {EnumHelper} from "@shared/helpers/enum.helper";
 
 export type RouteName = keyof typeof ROUTE_NAMES;
-type RouteNames = Record<RouteName, string>
+type RouteNames = Record<RouteName, RouteName>;
 
 type RouteQParam = keyof typeof ROUTE_QUERY_PARAMS;
 export type RouteQParams = Record<RouteQParam, string>

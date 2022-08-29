@@ -31,8 +31,8 @@ export class PopupService {
 		return this.popupProps[id];
 	}
 
-	getCallbacks(id: PopupName) {
-		return this.popupPromises[id];
+	getCallbacks(id: PopupName): PromiseCallbacks | null {
+		return this.popupPromises[id] || null;
 	}
 
 	show(id: PopupName, props?: any): Promise<any> {
