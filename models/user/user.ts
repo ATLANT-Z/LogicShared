@@ -57,12 +57,18 @@ export class User extends Jsonable<User>() {
 	// }
 }
 
+export class UserBan {
+	reason: BAN_REASON
+}
+
 export class Customer {
 	externalId: string;
 
 	@Type(() => Curator)
 	curator: Curator | null;
-	bans: BAN_REASON[];
+
+	@Type(() => UserBan)
+	bans: UserBan[];
 	balances: Balance[];
 }
 

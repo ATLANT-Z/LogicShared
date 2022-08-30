@@ -156,6 +156,10 @@
 		@include ui-inactive();
 	}
 
+	&.low-disabled {
+		@include ui-inactive();
+	}
+
 	&.wide {
 		min-width: 350px;
 		max-width: 350px;
