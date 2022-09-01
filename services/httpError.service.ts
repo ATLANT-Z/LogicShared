@@ -99,15 +99,16 @@ export class HttpErrorService implements IErrorHandler<typeof HTTP_ERROR_CODE> {
 	}
 }
 
-///forbidden service
 class Http403service implements IErrorHandler<typeof FORBIDDEN_REASON> {
 	handle(errorCode: FORBIDDEN_REASON) {
 		const handlerName = handlerPrefix + FORBIDDEN_REASON[errorCode];
 
 		if (this[handlerName])
 			return this[handlerName]()
-		else
+		else {
 			throw 'Не смог обработать ошибку, код:' + errorCode;
+		}
+
 	}
 
 	handle_ACCOUNT_SIGN_IN_WITH_INVALID_CREDENTIALS(): any {
@@ -184,7 +185,6 @@ class Http403service implements IErrorHandler<typeof FORBIDDEN_REASON> {
 
 	handle_ORDER_CHECKOUT_WITH_OUT_OF_REACH_ORDER_PRODUCT_QUANTITY(args: any): any {
 	}
-
 
 	handle_ORDER_CHECKOUT_WITHOUT_ACTIVE_PRODUCTS(args: any): any {
 	}

@@ -3,7 +3,7 @@ import jsonDictionary from '@/lang/lang';
 
 import {MessageProps} from "@vuelidate/validators";
 import {reactive} from "vue";
-import {VueRef} from "@/_shared/models/tools/tools";
+import {Jsonable, VueRef} from "@/_shared/models/tools/tools";
 import {isExist} from "@shared/models/view/tools";
 import {BehaviorSubject} from "rxjs";
 
@@ -25,7 +25,7 @@ export type ILocaleableValue<Value = string, Keys extends string = DictLanguage>
 	[Key in DefaultLanguage]: Value
 }
 
-export class LocaleableValue<T = string> implements ILocaleableValue<T> {
+export class LocaleableValue<T = string> extends Jsonable<LocaleableValue>() implements ILocaleableValue<T> {
 	@VueRef(true) ru: T;
 	@VueRef(true) uk?: T | undefined | null;
 
@@ -105,6 +105,25 @@ class TranslateService {
 			translatedWord = this.dictionary[word];
 
 		return translatedWord;
+	}
+
+	getLocaleable(word: DictionaryWord, props?: Partial<MessageProps>): LocaleableValue {
+		if (!word) LocaleableValue.fromJson({ru: ''});
+
+		if (!this.fullDictionary[word]) {
+			// console.warn('Translate: There is no translation for this word', word);
+			return LocaleableValue.fromJson({ru: 'Key - ' + word});
+		}
+
+		if (props?.$params) {
+			const rawLocaleable = {...this.fullDictionary[word]};
+			Object.keys(rawLocaleable).forEach(key => {
+				rawLocaleable[key] = this.addParamsToStr(rawLocaleable[key], props.$params);
+			});
+			return LocaleableValue.fromJson(rawLocaleable);
+		} else {
+			return LocaleableValue.fromJson(this.fullDictionary[word]);
+		}
 	}
 
 	private addParamsToStr(str: string, params: any) {

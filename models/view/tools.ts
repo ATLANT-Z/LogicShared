@@ -7,6 +7,7 @@ declare global {
 }
 
 Array.prototype.toUiSelectValues = function (model, show, show2) {
+	if (this.length === 0) return [];
 	//Если примитивное значение, его же и отдаем
 	let mapAlg = el => ({
 		model: el,

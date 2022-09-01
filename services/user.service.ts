@@ -18,7 +18,7 @@ export class UserService {
 		translateService.currLangOrigin.subscribe((lang: DictLanguage) => {
 			const user = this.currentUser.getValue();
 			if (user && user.locale !== lang) {
-				// Хотя мы и выдернули пользователя текущего, это ссыла на объект,
+				// Хотя мы и выдернули пользователя текущего, это ссылка на объект,
 				// который разослан по всем компонентам.
 				// Изменили свойство объекта - изменилось везде.
 				user.locale = lang;
@@ -27,7 +27,7 @@ export class UserService {
 		})
 	}
 
-	private fetchUser() {
+	fetchUser() {
 		API.Account.getCurrenUser().then(user => {
 			this.currentUser.next(user);
 			if (user) translateService.setCurrLang(user.locale);

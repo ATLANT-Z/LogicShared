@@ -10,8 +10,6 @@ export type InfoTipState = {
 }
 
 class InfoTipService {
-	teleportId: string = 'info-tips';
-
 	state: InfoTipState = {
 		text: '',
 		isActive: false,
