@@ -15,6 +15,12 @@
 	}
 }
 
+@mixin without-animation() {
+	@media (prefers-reduced-motion: reduce) {
+		@content;
+	}
+}
+
 ///width: #{$smScreenWidth}
 @mixin laptop {
 	@media (max-width: $laptop-width) {
@@ -50,8 +56,8 @@
 	}
 }
 
-@mixin without-animation() {
-	@media (prefers-reduced-motion: reduce) {
+@mixin min-scale-150() {
+	@media (-webkit-min-device-pixel-ratio: 1.5) {
 		@content;
 	}
 }
