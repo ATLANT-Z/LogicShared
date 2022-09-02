@@ -42,6 +42,23 @@
 	height: 100%;
 }
 
+.ui-spinner {
+	@include ui-spinner();
+}
+
+.ui-absolute-spinner {
+	@include absoluteGrow();
+	background-color: inherit;
+	border-radius: inherit;
+
+	z-index: 3;
+
+	&:after {
+		content: '';
+		@include ui-spinner(true);
+	}
+}
+
 ///simple elements
 
 .ui-block {
@@ -615,6 +632,17 @@ input[type="radio"].ui-radio {
 		pointer-events: none;
 	}
 
+	&__btn {
+		position: absolute;
+		right: var(--pad-horiz);
+		top: 50%;
+		transform: translateY(-50%);
+
+		color: $color-main;
+		user-select: none;
+		pointer-events: none;
+	}
+
 	&__list {
 		position: absolute;
 		top: Calc(100% - 1px);
@@ -663,16 +691,16 @@ input[type="radio"].ui-radio {
 			padding: var(--pad-vert) var(--pad-horiz);
 			padding-right: 32px;
 
-			> * {
+			> .ui-i-input {
 				padding-right: 12px;
 			}
 		}
 	}
 
 	.ui-input {
-		padding-right: 48px;
+		padding-right: var(--pad-horiz);
 
-		> * {
+		> .ui-i-input {
 			user-select: none;
 			cursor: pointer;
 		}
@@ -891,7 +919,7 @@ input[type="radio"].ui-radio {
 		@include font(12, 14);
 
 		background-color: $color-bg-grey-lighter;
-		z-index: 99;
+		z-index: 999999;
 
 		//transform: var(--transform-Y);
 

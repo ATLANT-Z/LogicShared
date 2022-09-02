@@ -189,35 +189,7 @@
 
 		&:after {
 			content: '';
-			position: absolute;
-			top: 50%;
-			left: 50%;
-
-			height: 1em;
-			width: 1em;
-
-			color: inherit;
-
-			background-color: transparent;
-			border-radius: 50%;
-			border: 1px solid currentColor;
-			border-top-color: transparent;
-
-			@keyframes spin {
-				from {
-					transform: translate(-50%, -50%) rotate(0);
-				}
-				to {
-					transform: translate(-50%, -50%) rotate(360deg);
-				}
-			}
-
-			animation-name: spin;
-			animation-duration: $anim-big-time;
-			animation-timing-function: ease-in-out;
-			animation-iteration-count: infinite;
-
-			z-index: 3;
+			@include ui-spinner(true);
 		}
 	}
 
