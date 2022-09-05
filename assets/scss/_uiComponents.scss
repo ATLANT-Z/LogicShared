@@ -223,17 +223,17 @@
 	}
 }
 
-.ui-error-row {
+.ui-warn-row {
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
 
 	padding: 16px;
 
-	color: $color-red-dark;
+	color: $color-yellow-dark;
 	@include font(14, 16, 500);
 
-	background-color: $color-red-lightest;
+	background-color: $color-yellow-lightest;
 	border-radius: 8px;
 }
 

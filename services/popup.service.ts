@@ -13,7 +13,8 @@ export class PopupService {
 
 	names = popupHelper.names;
 
-	globalListId = 'global-popup-list'
+	globalListId = 'global-popup-list';
+	authListId = 'auth-popup-list';
 
 	get TeleportToId() {
 		return '#' + this.globalListId
