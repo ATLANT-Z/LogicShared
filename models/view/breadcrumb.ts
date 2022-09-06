@@ -5,6 +5,6 @@ import {LocaleableValue} from "@shared/services/translate.service";
 
 export interface Breadcrumb {
 	name: LocaleableValue;
-	linkOrRouteName: RouteName | VueLink;
+	vueLinkOrRouteName: RouteName | VueLink;
 	counter?: number
 }

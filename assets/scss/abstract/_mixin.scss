@@ -534,6 +534,55 @@
 	}
 }
 
+@mixin ui-spinner($is-absolute: false) {
+	@if $is-absolute {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+	}
+
+	@include fixedHW(1em);
+
+	color: inherit;
+
+	background-color: transparent;
+	border-radius: 50%;
+	border: 1px solid currentColor;
+	border-top-color: transparent;
+
+	@keyframes absolute-spin {
+		from {
+			transform: translate(-50%, -50%) rotate(0);
+		}
+		to {
+			transform: translate(-50%, -50%) rotate(360deg);
+		}
+	}
+
+	@keyframes spin {
+		from {
+			transform: rotate(0);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	@if $is-absolute {
+		animation-name: absolute-spin;
+	}
+	@else {
+		animation-name: spin;
+	}
+
+	animation-duration: $anim-big-time;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+
+	z-index: 3;
+}
+
+
 @mixin product-tool-btn() {
 	--scale: 0;
 

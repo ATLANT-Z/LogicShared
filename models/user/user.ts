@@ -1,10 +1,11 @@
 import {Jsonable} from "@shared/models/tools/tools";
 import {DictLanguage} from "@shared/services/translate.service";
 import {TAX_STATUS} from "@models/logReg";
-import {Balance} from "@shared/models/money/money";
+import {Balance, Money} from "@shared/models/money/money";
 import {Region} from "@shared/models/region";
 import {PersonNames} from "@shared/models/user/types";
 import {Type} from "class-transformer";
+import {Currency} from "@shared/models/money/currency";
 
 export enum BAN_REASON {
 	debt = 'debt',
@@ -51,6 +52,11 @@ export class User extends Jsonable<User>() {
 	get Bans() {
 		return this.customer.bans;
 	}
+
+	get USDBalance(): Money | undefined {
+		return this.customer.balances.find(el => el.money.currency === Currency.USD)?.money;
+	}
+
 
 	// get DefaultBalance() {
 	// 	return this.customer.balances.find(el => el.money.currency === 'USD')?.money || this.customer.balances[0].money;
