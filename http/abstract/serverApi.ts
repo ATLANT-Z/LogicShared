@@ -4,6 +4,7 @@ import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
 import {HTTP_ERROR_CODE, httpErrorService} from "@/_shared/services/httpError.service";
 import {authService} from "@/_shared/services/auth.service";
 import {errorService} from "@/_shared/services/error.service";
+import {AppModeHelper} from "@shared/helpers/appMode.helper";
 
 export type ApiResponse = { data: any, response: AxiosResponse }
 export type ApiResponseError = { status: HTTP_ERROR_CODE, code: number, data: any, response: AxiosResponse }
@@ -28,6 +29,8 @@ class AxiosErrService {
 		httpErrorService.handle(status, data.code);
 		// console.warn('Error response', response);
 		console.warn('error', response.config.url, data);
+
+		console.log({status, code: data.code, data: data.data, response})
 
 		return Promise.reject({status, code: data.code, data: data.data, response});
 	}

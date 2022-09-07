@@ -27,13 +27,12 @@ export default class UiPopup extends Vue {
   @Watch('isActive')
   activeUpdate(currVal: boolean) {
     if (currVal) this.$emit('onShow');
-    else {
-      this.$emit('onClose');
-    }
+    else this.$emit('onClose');
   }
 
   close(value: boolean = false) {
-    popupService.getCallbacks(this.id).resolve(value);
+    const callbacks = popupService.getCallbacks(this.id);
+    callbacks && callbacks.resolve(value);
     this.isActive = false;
   }
 

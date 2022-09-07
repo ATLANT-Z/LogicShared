@@ -9,6 +9,6 @@ export class HomeSliderItem extends Jsonable<HomeSliderItem>() {
 
 	@ILocaleableValue() backgroundColor: LocaleableValue;
 
-	@ILocaleableValue() url: LocaleableValue;
+	@ILocaleableValue() url: LocaleableValue | undefined;
 	@ILocaleableValue() buttonText?: LocaleableValue;
 }

@@ -42,6 +42,23 @@
 	height: 100%;
 }
 
+.ui-spinner {
+	@include ui-spinner();
+}
+
+.ui-absolute-spinner {
+	@include absoluteGrow();
+	background-color: inherit;
+	border-radius: inherit;
+
+	z-index: 3;
+
+	&:after {
+		content: '';
+		@include ui-spinner(true);
+	}
+}
+
 ///simple elements
 
 .ui-block {
@@ -191,6 +208,12 @@
 	flex-shrink: 20;
 	@include font(12, 12);
 
+	&.title {
+		height: auto;
+		@include font(18, 20, 700);
+		padding: 6px 0;
+	}
+
 	&.required {
 		&::after {
 			content: "*";
@@ -198,6 +221,20 @@
 			margin-left: 4px;
 		}
 	}
+}
+
+.ui-warn-row {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+
+	padding: 16px;
+
+	color: $color-yellow-dark;
+	@include font(14, 16, 500);
+
+	background-color: $color-yellow-lightest;
+	border-radius: 8px;
 }
 
 .ui-error {
@@ -595,6 +632,17 @@ input[type="radio"].ui-radio {
 		pointer-events: none;
 	}
 
+	&__btn {
+		position: absolute;
+		right: var(--pad-horiz);
+		top: 50%;
+		transform: translateY(-50%);
+
+		color: $color-main;
+		user-select: none;
+		pointer-events: none;
+	}
+
 	&__list {
 		position: absolute;
 		top: Calc(100% - 1px);
@@ -643,16 +691,16 @@ input[type="radio"].ui-radio {
 			padding: var(--pad-vert) var(--pad-horiz);
 			padding-right: 32px;
 
-			> * {
+			> .ui-i-input {
 				padding-right: 12px;
 			}
 		}
 	}
 
 	.ui-input {
-		padding-right: 48px;
+		padding-right: var(--pad-horiz);
 
-		> * {
+		> .ui-i-input {
 			user-select: none;
 			cursor: pointer;
 		}
@@ -793,13 +841,15 @@ input[type="radio"].ui-radio {
 }
 
 .ui-info {
-	$info-width: 180px;
-	$corner-size: 16px;
+	$info-width: 196px;
+	$corner-size: 20px;
+	$ico-size: 20px;
+
 	--info-width: #{$info-width};
 	--corner-size: #{$corner-size};
 
 	position: relative;
-	@include fixedHW(16px, 16px);
+	@include fixedHW(20px, 20px);
 	display: flex;
 
 	//ico-svg fill color
@@ -809,34 +859,72 @@ input[type="radio"].ui-radio {
 
 	z-index: 10;
 
+	@keyframes pulse {
+		from {
+			transform: scale(1);
+		}
+
+		10% {
+			transform: scale(0.9);
+		}
+
+		30% {
+			transform: scale(1.2);
+		}
+
+		50% {
+			transform: scale(0.9);
+		}
+
+		70% {
+			transform: scale(1.2);
+		}
+
+		90% {
+			transform: scale(0.9);
+		}
+
+		to {
+			transform: scale(1);
+		}
+	}
+
+	&.alert {
+		color: $color-red;
+
+		animation-name: pulse;
+		animation-duration: 2s;
+		animation-iteration-count: infinite;
+	}
+
 	// Не находится в родителе, из-за бага разделил на два компонента
 	&__tip {
 		--pos-y: 0px;
 		--pos-x: 0px;
-		--transform-default: translateY(-50%);
 
 		--info-width: #{$info-width};
 		--corner-size: #{$corner-size};
+		--ico-size: #{$ico-size};
 		--width: Calc(var(--info-width) + var(--corner-size));
+		--border-radius: 4px;
 
 		position: fixed;
-		top: var(--pos-y);
 
 		min-width: var(--info-width);
 		max-width: var(--info-width);
 		height: fit-content;
 
-		padding: 4px 8px;
+		padding: 3px 8px;
 		color: $color-text;
 		@include font(12, 14);
 
 		background-color: $color-bg-grey-lighter;
-		border-radius: 4px;
-		z-index: 99;
+		z-index: 999999;
 
-		transform: var(--transform-default);
+		//transform: var(--transform-Y);
 
-		transition: 0.1s, opacity 0.3s 0.1s, visibility 0.2s 0.1s, margin-top 0.2s 0.1s;
+
+		transition: 0.1s, opacity 0.2s 0.1s, visibility 0.1s 0.1s, margin-top 0.1s 0.1s;
 
 		margin-top: -8px;
 		opacity: 0;
@@ -845,35 +933,53 @@ input[type="radio"].ui-radio {
 		&:before {
 			content: '';
 			position: absolute;
-			top: 50%;
 
 			border-width: Calc(var(--corner-size) / 2);
 			border-style: solid;
 			border-color: transparent;
 			z-index: -1;
-
-			transform: translateY(-50%);
 		}
 
-		&.right {
-			left: var(--pos-x);
-			transform: var(--transform-default) translateX(Calc(var(--width) * -1));
+		&.top {
+			top: var(--pos-y);
+			--transform-Y: translateY(Calc(-100% + var(--ico-size)));
 
-
-			&::before {
-				left: 100%;
-				border-left-color: $color-bg-grey-lighter;
+			&:before {
+				bottom: 0;
 			}
 		}
 
 		&.left {
 			left: var(--pos-x);
-			transform: var(--transform-default) translateX(var(--corner-size));
+			transform: var(--transform-Y) translateX(var(--corner-size));
+			border-top-right-radius: var(--border-radius);
+			border-bottom-right-radius: var(--border-radius);
 
 
 			&:before {
 				right: 100%;
 				border-right-color: $color-bg-grey-lighter;
+			}
+		}
+
+		&.bottom {
+			top: var(--pos-y);
+			--transform-Y: translateY(Calc(var(--ico-size) * -1));
+
+			&:before {
+				top: 0;
+			}
+		}
+
+		&.right {
+			left: var(--pos-x);
+			transform: var(--transform-Y) translateX(Calc(var(--width) * -1));
+			border-top-left-radius: var(--border-radius);
+			border-bottom-left-radius: var(--border-radius);
+
+			&::before {
+				left: 100%;
+				border-left-color: $color-bg-grey-lighter;
 			}
 		}
 

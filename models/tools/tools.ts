@@ -92,7 +92,7 @@ export function PlainIgnore() {
 export function PlainLang() {
 	return (target: MyObject, propertyKey: string | symbol, ...args) => {
 		Expose()(target, propertyKey);
-		Transform(() => translateService.CurrLang, {toPlainOnly: true})(target, propertyKey);
+		Transform(() => translateService.getCurrLang(), {toPlainOnly: true})(target, propertyKey);
 	}
 }
 
@@ -103,6 +103,14 @@ export function PlainNoSpace() {
 export function uid(): string {
 	return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
+
+export function isPromise(p): p is Promise<any> {
+	return p !== null &&
+		typeof p === 'object' &&
+		typeof p.then === 'function' &&
+		typeof p.catch === 'function';
+}
+
 
 // const toUnicode = function (str) {
 // 	let result = "";
@@ -128,3 +136,4 @@ export function uid(): string {
 // console.log('unicode:', unicode);
 //
 // console.log(JSON.parse(unicode));
+

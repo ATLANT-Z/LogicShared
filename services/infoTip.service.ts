@@ -4,6 +4,7 @@ export type InfoTipState = {
 	text: string,
 	isActive: boolean,
 	isLeft: boolean,
+	isTop: boolean,
 	x: number,
 	y: number,
 }
@@ -13,6 +14,7 @@ class InfoTipService {
 		text: '',
 		isActive: false,
 		isLeft: true,
+		isTop: true,
 		x: 0,
 		y: 0
 	}

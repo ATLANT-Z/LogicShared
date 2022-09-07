@@ -1,21 +1,24 @@
 import {Jsonable} from "@shared/models/tools/tools";
 import {DictLanguage} from "@shared/services/translate.service";
 import {TAX_STATUS} from "@models/logReg";
-import {Balance} from "@shared/models/money/money";
+import {Balance, Money} from "@shared/models/money/money";
 import {Region} from "@shared/models/region";
 import {PersonNames} from "@shared/models/user/types";
 import {Type} from "class-transformer";
+import {Currency} from "@shared/models/money/currency";
 
-enum BAN_REASON {
+export enum BAN_REASON {
 	debt = 'debt',
 	price = 'price',
-	agreement = 'agreement'
+	agreement = 'agreement',
+	overdue = 'overdue'
 }
 
 
 export enum UserRole {
 	ROLE_COUNTERPARTY = 'ROLE_COUNTERPARTY',
-	ROLE_MANAGER = 'ROLE_MANAGER'
+	ROLE_MANAGER = 'ROLE_MANAGER',
+	ROLE_AUDITOR = 'ROLE_AUDITOR',
 }
 
 export class User extends Jsonable<User>() {
@@ -35,30 +38,55 @@ export class User extends Jsonable<User>() {
 	roles: UserRole[];
 
 	get IsManager() {
-		return this.roles.some(el => el === UserRole.ROLE_MANAGER)
+		return this.roles.some(el => el === UserRole.ROLE_MANAGER);
+	}
+
+	get IsAuditor() {
+		return this.roles.some(el => el === UserRole.ROLE_AUDITOR);
 	}
 
 	get DisplayName() {
 		return this.IsManager ? this.name.FullName : this.company.name;
 	}
 
+	get Bans() {
+		return this.customer.bans;
+	}
+
+	get USDBalance(): Money | undefined {
+		return this.customer.balances.find(el => el.money.currency === Currency.USD)?.money;
+	}
+
+
 	// get DefaultBalance() {
 	// 	return this.customer.balances.find(el => el.money.currency === 'USD')?.money || this.customer.balances[0].money;
 	// }
 }
 
+export class UserBan {
+	reason: BAN_REASON
+}
+
 export class Customer {
 	externalId: string;
-	curator: Curator;
-	bans: BAN_REASON[];
+
+	@Type(() => Curator)
+	curator: Curator | null;
+
+	@Type(() => UserBan)
+	bans: UserBan[];
 	balances: Balance[];
 }
 
-export interface Curator {
+export class Curator {
 	name: string;
-	photoUrl?: string;
+	photoUrl: string | null;
 	phones: string[];
 	emails: string[];
+
+	// get IsPhoto() {
+	// 	return this.photoUrl?.includes('.')
+	// }
 }
 
 export class Company {

@@ -13,7 +13,8 @@ export class PopupService {
 
 	names = popupHelper.names;
 
-	globalListId = 'global-popup-list'
+	globalListId = 'global-popup-list';
+	authListId = 'auth-popup-list';
 
 	get TeleportToId() {
 		return '#' + this.globalListId
@@ -31,8 +32,8 @@ export class PopupService {
 		return this.popupProps[id];
 	}
 
-	getCallbacks(id: PopupName) {
-		return this.popupPromises[id];
+	getCallbacks(id: PopupName): PromiseCallbacks | null {
+		return this.popupPromises[id] || null;
 	}
 
 	show(id: PopupName, props?: any): Promise<any> {

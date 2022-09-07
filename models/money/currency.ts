@@ -11,8 +11,8 @@ export enum PAYMENT_TYPE {
 }
 
 export interface CurrencyRate {
-	amount: number;
+	paymentType: PAYMENT_TYPE;
 	sourceCurrency: Currency;
 	targetCurrency: Currency;
-	paymentType: PAYMENT_TYPE;
+	amount: number;
 }
