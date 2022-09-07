@@ -1,8 +1,5 @@
 %padding-wrp {
   padding: 0 16px;
-  @include mobile {
-    padding: 0 8px;
-  }
 }
 
 %width-content {
@@ -29,7 +26,7 @@
   letter-spacing: 0.02em;
   padding: 8px 58px;
 
-  color: #FFFFFF;
+  color: #ffffff;
   background-color: $color-main;
 
   border-radius: 6px;
@@ -37,16 +34,16 @@
   @include anim();
 
   &:hover {
-    background-color: #FF5B00;
+    background-color: #ff5b00;
   }
 
   &:disabled {
-    background-color: #8A8A8A;
+    background-color: #8a8a8a;
 
     cursor: not-allowed;
 
     &:hover {
-      background-color: #8A8A8A;
+      background-color: #8a8a8a;
     }
   }
 }
