@@ -52,11 +52,11 @@ export function Jsonable<T>() {
 			return obj as Partial<T>;
 		}
 
-		private static toJsonString(instance: T): string {
+		static toJsonString(instance: T): string {
 			return JSON.stringify(this.toJson(instance));
 		}
 
-		private static fromStringJson(str): T | T[] {
+		static fromStringJson(str): T | T[] {
 			return plainToInstance(this, JSON.parse(str)) as T | T[];
 		}
 

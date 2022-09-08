@@ -41,7 +41,7 @@ export class LocaleableValue<T = string> extends Jsonable<LocaleableValue>() imp
 		return '' + this.Value
 	}
 
-	contains(val: T) {
+	contains(val: T | undefined | null) {
 		return this.ru === val || this.uk === val;
 	}
 }
@@ -94,7 +94,7 @@ class TranslateService {
 		if (!word) return '';
 
 		if (!this.dictionary[word]) {
-			// console.warn('Translate: There is no translation for this word', word);
+			console.warn('Translate: There is no translation for this word', word);
 			return 'Key - ' + word;
 		}
 

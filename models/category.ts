@@ -4,7 +4,7 @@ import {LocaleableValue} from "@/_shared/services/translate.service";
 import {routeHelper, RouteName} from "@shared/helpers/route.helper";
 import {ROUTE_NAMES} from "@/router/enum/names.enum";
 
-interface IBaseCategory {
+export interface IBaseCategory {
 	id: string;
 	slug: LocaleableValue;
 	name: LocaleableValue;

@@ -14,6 +14,7 @@ import {IHasQuantity, OrderBag, Price, PriceType, ProductStatus, RichText} from 
 import {isArray} from "lodash";
 import {ProductSpecification} from "@shared/models/product/specification";
 import {ProductViewService} from "@services/product/product.view.service";
+import {VueLink} from "@shared/models/tools/type";
 
 export class Product extends Jsonable<Product>() implements ProductHttpResource {
 	id: string;
@@ -69,12 +70,13 @@ export class Product extends Jsonable<Product>() implements ProductHttpResource 
 			});
 	}
 
-	get VueLink() {
+	get VueLink(): VueLink {
 		return {
 			name: routeHelper.names['product'],
 			params: {
-				[routeHelper.params.slug]: this.slug
-			}
+				[routeHelper.params.slug]: this.slug.Value,
+				[routeHelper.params.product]: Product.toJsonString(this)
+			},
 		};
 	}
 

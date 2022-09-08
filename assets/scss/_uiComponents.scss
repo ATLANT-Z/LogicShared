@@ -223,6 +223,20 @@
 	}
 }
 
+.ui-error-row {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+
+	padding: 16px;
+
+	color: $color-red-dark;
+	@include font(14, 16, 500);
+
+	background-color: $color-red-lightest;
+	border-radius: 8px;
+}
+
 .ui-warn-row {
 	display: flex;
 	flex-direction: column;

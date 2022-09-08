@@ -31,7 +31,6 @@ export class CriteriaService {
 		return params;
 	}
 
-
 	static recoverState(criteria: Criteria, productQuery: ProductQuery): Criteria {
 		const partCriteria = this.getPartCriteriaFromQuery(productQuery);
 
@@ -89,7 +88,6 @@ export class CriteriaService {
 
 		return criteria;
 	}
-
 
 	static fromRouteQueryToProductQuery(query: ProductRouteQuery): ProductQuery {
 		return ProductQuery.fromJson(query, {groups: ['route']});
