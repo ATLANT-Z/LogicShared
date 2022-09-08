@@ -1,16 +1,49 @@
 %padding-wrp {
-    padding: 0 16px;
-    @include mobile {
-        padding: 0 8px;
-    }
+  padding: 0 16px;
 }
 
 %width-content {
-    width: 100%;
-    max-width: 994px;
+  width: 100%;
+  max-width: 994px;
 }
 
 %width-main {
-    width: 100%;
-    max-width: 1500px;
+  width: 100%;
+  max-width: 1500px;
+}
+
+%btn-main {
+  cursor: pointer;
+  user-select: none;
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+
+  @include fontUnify(18, 24);
+  letter-spacing: 0.02em;
+  padding: 8px 58px;
+
+  color: #ffffff;
+  background-color: $color-main;
+
+  border-radius: 6px;
+  z-index: 2;
+  @include anim();
+
+  &:hover {
+    background-color: #ff5b00;
+  }
+
+  &:disabled {
+    background-color: #8a8a8a;
+
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: #8a8a8a;
+    }
+  }
 }
