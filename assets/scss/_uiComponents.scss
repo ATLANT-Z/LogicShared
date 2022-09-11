@@ -1160,3 +1160,11 @@ input[type="radio"].ui-radio {
 		}
 	}
 }
+
+// text anchor
+.ui-anchor {
+	display: flex;
+	transform: translateY(
+	  Calc(-16px - var(--height-header) - var(--local-pad, 0px))
+	);
+  }
