@@ -1,8 +1,7 @@
-import {App} from "vue";
 import {DictionaryWord, LocaleableValue, translateService} from "@shared/services/translate.service";
 import {projectIcons} from "@shared/type/icons";
 
-export function globalFunctions(app: App) {
+export function globalFunctions() {
 	return {
 		translate(word: DictionaryWord, params?: any) {
 			return translateService.getWord(word, {$params: params});
