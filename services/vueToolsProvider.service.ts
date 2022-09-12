@@ -1,5 +1,5 @@
 import {Router} from "vue-router";
-import {Vue} from "vue-class-component";
+import {Vue} from "@/tools/version-types";
 
 class VueToolsProviderService {
 	router: Router | undefined;

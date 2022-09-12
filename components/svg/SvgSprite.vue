@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import {Options, Vue} from "vue-class-component";
+import {Component, Vue} from "@/tools/version-types";
 
 const svgContexts = [
   require.context(
@@ -53,7 +53,7 @@ const symbols = svgObjectList.map((el, index, arr) => {
 });
 
 
-@Options({
+@Component({
   name: 'SvgSprite',
   svgSprite: symbols.join('\n'), // concatenate all symbols into $options.svgSprite
 })
