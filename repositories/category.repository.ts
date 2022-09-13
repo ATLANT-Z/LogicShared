@@ -1,6 +1,5 @@
 import {Category} from "@shared/models/category";
 import {reactive} from "vue";
-import {errorService} from "@shared/services/error.service";
 import API from "@/http/API";
 import {PromiseWrapper} from "@shared/models/tools/promise";
 

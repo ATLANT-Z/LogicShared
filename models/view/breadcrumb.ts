@@ -1,6 +1,6 @@
 import {RouteName} from "@shared/helpers/route.helper";
-import {VueLink} from "@shared/models/tools/type";
 import {LocaleableValue} from "@shared/services/translate.service";
+import {VueLink} from "@/tools/version-types";
 
 
 export interface Breadcrumb {
