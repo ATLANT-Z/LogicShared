@@ -1,5 +1,5 @@
 <template>
-  <svg width="0" height="0" style="display: none;" v-html="$options.svgSprite"/>
+  <svg width="0" height="0" style="display: none;" v-html="svgSprite"/>
 </template>
 
 <script lang="ts">
@@ -55,8 +55,8 @@ const symbols = svgObjectList.map((el, index, arr) => {
 
 @Component({
   name: 'SvgSprite',
-  svgSprite: symbols.join('\n'), // concatenate all symbols into $options.svgSprite
 })
 export default class VueSpriteComponent extends Vue {
+  svgSprite = symbols.join('\n') // concatenate all symbols into $options.svgSprite
 }
 </script>
