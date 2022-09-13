@@ -25,7 +25,7 @@ export default class ErrorLayoutComponent extends Vue {
   heightList: number[] = [];
 
   $refs: {
-    errors: { $el: HTMLElement }[];
+    errors: ErrorItem[];
   }
 
   calcTop(index: number) {
