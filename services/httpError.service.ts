@@ -1,6 +1,6 @@
 import {errorService} from "@/_shared/services/error.service";
 import {ExtractKeys} from "@/_shared/models/tools/type";
-import {authService} from "@shared/services/auth.service";
+import {authService} from "@services/auth/auth.service";
 
 type HandlerPrefix = 'handle_';
 const handlerPrefix: HandlerPrefix = 'handle_';

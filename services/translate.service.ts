@@ -128,7 +128,7 @@ class TranslateService {
 
 	private addParamsToStr(str: string, params: any) {
 		// console.log(props);
-		Object.keys(params).map(key => {
+		Object.keys(params).forEach(key => {
 			str = str.replaceAll("{" + key + "}", params[key]);
 		})
 		return str;
