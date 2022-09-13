@@ -535,7 +535,7 @@
 .ui-simple-btn {
 	@extend %ui-btn;
 
-	display: flex;
+	display: inline-flex;
 	align-items: center;
 	gap: 8px;
 
@@ -564,7 +564,16 @@
 	@include anim($anim-small-time);
 
 	&:hover {
-		color: $color-main;
+		color: $color-main-dark;
+	}
+}
+
+.ui-colored-link {
+	@include anim($anim-small-time);
+	color: $color-main;
+
+	&:hover {
+		color: $color-main-dark;
 	}
 }
 
