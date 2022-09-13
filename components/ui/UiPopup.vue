@@ -19,7 +19,6 @@ import {Component, Vue} from "@/tools/version-types";
 
 @Component({
   components: {ToTopBtn},
-  emits: ['onShow', 'onClose'],
 })
 export default class UiPopup extends Vue {
   @Prop({required: true}) id: PopupName;
