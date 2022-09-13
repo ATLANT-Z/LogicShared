@@ -1,6 +1,6 @@
 import {Criteria} from "@shared/models/product/filter/criteria";
 import {ProductQuery} from "@shared/models/product/query";
-import {categoryRepository} from "@/repositories/category.repository";
+import {categoryRepository} from "@shared/repositories/category.repository";
 
 export class FilterViewService {
 	constructor(public q: ProductQuery) {
