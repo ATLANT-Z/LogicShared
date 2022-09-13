@@ -13,7 +13,7 @@ import {
 import {IHasQuantity, OrderBag, Price, PriceType, ProductStatus, RichText} from "@shared/models/product/types";
 import {isArray} from "lodash";
 import {ProductSpecification} from "@shared/models/product/specification";
-import {ProductViewService} from "@services/product/product.view.service";
+import {ProductViewService} from "@shared/services/product/product.view.service";
 import {VueLink} from "@/tools/version-types";
 
 export class Product extends Jsonable<Product>() implements ProductHttpResource {
