@@ -76,7 +76,8 @@ export class HttpErrorService implements IErrorHandler<typeof HTTP_ERROR_CODE> {
 	}
 
 	handle_NotFound(args: any): any {
-		return console.error('Сервер не отвечает, или такого маршрута не существует', args)
+		console.error('Сервер не отвечает, или такого маршрута не существует', args);
+		return 'Сервер не отвечает, 404';
 	}
 
 	handle_UnprocessableEntity(): any {
@@ -88,7 +89,7 @@ export class HttpErrorService implements IErrorHandler<typeof HTTP_ERROR_CODE> {
 	}
 
 	handle_ImTeapot(): any {
-		return errorService.addError('Не смог получить ответ от сервера, CORS');
+		return errorService.addError('Не удалось выполнить запрос');
 	}
 
 	handle_Forbidden(reason: any, subHandler?: Http403service): any {
