@@ -24,3 +24,4 @@ console.log(fileTypeContent);
 
 
 fs.writeFileSync('src/_shared/type/icons.ts', fileTypeContent);
+
