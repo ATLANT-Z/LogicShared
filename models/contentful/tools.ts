@@ -1,5 +1,5 @@
 import {CNTFAsset} from "@/_shared/models/contentful/type";
-import {LocaleableValue} from "@/_shared/services/translate.service";
+import {LocaleableValue} from "@shared/models/translate/localeableValue";
 
 type ContentModel = Record<string, LocaleableValue<any>>
 

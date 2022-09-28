@@ -1,5 +1,5 @@
 import {ILocaleableValue, Jsonable} from "@/_shared/models/tools/tools";
-import {LocaleableValue} from "@/_shared/services/translate.service";
+import {LocaleableValue} from "@shared/models/translate/localeableValue";
 
 export class HomeSliderItem extends Jsonable<HomeSliderItem>() {
 	@ILocaleableValue() title: LocaleableValue;
@@ -11,4 +11,7 @@ export class HomeSliderItem extends Jsonable<HomeSliderItem>() {
 
 	@ILocaleableValue() url: LocaleableValue | undefined;
 	@ILocaleableValue() buttonText?: LocaleableValue;
+
+	@ILocaleableValue() titleAndBtnColor?: LocaleableValue;
+	@ILocaleableValue() imgBorderColor?: LocaleableValue;
 }

@@ -2,9 +2,10 @@ import {formatDistance} from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import ukLocale from 'date-fns/locale/uk';
 
-import {DictLanguage, translateService} from "@shared/services/translate.service";
+import {translateService} from "@shared/services/translate/translate.service";
 
 import {getUnixTime as fnsGetUnixTime} from 'date-fns'
+import {DictLanguage} from "@shared/models/translate/types";
 
 export class FormatTimeHelper {
 	private static localesMap: Record<DictLanguage, Locale> = {
