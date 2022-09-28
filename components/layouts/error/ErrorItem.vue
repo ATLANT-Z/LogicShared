@@ -44,7 +44,6 @@ export default class ErrorItemComponent extends Vue {
       this.isHide = true;
     }, errorService.ShowSeconds * 1000 - animTimeMs);
   }
-
 }
 </script>
 
