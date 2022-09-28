@@ -1,5 +1,4 @@
 import {ILocaleableValue, Jsonable, VueRef} from "@/_shared/models/tools/tools";
-import {LocaleableValue} from "@/_shared/services/translate.service";
 import {ProductCategory} from "@/_shared/models/category";
 import {Attachment, IHasUrl, Img} from "@/_shared/models/product/attachment";
 import {Type} from "class-transformer";
@@ -15,6 +14,8 @@ import {isArray} from "lodash";
 import {ProductSpecification} from "@shared/models/product/specification";
 import {ProductViewService} from "@shared/services/product/product.view.service";
 import {VueLink} from "@/tools/version-types";
+import {Money} from "@shared/models/money/money";
+import {LocaleableValue} from "@shared/models/translate/localeableValue";
 
 export class Product extends Jsonable<Product>() implements ProductHttpResource {
 	id: string;
@@ -116,6 +117,10 @@ export class CartableProduct extends Jsonable<CartProduct>() implements IProduct
 
 export interface IProductQuantity extends IHasQuantity {
 	product: Product;
+}
+
+export interface IHasPrice extends IHasQuantity {
+	price: Money;
 }
 
 type PlainProduct = ProductHttpResource | ProductHttpResource[];

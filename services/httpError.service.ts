@@ -1,6 +1,8 @@
 import {errorService} from "@/_shared/services/error.service";
 import {ExtractKeys} from "@/_shared/models/tools/type";
 import {authService} from "@services/auth/auth.service";
+import {vueTools} from "@shared/services/vueToolsProvider.service";
+import {routeHelper} from "@shared/helpers/route.helper";
 
 type HandlerPrefix = 'handle_';
 const handlerPrefix: HandlerPrefix = 'handle_';
@@ -24,6 +26,7 @@ export enum HTTP_ERROR_CODE {
 	ImTeapot = 418,
 	UnprocessableEntity = 422,
 	TooManyRequests = 429,
+	MaintenanceMode = 503,
 }
 
 export enum FORBIDDEN_REASON {
@@ -86,11 +89,15 @@ export class HttpErrorService implements IErrorHandler<typeof HTTP_ERROR_CODE> {
 	}
 
 	handle_ImTeapot(): any {
-		return errorService.addError('Не смог получить ответ от сервера, CORS');
+		return errorService.addError('Не удалось выполнить запрос.');
 	}
 
 	handle_Forbidden(reason: any): any {
 		console.warn('reason', FORBIDDEN_REASON[reason]);
+	}
+
+	handle_MaintenanceMode(args: any): any {
+		vueTools.router?.push({name: routeHelper.names['maintenance']});
 	}
 }
 

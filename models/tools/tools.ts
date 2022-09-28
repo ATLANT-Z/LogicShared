@@ -9,7 +9,8 @@ import {
 } from "class-transformer";
 import {reactive} from "vue";
 import {MyObject} from "@/_shared/models/tools/type";
-import {LocaleableValue, translateService} from "@/_shared/services/translate.service";
+import {translateService} from "@shared/services/translate/translate.service";
+import {LocaleableValue} from "@shared/models/translate/localeableValue";
 
 const decoratorRuleMap = new Map<MyObject, MyObject>();
 

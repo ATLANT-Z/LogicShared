@@ -1,50 +1,21 @@
 // import lang from '@/lang/lang.json';
-import jsonDictionary from '@/lang/lang';
 
 import {MessageProps} from "@vuelidate/validators";
 import {reactive} from "vue";
-import {Jsonable, VueRef} from "@/_shared/models/tools/tools";
-import {isExist} from "@shared/models/view/tools";
 import {BehaviorSubject} from "rxjs";
-
-type FullDictionary = typeof jsonDictionary;
-export type DictionaryWord = keyof FullDictionary;
-
-export type DictLanguage = 'ru' | 'uk';
-type DefaultLanguage = Extract<DictLanguage, 'ru'>;
-type DefaultSecondLanguage = Extract<DictLanguage, 'uk'>;
-type Dictionary = Record<DictionaryWord, string>;
-
-type UserUnderstandableLanguage = string;
-type AppUsedLanguages = Record<DictLanguage, UserUnderstandableLanguage>;
-type AppUsedLanguageList = Array<{ key: DictLanguage, value: UserUnderstandableLanguage }>;
-
-export type ILocaleableValue<Value = string, Keys extends string = DictLanguage> = {
-	[Key in Keys]?: Value | undefined | null
-} & {
-	[Key in DefaultLanguage]: Value
-}
-
-export class LocaleableValue<T = string> extends Jsonable<LocaleableValue>() implements ILocaleableValue<T> {
-	@VueRef(true) ru: T;
-	@VueRef(true) uk?: T | undefined | null;
-
-	get Value() {
-		const word: T | undefined | null = isExist(this[translateService.getCurrLang()]) ? this[translateService.getCurrLang()]
-			: isExist(this[translateService.defaultLang]) ? this[translateService.defaultLang]
-				: isExist(this[translateService.defaultSecondLang]) ? this[translateService.defaultSecondLang] : undefined;
-
-		return isExist(word) ? word : '';
-	}
-
-	toString() {
-		return '' + this.Value
-	}
-
-	contains(val: T | undefined | null) {
-		return this.ru === val || this.uk === val;
-	}
-}
+import {LocaleableValue} from "@shared/models/translate/localeableValue";
+import {
+	AppUsedLanguageList,
+	AppUsedLanguages,
+	DefaultLanguage,
+	DefaultSecondLanguage,
+	Dictionary,
+	DictionaryWord,
+	DictLanguage,
+	FullDictionary
+} from "@shared/models/translate/types";
+import API from "@/http/API";
+import {dictionaryService} from "@shared/services/translate/dictionary.service";
 
 class TranslateService {
 	private storageKey = 'currentLanguage';
@@ -71,7 +42,7 @@ class TranslateService {
 		this.currLangOrigin.next(val);
 	}
 
-	private readonly fullDictionary: FullDictionary;
+	private fullDictionary: FullDictionary;
 	private dictionary: Dictionary;
 
 	private readonly usedLanguageMap: AppUsedLanguages = {
@@ -80,14 +51,26 @@ class TranslateService {
 	}
 	usedLangList: AppUsedLanguageList;
 
+	get FullDictionary() {
+		return this.fullDictionary;
+	}
+
+	set FullDictionary(dict) {
+		this.fullDictionary = dict;
+		this.setDictionary(this.CurrLang);
+	}
 
 	constructor() {
-		this.fullDictionary = jsonDictionary;
+		this.fullDictionary = dictionaryService.dictionary;
 		this.usedLangList = Object.entries(this.usedLanguageMap).map(el => {
 			return {key: el[0] as DictLanguage, value: el[1]};
 		});
 
-		this.setCurrLang(this.getStoreLang() || 'uk');
+		this.setCurrLang(this.getDefaultLang());
+	}
+
+	getDefaultLang() {
+		return this.getStoreLang() || 'uk';
 	}
 
 	getWord(word: DictionaryWord, props?: Partial<MessageProps>): string {
@@ -110,19 +93,19 @@ class TranslateService {
 	getLocaleable(word: DictionaryWord, props?: Partial<MessageProps>): LocaleableValue {
 		if (!word) LocaleableValue.fromJson({ru: ''});
 
-		if (!this.fullDictionary[word]) {
+		if (!this.FullDictionary[word]) {
 			// console.warn('Translate: There is no translation for this word', word);
 			return LocaleableValue.fromJson({ru: 'Key - ' + word});
 		}
 
 		if (props?.$params) {
-			const rawLocaleable = {...this.fullDictionary[word]};
+			const rawLocaleable = {...this.FullDictionary[word]};
 			Object.keys(rawLocaleable).forEach(key => {
 				rawLocaleable[key] = this.addParamsToStr(rawLocaleable[key], props.$params);
 			});
 			return LocaleableValue.fromJson(rawLocaleable);
 		} else {
-			return LocaleableValue.fromJson(this.fullDictionary[word]);
+			return LocaleableValue.fromJson(this.FullDictionary[word]);
 		}
 	}
 
@@ -136,7 +119,7 @@ class TranslateService {
 
 	private setDictionary(currLang: DictLanguage) {
 		const dict = {};
-		Object.keys(jsonDictionary).forEach(word => dict[word] = this.fullDictionary[word][currLang] || this.fullDictionary[word][this.defaultLang]);
+		Object.keys(this.FullDictionary).forEach(word => dict[word] = this.FullDictionary[word][currLang] || this.FullDictionary[word][this.defaultLang]);
 		this.dictionary = dict as Dictionary;
 
 		console.log(`Словарь инициализирован, содержит ${Object.keys(this.dictionary).length} слов`)

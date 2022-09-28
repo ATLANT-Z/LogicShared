@@ -1,5 +1,5 @@
 import {helpers, maxLength, minLength, required, sameAs} from "@vuelidate/validators";
-import {DictionaryWord, translateService} from "@/_shared/services/translate.service";
+import {translateService} from "@shared/services/translate/translate.service";
 import {
 	emailRegExp,
 	noSpacesRegExp,
@@ -8,6 +8,7 @@ import {
 	urlRegExp
 } from "@/_shared/models/validators/regExp";
 import {ValidationRule} from "@vuelidate/core";
+import {DictionaryWord} from "@shared/models/translate/types";
 
 // const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
