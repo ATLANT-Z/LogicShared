@@ -16,10 +16,10 @@
 
 <script lang="ts">
 import {Icon, projectIcons} from "@shared/type/icons";
-import {Options, Vue} from "vue-class-component";
 import {Prop} from "vue-property-decorator";
+import {Component, Vue} from "@/tools/version-types";
 
-@Options({
+@Component({
   name: 'SvgIcon',
   props: {
     spin: {

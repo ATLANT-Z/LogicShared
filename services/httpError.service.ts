@@ -1,12 +1,14 @@
 import {errorService} from "@/_shared/services/error.service";
 import {ExtractKeys} from "@/_shared/models/tools/type";
-import {authService} from "@shared/services/auth.service";
+import {authService} from "@services/auth/auth.service";
+import {vueTools} from "@shared/services/vueToolsProvider.service";
+import {routeHelper} from "@shared/helpers/route.helper";
 
 type HandlerPrefix = 'handle_';
 const handlerPrefix: HandlerPrefix = 'handle_';
 /// Заставляет имплементировать обработчики на каждую запись enum
 /// Так НЕ работает: `${HandlerPrefix}${ExtractKeys<E>}`
-type EnumHandler<E> = Record<`handle_${ExtractKeys<E>}`, (...args: any) => any>
+type EnumHandler<E extends Record<string, any>> = Record<`handle_${ExtractKeys<E>}`, (...args: any) => any>
 
 ///Тип интерфейса обработчика ошибок Enum
 export type IErrorHandler<Enum, EKey extends keyof Enum = keyof Enum> = {
@@ -24,6 +26,7 @@ export enum HTTP_ERROR_CODE {
 	ImTeapot = 418,
 	UnprocessableEntity = 422,
 	TooManyRequests = 429,
+	MaintenanceMode = 503,
 }
 
 export enum FORBIDDEN_REASON {
@@ -54,9 +57,7 @@ export enum FORBIDDEN_REASON {
 }
 
 export class HttpErrorService implements IErrorHandler<typeof HTTP_ERROR_CODE> {
-	http403Service = new Http403service();
-
-	handle(errorCode: HTTP_ERROR_CODE, code?: any, subHandler?: IErrorHandler<any>) {
+	handle(errorCode: HTTP_ERROR_CODE, code?: any) {
 		const handlerName = handlerPrefix + HTTP_ERROR_CODE[errorCode];
 
 		if (this[handlerName])
@@ -88,105 +89,15 @@ export class HttpErrorService implements IErrorHandler<typeof HTTP_ERROR_CODE> {
 	}
 
 	handle_ImTeapot(): any {
-		return errorService.addError('Не смог получить ответ от сервера, CORS');
+		return errorService.addError('Не удалось выполнить запрос.');
 	}
 
-	handle_Forbidden(reason: any, subHandler?: Http403service): any {
-		if (subHandler)
-			return subHandler.handle(reason);
-		else
-			return this.http403Service.handle(reason)
-	}
-}
-
-class Http403service implements IErrorHandler<typeof FORBIDDEN_REASON> {
-	handle(errorCode: FORBIDDEN_REASON) {
-		const handlerName = handlerPrefix + FORBIDDEN_REASON[errorCode];
-
-		if (this[handlerName])
-			return this[handlerName]()
-		else {
-			throw 'Не смог обработать ошибку, код:' + errorCode;
-		}
-
+	handle_Forbidden(reason: any): any {
+		console.warn('reason', FORBIDDEN_REASON[reason]);
 	}
 
-	handle_ACCOUNT_SIGN_IN_WITH_INVALID_CREDENTIALS(): any {
-	}
-
-	handle_ACCOUNT_SIGN_IN_WHEN_DISABLED(): any {
-	}
-
-	handle_ACCOUNT_SIGN_IN_WHEN_CUSTOMER_AGREEMENT_BAN(args: any): any {
-	}
-
-	handle_ACCOUNT_SIGN_IN_WHEN_CUSTOMER_OVERDUE_BAN() {
-	}
-
-	handle_ACCOUNT_MANAGER_ADD_WITH_EXISTS_EMAIL(args: any) {
-	}
-
-	handle_ACCOUNT_MANAGER_ADD_WITH_EXISTS_PHONE(args: any) {
-	}
-
-	handle_ACCOUNT_MANAGER_REMOVE_WITH_INVALID_ID(args: any) {
-	}
-
-	handle_ACCOUNT_PASSWORD_RESET_COMPLETE_WITH_INVALID_TOKEN(args: any) {
-	}
-
-	handle_ACCOUNT_PASSWORD_UPDATE_WITH_INVALID_CURRENT_PASSWORD(args: any) {
-	}
-
-	handle_ACCOUNT_REGION_CURRENT_UNKNOWN(args: any) {
-	}
-
-	handle_ACCOUNT_TOKEN_REMOVE_WITH_INVALID_ID(args: any) {
-	}
-
-	handle_CATALOG_PRODUCT_CART_REMOVE_WITH_ID_NOT_IN_LIST(args: any) {
-	}
-
-	handle_CATALOG_PRODUCT_CART_REMOVE_WITH_OUT_OF_REACH_QUANTITY(args: any) {
-	}
-
-	handle_CATALOG_PRODUCT_FAVORITE_ADD_EXISTS_ID(args: any) {
-	}
-
-	handle_CATALOG_PRODUCT_FAVORITE_REMOVE_WITH_ID_NOT_IN_LIST(args: any) {
-	}
-
-	handle_CATALOG_PRODUCT_INVALID_ID(args: any) {
-	}
-
-	handle_ACCOUNT_ACCESS_TOKEN_INVALID(args: any): any {
-	}
-
-	handle_ACCOUNT_RECIPIENT_DELIVERY_ADD_WITH_INVALID_METHOD_PARAMETERS(args: any): any {
-	}
-
-	handle_ACCOUNT_RECIPIENT_DELIVERY_INVALID_ID(args: any): any {
-	}
-
-	handle_ACCOUNT_RECIPIENT_INVALID_ID(args: any): any {
-	}
-
-	handle_ACCOUNT_TOKEN_INVALID_ID(args: any): any {
-	}
-
-	handle_CATALOG_PRODUCT_CART_ADD_UNACCEPTABLE_PRODUCT(args: any): any {
-	}
-
-	handle_CATALOG_PRODUCT_CART_MISSING_ID(args: any): any {
-	}
-
-	handle_CATALOG_PRODUCT_INVALID_SLUG(args: any): any {
-	}
-
-	handle_ORDER_CHECKOUT_WITH_OUT_OF_REACH_ORDER_PRODUCT_QUANTITY(args: any): any {
-	}
-
-	handle_ORDER_CHECKOUT_WITHOUT_ACTIVE_PRODUCTS(args: any): any {
+	handle_MaintenanceMode(args: any): any {
+		vueTools.router?.push({name: routeHelper.names['maintenance']});
 	}
 }
 

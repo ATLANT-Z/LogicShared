@@ -1,8 +1,7 @@
-import {Router} from "vue-router";
-import {Vue} from "vue-class-component";
+import {Vue, VueRouter} from "@/tools/version-types";
 
 class VueToolsProviderService {
-	router: Router | undefined;
+	router: VueRouter | undefined;
 
 	init(app: Vue) {
 		this.router = app.$router;

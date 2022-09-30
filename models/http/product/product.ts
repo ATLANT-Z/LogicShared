@@ -1,9 +1,9 @@
-import {LocaleableValue} from "@shared/services/translate.service";
 import {Manufacturer} from "@shared/models/product/filter/criteria";
 import {Category} from "@shared/models/category";
 import {Attachment, Img} from "@shared/models/product/attachment";
 import {IHasQuantity, OrderBag, Price, ProductStatus, RichText} from "@shared/models/product/types";
 import {ProductSpecification} from "@shared/models/product/specification";
+import {LocaleableValue} from "@shared/models/translate/localeableValue";
 
 export interface ProductHttpResource {
 	id: string;

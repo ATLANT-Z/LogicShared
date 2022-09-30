@@ -16,11 +16,11 @@
 </template>
 
 <script lang="ts">
-import {Options, Vue} from "vue-class-component";
 import {Prop} from "vue-property-decorator";
 import {errorService, MyError} from "@shared/services/error.service";
+import {Component, Vue} from "@/tools/version-types";
 
-@Options({
+@Component({
   name: "ErrorItemComponent",
 })
 export default class ErrorItemComponent extends Vue {
@@ -44,7 +44,6 @@ export default class ErrorItemComponent extends Vue {
       this.isHide = true;
     }, errorService.ShowSeconds * 1000 - animTimeMs);
   }
-
 }
 </script>
 

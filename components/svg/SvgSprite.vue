@@ -1,9 +1,9 @@
 <template>
-  <svg width="0" height="0" style="display: none;" v-html="$options.svgSprite"/>
+  <svg width="0" height="0" style="display: none;" v-html="svgSprite"/>
 </template>
 
 <script lang="ts">
-import {Options, Vue} from "vue-class-component";
+import {Component, Vue} from "@/tools/version-types";
 
 const svgContexts = [
   require.context(
@@ -53,10 +53,10 @@ const symbols = svgObjectList.map((el, index, arr) => {
 });
 
 
-@Options({
+@Component({
   name: 'SvgSprite',
-  svgSprite: symbols.join('\n'), // concatenate all symbols into $options.svgSprite
 })
 export default class VueSpriteComponent extends Vue {
+  svgSprite = symbols.join('\n') // concatenate all symbols into $options.svgSprite
 }
 </script>

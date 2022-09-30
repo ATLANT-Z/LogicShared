@@ -13,10 +13,10 @@
 
 <script lang="ts">
 import {errorService} from "@shared/services/error.service";
-import {Options, Vue} from "vue-class-component";
 import ErrorItem from "@shared/components/layouts/error/ErrorItem.vue";
+import {Component, Vue} from "@/tools/version-types";
 
-@Options({
+@Component({
   name: "ErrorLayoutComponent",
   components: {ErrorItem},
 })
@@ -25,7 +25,7 @@ export default class ErrorLayoutComponent extends Vue {
   heightList: number[] = [];
 
   $refs: {
-    errors: { $el: HTMLElement }[];
+    errors: ErrorItem[];
   }
 
   calcTop(index: number) {
@@ -42,7 +42,6 @@ export default class ErrorLayoutComponent extends Vue {
 
     return top;
   }
-
 }
 </script>
 

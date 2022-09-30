@@ -2,7 +2,7 @@ import "@/_shared/http/axios.config";
 import AbstractApi from "@/_shared/http/abstract/abstractApi";
 import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
 import {HTTP_ERROR_CODE, httpErrorService} from "@/_shared/services/httpError.service";
-import {authService} from "@/_shared/services/auth.service";
+import {authService} from "@services/auth/auth.service";
 import {errorService} from "@/_shared/services/error.service";
 import {AppModeHelper} from "@shared/helpers/appMode.helper";
 

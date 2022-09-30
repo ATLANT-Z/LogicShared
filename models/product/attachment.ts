@@ -1,12 +1,14 @@
-import {LocaleableValue} from "@/_shared/services/translate.service";
 import {Type} from "class-transformer";
 import {ILocaleableValue} from "@/_shared/models/tools/tools";
+import {LocaleableValue} from "@shared/models/translate/localeableValue";
+import {DictLanguage} from "@shared/models/translate/types";
 
 export interface IHasUrl {
 	url: string;
 }
 
 export class Img implements IHasUrl {
+	locales: DictLanguage[];
 	url: string;
 	@Type(() => Thumbnail) thumbnails: Thumbnail[]
 }
