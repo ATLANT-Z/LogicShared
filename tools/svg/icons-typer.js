@@ -3,8 +3,8 @@ const path = require('path');
 
 const sharedConfig = require(path.join(process.cwd(), 'shared.config.js'));
 
-const projectAssets = path.join(sharedConfig.assetsPath, 'icons').replaceAll('\\', '/');
-const sharedAssets = path.join(sharedConfig.sharedPath, 'assets/icons').replaceAll('\\', '/');
+const projectAssets = path.join(sharedConfig.assetsPath, 'icons');
+const sharedAssets = path.join(sharedConfig.sharedPath, 'assets/icons');
 
 console.log(projectAssets);
 console.log(sharedAssets);
@@ -35,5 +35,7 @@ console.log(iconsNames);
 console.log(fileTypeContent);
 
 
-fs.writeFileSync('src/_shared/type/icons.ts', fileTypeContent);
+const typeFilePath = path.join(sharedConfig.sharedPath, 'type/icons.ts')
+
+fs.writeFileSync(typeFilePath, fileTypeContent);
 
