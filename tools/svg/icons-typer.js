@@ -35,7 +35,7 @@ console.log(iconsNames);
 console.log(fileTypeContent);
 
 
-const typeFilePath = path.join(sharedConfig.sharedPath, 'type/index.ts')
+const typeFilePath = path.join(sharedConfig.iconsTypePath, 'index.ts')
 
 fs.writeFileSync(typeFilePath, fileTypeContent);
 
