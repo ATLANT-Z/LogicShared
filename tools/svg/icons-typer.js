@@ -18,8 +18,8 @@ iconsNames = iconsNames.filter(el => /\.svg$/.test(el)).map(el => el.replace('.s
 
 const beginIconsType = `export enum projectIcons {\n`
 const endIconsType = `}\n\n`;
-const iconsType = 'export type Index = typeof projectIcons;\n'
-const iconType = 'export type Icon = keyof Index;\n'
+const iconsType = 'export type Icons = typeof projectIcons;\n'
+const iconType = 'export type Icon = keyof Icons;\n'
 
 let fileTypeContent = '';
 
