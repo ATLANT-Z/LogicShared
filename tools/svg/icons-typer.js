@@ -1,13 +1,25 @@
 const fs = require('fs');
+const path = require('path');
 
-let iconsNames = [...fs.readdirSync('src/assets/icons'), ...fs.readdirSync('src/_shared/assets/icons')];
+const sharedConfig = require(path.join(process.cwd(), 'shared.config.js'));
+
+const projectAssets = path.join(sharedConfig.assetsPath, 'icons').replaceAll('\\', '/');
+const sharedAssets = path.join(sharedConfig.sharedPath, 'assets/icons').replaceAll('\\', '/');
+
+console.log(projectAssets);
+console.log(sharedAssets);
+
+let iconsNames = [
+    ...fs.readdirSync(projectAssets),
+    ...fs.readdirSync(sharedAssets)
+];
 
 iconsNames = iconsNames.filter(el => /\.svg$/.test(el)).map(el => el.replace('.svg', ''));
 
-let beginIconsType = `export enum projectIcons {\n`
-let endIconsType = `}\n\n`;
-let iconsType = 'export type Icons = typeof projectIcons;\n'
-let iconType = 'export type Icon = keyof Icons;\n'
+const beginIconsType = `export enum projectIcons {\n`
+const endIconsType = `}\n\n`;
+const iconsType = 'export type Icons = typeof projectIcons;\n'
+const iconType = 'export type Icon = keyof Icons;\n'
 
 let fileTypeContent = '';
 
