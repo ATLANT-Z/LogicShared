@@ -1,5 +1,5 @@
 import {translateService} from "@shared/services/translate/translate.service";
-import {projectIcons} from "@shared/type/icons";
+import {projectIcons} from "@/tools/type/icons";
 import {LocaleableValue} from "@shared/models/translate/localeableValue";
 import {DictionaryWord} from "@shared/models/translate/types";
 

@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import {Icon, projectIcons} from "@shared/type/icons";
+import {Icon, projectIcons} from "@/tools/type/icons";
 import {Prop} from "vue-property-decorator";
 import {Component, Vue} from "@/tools/version-types";
 
