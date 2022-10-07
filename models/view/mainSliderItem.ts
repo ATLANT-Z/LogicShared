@@ -1,7 +1,7 @@
 import {ILocaleableValue, Jsonable} from "@/_shared/models/tools/tools";
 import {LocaleableValue} from "@shared/models/translate/localeableValue";
 
-export class HomeSliderItem extends Jsonable<HomeSliderItem>() {
+export class MainSliderItem extends Jsonable<MainSliderItem>() {
 	@ILocaleableValue() title: LocaleableValue;
 	@ILocaleableValue() content: LocaleableValue;
 
