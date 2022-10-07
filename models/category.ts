@@ -1,7 +1,6 @@
 import {Type} from "class-transformer";
 import {ILocaleableValue, Jsonable} from "@/_shared/models/tools/tools";
-import {routeHelper, RouteName} from "@shared/helpers/route.helper";
-import {ROUTE_NAMES} from "@/router/enum/names.enum";
+import {routeHelper} from "@shared/helpers/route.helper";
 import {LocaleableValue} from "@shared/models/translate/localeableValue";
 
 export interface IBaseCategory {

@@ -15,3 +15,9 @@
   justify-content: $spacing;
   align-items: $alignment;
 }
+
+@mixin width-pad-main() {
+  @extend %width-main;
+  padding-left: 16px;
+  padding-right: 16px;
+}

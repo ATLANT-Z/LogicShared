@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import {
 	ClassTransformOptions,
 	Exclude,
@@ -7,12 +8,18 @@ import {
 	Transform,
 	Type
 } from "class-transformer";
-import {reactive} from "vue";
+import {reactive as reactiveVue} from "vue";
 import {MyObject} from "@/_shared/models/tools/type";
+import {decoratorRuleMap} from "@shared/models/tools/decoratorRuleMap";
 import {translateService} from "@shared/services/translate/translate.service";
 import {LocaleableValue} from "@shared/models/translate/localeableValue";
 
-const decoratorRuleMap = new Map<MyObject, MyObject>();
+function reactive(target: any) {
+	if (Array.isArray(target)) {
+		return target;
+	}
+	return reactiveVue(target);
+}
 
 export function PlainNoTrim() {
 	return function (target, propKey) {
@@ -111,7 +118,6 @@ export function isPromise(p): p is Promise<any> {
 		typeof p.then === 'function' &&
 		typeof p.catch === 'function';
 }
-
 
 // const toUnicode = function (str) {
 // 	let result = "";
