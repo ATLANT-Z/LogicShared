@@ -4,17 +4,26 @@ export class MessengerLinkHelper {
 	constructor(public phone: string) {
 	}
 
-	get TelegramLink() {
+	static getTelegramLink(phone: string) {
 		return 'https://t.me/' +
 			FormatPhoneHelper
-				.formatPhone(this.phone)
+				.formatPhone(phone)
+				.replaceAll(' ', '');
+	}
+
+
+	get TelegramLink() {
+		return MessengerLinkHelper.getTelegramLink(this.phone);
+	}
+
+	static getViberLink(phone: string) {
+		return 'viber://chat?number=' +
+			FormatPhoneHelper
+				.formatPhoneWithoutPlus(phone)
 				.replaceAll(' ', '');
 	}
 
 	get ViberLink() {
-		return 'viber://chat?number=' +
-			FormatPhoneHelper
-				.formatPhoneWithoutPlus(this.phone)
-				.replaceAll(' ', '');
+		return MessengerLinkHelper.getViberLink(this.phone);
 	}
 }
