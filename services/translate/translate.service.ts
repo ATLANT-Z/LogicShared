@@ -126,12 +126,12 @@ class TranslateService {
 	}
 
 	private rememberLang(val: DictLanguage) {
-		if (!process.client) return;
+		if (!process['client']) return;
 		localStorage.setItem(this.storageKey, val);
 	}
 
 	private getStoreLang(): DictLanguage | undefined {
-		if (!process.client) return;
+		if (!process['client']) return;
 		const storageLang = localStorage.getItem(this.storageKey) as DictLanguage;
 		return this.usedLangList.find(el => el.key === storageLang)?.key;
 	}

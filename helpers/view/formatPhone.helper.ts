@@ -14,4 +14,8 @@ export class FormatPhoneHelper {
 		}
 		return formattedNumber;
 	}
+
+	static formatPhoneWithoutPlus(phone: string) {
+		return this.formatPhone(phone).replace('+', '');
+	}
 }
