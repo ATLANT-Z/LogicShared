@@ -1,5 +1,6 @@
 import {reactive} from "vue";
 import {popupHelper, PopupName} from "@shared/helpers/popup.helper";
+import {setObjectValue} from "~/tools/version-func";
 
 type PromiseCallbacks = {
 	resolve: (...args: any[]) => void
@@ -7,9 +8,9 @@ type PromiseCallbacks = {
 }
 
 export class PopupService {
-	private popupState: Record<PopupName, boolean> = {} as any;
-	private popupProps: Record<PopupName, any> = {} as any;
-	private popupPromises: Record<PopupName, PromiseCallbacks> = {} as any;
+	private popupState: Record<PopupName, boolean> = reactive({}) as any;
+	private popupProps: Record<PopupName, any> = reactive({}) as any;
+	private popupPromises: Record<PopupName, PromiseCallbacks> = reactive({}) as any;
 
 	names = popupHelper.names;
 
@@ -25,7 +26,7 @@ export class PopupService {
 	}
 
 	setShow(id: string, isShow: boolean) {
-		this.popupState[id] = isShow;
+		setObjectValue(this.popupState, id, isShow);
 	}
 
 	getProps(id: PopupName) {
@@ -37,22 +38,22 @@ export class PopupService {
 	}
 
 	show(id: PopupName, props?: any): Promise<any> {
-		this.popupState[id] = true;
+		setObjectValue(this.popupState, id, true);
 
-		if (props) this.popupProps[id] = props;
+		if (props) setObjectValue(this.popupProps, id, props);
 
 		return new Promise<any>((resolve, reject) => {
-			this.popupPromises[id] = {
+			setObjectValue(this.popupPromises, id, {
 				resolve,
 				reject
-			}
+			});
 		}).finally(() => {
-			this.popupPromises[id] = {} as any;
+			setObjectValue(this.popupPromises, id, {});
 		})
 	}
 
 	close(id: PopupName) {
-		this.popupState[id] = false;
+		setObjectValue(this.popupState, id, false);
 	}
 }
 

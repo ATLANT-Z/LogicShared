@@ -8,6 +8,7 @@
 import {Component, Vue} from "~/tools/version-types";
 import {Prop} from "vue-property-decorator";
 import {canActiveService} from "@shared/services/canActive.service";
+import {CanActiveName} from "@shared/helpers/canActive.helper";
 
 @Component({
   name: "CanActiveComponent",
@@ -19,7 +20,12 @@ export default class CanActiveComponent extends Vue {
     default() {
       return [];
     }
-  }) excludeIds: string[];
+  }) excludeIds: CanActiveName[];
+  @Prop({
+    default() {
+      return [];
+    }
+  }) closeWith: CanActiveName[];
 
   isShowInner: boolean = false;
 
@@ -33,6 +39,9 @@ export default class CanActiveComponent extends Vue {
 
   close() {
     this.IsActive = false;
+    this.closeWith.forEach(id => {
+      this.Service.close(id);
+    })
   }
 
   Service = canActiveService;
