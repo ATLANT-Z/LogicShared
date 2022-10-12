@@ -1,6 +1,6 @@
 import {reactive} from "vue";
 import {popupHelper, PopupName} from "@shared/helpers/popup.helper";
-import {setObjectValue} from "~/tools/version-func";
+import {setObjectValue} from "@/tools/version-func";
 
 type PromiseCallbacks = {
 	resolve: (...args: any[]) => void
