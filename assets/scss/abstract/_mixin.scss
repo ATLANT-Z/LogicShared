@@ -350,60 +350,6 @@
 // ui Mixin
 // ui Mixin
 
-@mixin ui-checkbox {
-	--size: 20px;
-	--margin: Calc(var(--size) / 2);
-
-	position: relative;
-	display: block;
-	@include fixedHW(0px, 0px);
-	margin: var(--margin);
-	background-color: transparent;
-	cursor: pointer;
-
-	@include animAll($anim-small-time);
-
-	&::before,
-	&::after {
-		content: "";
-		transform: translate(-50%, -50%);
-		position: absolute;
-		top: 50%;
-		left: 50%;
-
-		@include fixedHW(Calc(var(--size)), Calc(var(--size)));
-		display: flex;
-
-		background-image: none;
-	}
-
-	&:before {
-		border: 1px solid $color-main;
-		background-color: white;
-		border-radius: 4px;
-	}
-
-	&:after {
-		transform: translate(-50%, -50%) scale(0);
-		clip-path: polygon(92% 27%, 46% 87%, 16% 68%, 24% 57%, 45% 70%, 80% 21%);
-		background-color: white;
-		opacity: 0;
-	}
-
-	&:checked:before,
-	&.checked:before,
-	input:checked + &:before {
-		background-color: $color-main;
-	}
-
-	&:checked:after,
-	&.checked:after,
-	input:checked + &:after {
-		transform: translate(-50%, -50%) scale(0.8);
-		opacity: 1;
-	}
-}
-
 @mixin ui-radio {
 	position: relative;
 	margin: 0;

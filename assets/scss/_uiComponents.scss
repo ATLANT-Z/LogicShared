@@ -577,36 +577,6 @@
 	}
 }
 
-//radio
-//radio
-.ui-checkbox-w {
-	display: flex;
-
-	input {
-		display: none;
-	}
-
-	input:checked + .ui-checkbox {
-
-	}
-}
-
-.ui-checkbox {
-	@include ui-checkbox();
-}
-
-input[type="checkbox"].ui-checkbox {
-	@include ui-checkbox();
-}
-
-input[type="radio"].ui-checkbox {
-	@include ui-checkbox();
-}
-
-input[type="radio"].ui-radio {
-	@include ui-radio();
-}
-
 //#
 .ui-radio-group {
 	max-width: 600px;
